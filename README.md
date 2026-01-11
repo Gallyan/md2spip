@@ -48,7 +48,3 @@ php artisan serve
 ```bash
 npm run dev
 ```
-
-## Licence
-
-MIT
