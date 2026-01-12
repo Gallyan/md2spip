@@ -7,6 +7,16 @@
     <meta name="robots" content="noindex, nofollow">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     @vite(['resources/css/app.css'])
+    <style>
+        /* Obfuscation CSS de l'email contre les robots spammeurs */
+        .protected-email {
+            font-size: 0;
+        }
+        .protected-email::before {
+            font-size: 1.125rem;
+            content: attr(data-email-user) "@" attr(data-email-domain);
+        }
+    </style>
 </head>
 <body class="bg-slate-900 min-h-screen text-slate-100">
     <div class="max-w-4xl mx-auto px-6 py-16">
@@ -23,17 +33,26 @@
         <div class="space-y-12 leading-relaxed">
             <section class="bg-slate-800/50 rounded-xl p-8 border border-slate-700">
                 <h2 class="text-2xl font-semibold text-white mb-5">Éditeur du site</h2>
-                <p class="text-slate-200 text-lg">Votre Nom / Raison sociale<br>
-                Adresse complète<br>
-                Email de contact<br>
-                Site web : <a href="https://votre-domaine.fr" class="text-emerald-400 hover:text-emerald-300 underline">votre-domaine.fr</a></p>
+                <p class="text-slate-200 text-lg">
+                    <strong class="text-white">Votre Nom / Raison sociale</strong>, statut juridique (EI, SARL, SAS, etc.)<br>
+                    SIRET : XXX XXX XXX XXXXX<br>
+                    N° TVA : FRXXXXXXXXXX (si applicable)<br>
+                    Adresse complète : numéro, rue, code postal, ville<br>
+                    Tél : +33 X XX XX XX XX<br>
+                    E-mail : <a href="/contact-email" class="hover:text-emerald-300 transition-colors"><span class="protected-email text-emerald-400" data-email-user="votre-identifiant" data-email-domain="votre-domaine.fr">[email protected]</span></a><br>
+                    Site web : <a href="https://votre-domaine.fr" target="_blank" rel="noopener" class="text-emerald-400 hover:text-emerald-300 underline">votre-domaine.fr</a>
+                </p>
             </section>
 
             <section class="bg-slate-800/50 rounded-xl p-8 border border-slate-700">
                 <h2 class="text-2xl font-semibold text-white mb-5">Hébergement</h2>
-                <p class="text-slate-200 text-lg">Ce site est hébergé par :<br>
-                <strong class="text-white">Nom de l'hébergeur</strong><br>
-                Adresse de l'hébergeur</p>
+                <p class="text-slate-200 text-lg">
+                    Ce site est hébergé par :<br>
+                    <strong class="text-white">Nom de l'hébergeur</strong><br>
+                    Adresse complète : numéro, rue, code postal, ville, pays<br>
+                    Tél : numéro de téléphone<br>
+                    SIRET : XXX XXX XXX XXXXX (si applicable)
+                </p>
             </section>
 
             <section class="bg-slate-800/50 rounded-xl p-8 border border-slate-700">
