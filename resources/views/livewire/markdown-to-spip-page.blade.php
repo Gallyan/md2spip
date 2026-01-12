@@ -39,10 +39,10 @@
         {{-- Markdown input --}}
         <div class="flex flex-col border-r border-slate-700 min-h-0">
             <div class="bg-slate-800 px-4 py-2 border-b border-slate-700">
-                <span class="text-slate-400 text-sm font-medium">MARKDOWN</span>
+                <span class="text-slate-400 text-sm font-medium uppercase">Markdown</span>
             </div>
             <textarea
-                wire:model.live="markdown"
+                wire:model.live.debounce.50ms="markdown"
                 class="flex-1 w-full bg-slate-900 text-slate-100 p-4 font-mono text-sm resize-none focus:outline-none placeholder-slate-600"
                 placeholder="Collez ou tapez votre Markdown ici..."
                 spellcheck="false"
@@ -52,7 +52,7 @@
         {{-- SPIP output --}}
         <div class="flex flex-col min-h-0">
             <div class="bg-slate-800 px-4 py-2 border-b border-slate-700">
-                <span class="text-slate-400 text-sm font-medium">SPIP</span>
+                <span class="text-slate-400 text-sm font-medium uppercase">Spip</span>
             </div>
             <pre id="spip-output" class="flex-1 w-full bg-slate-950 text-emerald-400 p-4 font-mono text-sm overflow-auto whitespace-pre-wrap">{{ $spip }}</pre>
         </div>
