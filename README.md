@@ -22,7 +22,8 @@ Convertisseur en ligne Markdown vers syntaxe SPIP, en temps réel.
 
 | Markdown | SPIP | Description |
 |----------|------|-------------|
-| `# Titre` | `{{{Titre}}}` | Titres (h1 à h6) |
+| `# Titre` | `{{{Titre}}}` | Titre principal (h1 uniquement) |
+| `## Sous-titre` | `{{Sous-titre}}` | Sous-titres (h2 à h6) en gras |
 | `**gras**` | `{{gras}}` | Texte en gras |
 | `*italique*` | `{italique}` | Texte en italique |
 | `` `code` `` | `<code>code</code>` | Code inline |
@@ -30,6 +31,7 @@ Convertisseur en ligne Markdown vers syntaxe SPIP, en temps réel.
 | `[lien](url)` | `[lien->url]` | Liens hypertextes |
 | `- item` | `-* item` | Listes à puces |
 | `> citation` | `<quote>citation</quote>` | Citations/blockquotes |
+| `Texte[^1]` + `[^1]: note` | `Texte[[note]]` | Notes de bas de page |
 
 **Note :** Le contenu des blocs de code est protégé et n'est pas transformé par les autres règles de conversion.
 

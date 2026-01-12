@@ -26,8 +26,27 @@ class MarkdownToSpipConverter
             return $placeholder;
         }, $spip);
 
-        // Titres (# à ######) → {{{Titre}}}
-        $spip = preg_replace('/^#{1,6}\s+(.+)$/m', '{{{$1}}}', $spip);
+        // Notes de bas de page : extraire les définitions [^id]: texte
+        $footnotes = [];
+        $spip = preg_replace_callback('/^\[\^([^\]]+)\]:\s*(.+)$/m', function($matches) use (&$footnotes) {
+            $footnotes[$matches[1]] = trim($matches[2]);
+            return ''; // Supprimer la ligne de définition
+        }, $spip);
+
+        // Remplacer les références [^id] par [[texte]]
+        $spip = preg_replace_callback('/\[\^([^\]]+)\]/', function($matches) use ($footnotes) {
+            $id = $matches[1];
+            if (isset($footnotes[$id])) {
+                return '[[' . $footnotes[$id] . ']]';
+            }
+            return $matches[0]; // Garder tel quel si pas de définition trouvée
+        }, $spip);
+
+        // Titres niveau 1 : # Titre → {{{Titre}}}
+        $spip = preg_replace('/^#\s+(.+)$/m', '{{{$1}}}', $spip);
+
+        // Titres niveaux 2+ : ## à ###### → {{Titre}} (en gras)
+        $spip = preg_replace('/^#{2,6}\s+(.+)$/m', '{{$1}}', $spip);
 
         // Gras **texte** → {{texte}}
         $spip = preg_replace('/\*\*(.+?)\*\*/s', '{{$1}}', $spip);

@@ -78,6 +78,11 @@
                             <code class="text-xs bg-slate-800 px-2 py-1 rounded text-emerald-400">{{{Titre}}}</code>
                         </div>
                         <div class="flex justify-between">
+                            <code class="text-xs bg-slate-800 px-2 py-1 rounded">## Sous-titre</code>
+                            <span class="text-slate-400">→</span>
+                            <code class="text-xs bg-slate-800 px-2 py-1 rounded text-emerald-400">{{Sous-titre}}</code>
+                        </div>
+                        <div class="flex justify-between">
                             <code class="text-xs bg-slate-800 px-2 py-1 rounded">**gras**</code>
                             <span class="text-slate-400">→</span>
                             <code class="text-xs bg-slate-800 px-2 py-1 rounded text-emerald-400">{{gras}}</code>
@@ -108,6 +113,11 @@
                             <code class="text-xs bg-slate-800 px-2 py-1 rounded">> citation</code>
                             <span class="text-slate-400">→</span>
                             <code class="text-xs bg-slate-800 px-2 py-1 rounded text-emerald-400"><quote>citation</quote></code>
+                        </div>
+                        <div class="flex justify-between text-xs">
+                            <code class="text-xs bg-slate-800 px-2 py-1 rounded">Texte[^1]</code>
+                            <span class="text-slate-400">→</span>
+                            <code class="text-xs bg-slate-800 px-2 py-1 rounded text-emerald-400">Texte[[note]]</code>
                         </div>
                         @endverbatim
                         </div>

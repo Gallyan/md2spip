@@ -80,7 +80,7 @@ class MarkdownToSpipPageTest extends TestCase
             ->set('markdown', '# Premier')
             ->assertSet('spip', '{{{Premier}}}')
             ->set('markdown', '## Deuxième')
-            ->assertSet('spip', '{{{Deuxième}}}');
+            ->assertSet('spip', '{{Deuxième}}');
     }
 
     public function test_handles_empty_input(): void
