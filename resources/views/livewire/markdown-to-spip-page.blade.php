@@ -35,7 +35,7 @@
                 <div
                     x-show="open"
                     x-transition
-                    class="absolute top-8 left-0 w-80 bg-slate-700 border border-slate-600 rounded-lg shadow-xl p-4 z-50 text-sm"
+                    class="absolute top-8 left-0 md:left-auto md:right-0 w-80 max-w-[calc(100vw-2rem)] bg-slate-700 border border-slate-600 rounded-lg shadow-xl p-4 z-50 text-sm"
                 >
                     <h3 class="text-white font-semibold mb-3">Conversions supportées</h3>
                     <div class="space-y-2 text-slate-200">
@@ -87,36 +87,6 @@
             </div>
         </div>
 
-        <div class="flex items-center gap-4">
-            {{-- Request counter (minute glissante, mise à jour auto) --}}
-            <div wire:poll.1s class="text-xs text-slate-500">
-                <span class="font-mono">{{ $this->requestCount }}/300 req/min</span>
-            </div>
-
-            {{-- Copy button --}}
-            <button
-                x-data="{ copied: false }"
-                @click="
-                    navigator.clipboard.writeText(document.getElementById('spip-output').innerText);
-                    copied = true;
-                    setTimeout(() => copied = false, 1500)
-                "
-                :class="copied ? 'bg-emerald-600' : 'bg-slate-700 hover:bg-slate-600'"
-                class="flex items-center justify-center gap-2 text-white px-4 py-2 rounded-lg transition-colors min-w-[150px]"
-            >
-                <template x-if="!copied">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
-                    </svg>
-                </template>
-                <template x-if="copied">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                    </svg>
-                </template>
-                <span x-text="copied ? 'Copié !' : 'Copier SPIP'"></span>
-            </button>
-        </div>
     </header>
 
     {{-- Main content --}}
@@ -127,6 +97,12 @@
                 <span class="text-slate-400 text-sm font-medium uppercase">Markdown</span>
 
                 <div class="flex items-center gap-3">
+                    {{-- Character counter --}}
+                    <span class="text-xs font-mono"
+                        :class="$wire.characterCount > {{ \App\Livewire\MarkdownToSpipPage::MAX_LENGTH }} ? 'text-red-400' : 'text-slate-500'">
+                        {{ number_format($this->characterCount, 0, ',', ' ') }} / 100k car.
+                    </span>
+
                     {{-- Clear button --}}
                     <button
                         @click="if (confirm('Effacer tout le texte ?')) { $wire.markdown = ''; }"
@@ -137,12 +113,6 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                         </svg>
                     </button>
-
-                    {{-- Character counter --}}
-                    <span class="text-xs font-mono"
-                        :class="$wire.characterCount > {{ \App\Livewire\MarkdownToSpipPage::MAX_LENGTH }} ? 'text-red-400' : 'text-slate-500'">
-                        {{ number_format($this->characterCount, 0, ',', ' ') }} / {{ number_format(\App\Livewire\MarkdownToSpipPage::MAX_LENGTH, 0, ',', ' ') }}
-                    </span>
                 </div>
             </div>
             <textarea
@@ -155,8 +125,39 @@
 
         {{-- SPIP output --}}
         <div class="flex flex-col min-h-0">
-            <div class="bg-slate-800 px-4 py-2 border-b border-slate-700 flex items-center">
+            <div class="bg-slate-800 px-4 py-2 border-b border-slate-700 flex items-center justify-between">
                 <span class="text-slate-400 text-sm font-medium uppercase">Spip</span>
+
+                <div class="flex items-center gap-3">
+                    {{-- Request counter (minute glissante, mise à jour auto) --}}
+                    <span wire:poll.1s class="text-xs font-mono text-slate-500">
+                        {{ $this->requestCount }}/300 req/min
+                    </span>
+
+                    {{-- Copy button --}}
+                    <button
+                        x-data="{ copied: false }"
+                        @click="
+                            navigator.clipboard.writeText(document.getElementById('spip-output').innerText);
+                            copied = true;
+                            setTimeout(() => copied = false, 1500)
+                        "
+                        :class="copied ? 'text-emerald-400' : 'text-slate-400 hover:text-emerald-400'"
+                        class="transition-colors"
+                        title="Copier le résultat SPIP"
+                    >
+                        <template x-if="!copied">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+                            </svg>
+                        </template>
+                        <template x-if="copied">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                        </template>
+                    </button>
+                </div>
             </div>
             <pre id="spip-output" class="flex-1 w-full bg-slate-950 text-emerald-400 p-4 font-mono text-sm overflow-auto whitespace-pre-wrap">{{ $spip }}</pre>
         </div>
