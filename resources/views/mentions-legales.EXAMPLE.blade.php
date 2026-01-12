@@ -39,8 +39,8 @@
                     N° TVA : FRXXXXXXXXXX (si applicable)<br>
                     Adresse complète : numéro, rue, code postal, ville<br>
                     Tél : +33 X XX XX XX XX<br>
-                    E-mail : <a href="/contact-email" class="hover:text-emerald-300 transition-colors"><span class="protected-email text-emerald-400" data-email-user="votre-identifiant" data-email-domain="votre-domaine.fr">[email protected]</span></a><br>
-                    Site web : <a href="https://votre-domaine.fr" target="_blank" rel="noopener" class="text-emerald-400 hover:text-emerald-300 underline">votre-domaine.fr</a>
+                    E-mail : <a href="/contact-email" class="hover:text-emerald-300 transition-colors"><span class="protected-email text-emerald-400" data-email-user="votre-identifiant" data-email-domain="votre-example.com">[email protected]</span></a><br>
+                    Site web : <a href="https://votre-example.com" target="_blank" rel="noopener" class="text-emerald-400 hover:text-emerald-300 underline">votre-example.com</a>
                 </p>
             </section>
 

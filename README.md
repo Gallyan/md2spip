@@ -72,11 +72,11 @@ Après l'installation, un fichier `resources/views/mentions-legales.blade.php` e
 2. **Email de contact obfusqué** :
    - Définissez votre email dans `.env` :
      ```env
-     CONTACT_EMAIL=votre-email@domaine.fr
+     CONTACT_EMAIL=votre-email@example.com
      ```
    - Dans `mentions-legales.blade.php`, modifiez les attributs `data-email-*` :
      ```html
-     <span class="protected-email" data-email-user="votre-identifiant" data-email-domain="domaine.fr">
+     <span class="protected-email" data-email-user="votre-identifiant" data-email-domain="example.com">
      ```
 
    L'email est protégé contre les robots spammeurs par obfuscation CSS tout en restant cliquable via la route `/contact-email`.
