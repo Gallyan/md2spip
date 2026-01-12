@@ -1,16 +1,31 @@
 <div class="flex flex-col h-screen"
     x-data="{
+        darkMode: localStorage.getItem('md2spip-theme') !== 'light',
         init() {
             // Restaurer le texte depuis localStorage au chargement
             const saved = localStorage.getItem('md2spip-markdown');
             if (saved && saved !== '') {
                 $wire.markdown = saved;
             }
+            // Appliquer le thème au chargement
+            this.updateTheme();
+        },
+        toggleTheme() {
+            this.darkMode = !this.darkMode;
+            this.updateTheme();
+        },
+        updateTheme() {
+            localStorage.setItem('md2spip-theme', this.darkMode ? 'dark' : 'light');
+            if (this.darkMode) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
         }
     }"
     x-effect="localStorage.setItem('md2spip-markdown', $wire.markdown || '')">
     {{-- Header --}}
-    <header class="bg-slate-800 border-b border-slate-700 px-6 py-3 flex items-center justify-between">
+    <header class="bg-gray-100 dark:bg-slate-800 border-b border-gray-300 dark:border-slate-700 px-6 py-3 flex items-center justify-between transition-colors">
         <div class="flex items-center gap-3">
             <div class="flex flex-col">
                 <div class="flex items-center gap-3">
@@ -21,8 +36,8 @@
                         <text x="21" y="20" font-family="monospace" font-size="10" font-weight="bold" fill="#10b981">{</text>
                     </svg>
                     <div>
-                        <h1 class="text-white font-semibold text-lg leading-tight">Markdown to SPIP</h1>
-                        <h2 class="hidden md:block text-slate-400 text-xs font-normal">Convertisseur en ligne gratuit et instantané</h2>
+                        <h1 class="text-gray-900 dark:text-white font-semibold text-lg leading-tight">Markdown to SPIP</h1>
+                        <h2 class="hidden md:block text-gray-600 dark:text-slate-300 text-xs font-normal">Convertisseur en ligne gratuit et instantané</h2>
                     </div>
                 </div>
             </div>
@@ -31,7 +46,7 @@
             <div x-data="{ open: false }">
                 <button
                     @click="open = true"
-                    class="w-6 h-6 rounded-full bg-slate-700 hover:bg-slate-600 text-slate-300 flex items-center justify-center text-xs font-semibold transition-colors"
+                    class="w-6 h-6 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-300 flex items-center justify-center text-xs font-semibold transition-colors"
                     title="Aide"
                 >
                     ?
@@ -47,7 +62,7 @@
                     x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0"
                     @click="open = false"
-                    class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+                    class="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 z-50 flex items-center justify-center p-4"
                     style="display: none;"
                 >
                     {{-- Modal content --}}
@@ -59,90 +74,106 @@
                         x-transition:leave="transition ease-in duration-150"
                         x-transition:leave-start="opacity-100 scale-100"
                         x-transition:leave-end="opacity-0 scale-95"
-                        class="bg-slate-700 border border-slate-600 rounded-lg shadow-xl p-6 max-w-md w-full max-h-[80vh] overflow-y-auto"
+                        class="bg-white dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg shadow-xl p-6 max-w-md w-full max-h-[80vh] overflow-y-auto"
                     >
                         <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-white font-semibold text-lg">Conversions supportées</h3>
-                            <button @click="open = false" class="text-slate-400 hover:text-white transition-colors">
+                            <h3 class="text-gray-900 dark:text-white font-semibold text-lg">Conversions supportées</h3>
+                            <button @click="open = false" class="text-gray-600 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                                 </svg>
                             </button>
                         </div>
 
-                        <div class="space-y-2 text-slate-200">
+                        <div class="space-y-2 text-gray-700 dark:text-slate-200">
                         @verbatim
                         <div class="flex justify-between">
-                            <code class="text-xs bg-slate-800 px-2 py-1 rounded"># Titre</code>
-                            <span class="text-slate-400">→</span>
+                            <code class="text-xs bg-gray-200 dark:bg-slate-800 px-2 py-1 rounded"># Titre</code>
+                            <span class="text-gray-500 dark:text-slate-300">→</span>
                             <code class="text-xs bg-slate-800 px-2 py-1 rounded text-emerald-400">{{{Titre}}}</code>
                         </div>
                         <div class="flex justify-between">
-                            <code class="text-xs bg-slate-800 px-2 py-1 rounded">## Sous-titre</code>
-                            <span class="text-slate-400">→</span>
+                            <code class="text-xs bg-gray-200 dark:bg-slate-800 px-2 py-1 rounded">## Sous-titre</code>
+                            <span class="text-gray-500 dark:text-slate-300">→</span>
                             <code class="text-xs bg-slate-800 px-2 py-1 rounded text-emerald-400">{{Sous-titre}}</code>
                         </div>
                         <div class="flex justify-between">
-                            <code class="text-xs bg-slate-800 px-2 py-1 rounded">**gras**</code>
-                            <span class="text-slate-400">→</span>
+                            <code class="text-xs bg-gray-200 dark:bg-slate-800 px-2 py-1 rounded">**gras**</code>
+                            <span class="text-gray-500 dark:text-slate-300">→</span>
                             <code class="text-xs bg-slate-800 px-2 py-1 rounded text-emerald-400">{{gras}}</code>
                         </div>
                         <div class="flex justify-between">
-                            <code class="text-xs bg-slate-800 px-2 py-1 rounded">*italique*</code>
-                            <span class="text-slate-400">→</span>
+                            <code class="text-xs bg-gray-200 dark:bg-slate-800 px-2 py-1 rounded">*italique*</code>
+                            <span class="text-gray-500 dark:text-slate-300">→</span>
                             <code class="text-xs bg-slate-800 px-2 py-1 rounded text-emerald-400">{italique}</code>
                         </div>
                         @endverbatim
                         <div class="flex justify-between text-xs">
-                            <code class="text-xs bg-slate-800 px-2 py-1 rounded">[lien](url)</code>
-                            <span class="text-slate-400">→</span>
+                            <code class="text-xs bg-gray-200 dark:bg-slate-800 px-2 py-1 rounded">[lien](url)</code>
+                            <span class="text-gray-500 dark:text-slate-300">→</span>
                             <code class="text-xs bg-slate-800 px-2 py-1 rounded text-emerald-400">[lien->url]</code>
                         </div>
                         <div class="flex justify-between text-xs">
-                            <code class="text-xs bg-slate-800 px-2 py-1 rounded">- item</code>
-                            <span class="text-slate-400">→</span>
+                            <code class="text-xs bg-gray-200 dark:bg-slate-800 px-2 py-1 rounded">- item</code>
+                            <span class="text-gray-500 dark:text-slate-300">→</span>
                             <code class="text-xs bg-slate-800 px-2 py-1 rounded text-emerald-400">-* item</code>
                         </div>
                         @verbatim
                         <div class="flex justify-between text-xs">
-                            <code class="text-xs bg-slate-800 px-2 py-1 rounded">`code`</code>
-                            <span class="text-slate-400">→</span>
+                            <code class="text-xs bg-gray-200 dark:bg-slate-800 px-2 py-1 rounded">`code`</code>
+                            <span class="text-gray-500 dark:text-slate-300">→</span>
                             <code class="text-xs bg-slate-800 px-2 py-1 rounded text-emerald-400"><code>code</code></code>
                         </div>
                         <div class="flex justify-between text-xs">
-                            <code class="text-xs bg-slate-800 px-2 py-1 rounded">> citation</code>
-                            <span class="text-slate-400">→</span>
+                            <code class="text-xs bg-gray-200 dark:bg-slate-800 px-2 py-1 rounded">> citation</code>
+                            <span class="text-gray-500 dark:text-slate-300">→</span>
                             <code class="text-xs bg-slate-800 px-2 py-1 rounded text-emerald-400"><quote>citation</quote></code>
                         </div>
                         <div class="flex justify-between text-xs">
-                            <code class="text-xs bg-slate-800 px-2 py-1 rounded">Texte[^1]</code>
-                            <span class="text-slate-400">→</span>
+                            <code class="text-xs bg-gray-200 dark:bg-slate-800 px-2 py-1 rounded">Texte[^1]</code>
+                            <span class="text-gray-500 dark:text-slate-300">→</span>
                             <code class="text-xs bg-slate-800 px-2 py-1 rounded text-emerald-400">Texte[[note]]</code>
                         </div>
                         @endverbatim
                         </div>
 
-                        <div class="mt-4 pt-3 border-t border-slate-600 text-xs text-slate-400">
-                            <p><strong class="text-white">Limite :</strong> {{ number_format(\App\Livewire\MarkdownToSpipPage::MAX_LENGTH, 0, ',', ' ') }} caractères</p>
-                            <p class="mt-1"><strong class="text-white">Conversion :</strong> Temps réel (debounce 50ms)</p>
+                        <div class="mt-4 pt-3 border-t border-gray-300 dark:border-slate-600 text-xs text-gray-600 dark:text-slate-300">
+                            <p><strong class="text-gray-900 dark:text-white">Limite :</strong> {{ number_format(\App\Livewire\MarkdownToSpipPage::MAX_LENGTH, 0, ',', ' ') }} caractères</p>
+                            <p class="mt-1"><strong class="text-gray-900 dark:text-white">Conversion :</strong> Temps réel (debounce 50ms)</p>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
+        {{-- Theme toggle button (right side) --}}
+        <button
+            @click="toggleTheme()"
+            class="w-6 h-6 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-300 flex items-center justify-center transition-colors"
+            :title="darkMode ? 'Passer en mode clair' : 'Passer en mode sombre'"
+        >
+            {{-- Sun icon (shown in dark mode) --}}
+            <svg x-show="darkMode" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+            </svg>
+            {{-- Moon icon (shown in light mode) --}}
+            <svg x-show="!darkMode" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+            </svg>
+        </button>
     </header>
 
     {{-- Main content --}}
     <main class="flex-1 grid grid-cols-1 md:grid-cols-2 min-h-0">
         {{-- Markdown input --}}
-        <div class="flex flex-col border-r border-slate-700 min-h-0">
-            <div class="bg-slate-800 px-4 py-2 border-b border-slate-700 flex items-center justify-between">
-                <span class="text-slate-400 text-sm font-medium uppercase">Markdown</span>
+        <div class="flex flex-col border-r border-gray-300 dark:border-slate-700 min-h-0">
+            <div class="bg-gray-100 dark:bg-slate-800 px-4 py-2 border-b border-gray-300 dark:border-slate-700 flex items-center justify-between transition-colors">
+                <span class="text-gray-700 dark:text-slate-300 text-sm font-medium uppercase">Markdown</span>
 
                 <div class="flex items-center gap-3">
                     {{-- Character counter --}}
                     <span class="text-xs font-mono"
-                        :class="$wire.characterCount > {{ \App\Livewire\MarkdownToSpipPage::MAX_LENGTH }} ? 'text-red-400' : 'text-slate-500'">
+                        :class="$wire.characterCount > {{ \App\Livewire\MarkdownToSpipPage::MAX_LENGTH }} ? 'text-red-400' : 'text-slate-400'">
                         {{ number_format($this->characterCount, 0, ',', ' ') }} / 100k car.
                     </span>
 
@@ -154,7 +185,7 @@
                             cleared = true;
                             setTimeout(() => cleared = false, 1500)
                         "
-                        :class="cleared ? 'text-red-400' : 'text-slate-400 hover:text-red-400'"
+                        :class="cleared ? 'text-red-400' : 'text-gray-600 dark:text-slate-300 hover:text-red-400'"
                         class="transition-colors"
                         title="Effacer tout le texte"
                     >
@@ -173,7 +204,7 @@
             </div>
             <textarea
                 wire:model.live.debounce.50ms="markdown"
-                class="flex-1 w-full bg-slate-900 text-slate-100 p-4 font-mono text-sm resize-none focus:outline-none placeholder-slate-600"
+                class="flex-1 w-full bg-white dark:bg-slate-900 text-gray-900 dark:text-slate-100 p-4 font-mono text-sm resize-none focus:outline-none placeholder-gray-400 dark:placeholder-slate-600 transition-colors"
                 placeholder="Collez ou tapez votre Markdown ici..."
                 spellcheck="false"
             ></textarea>
@@ -181,12 +212,12 @@
 
         {{-- SPIP output --}}
         <div class="flex flex-col min-h-0">
-            <div class="bg-slate-800 px-4 py-2 border-b border-slate-700 flex items-center justify-between">
-                <span class="text-slate-400 text-sm font-medium uppercase">Spip</span>
+            <div class="bg-gray-100 dark:bg-slate-800 px-4 py-2 border-b border-gray-300 dark:border-slate-700 flex items-center justify-between transition-colors">
+                <span class="text-gray-700 dark:text-slate-300 text-sm font-medium uppercase">Spip</span>
 
                 <div class="flex items-center gap-3">
                     {{-- Request counter (minute glissante, mise à jour auto) --}}
-                    <span wire:poll.1s class="text-xs font-mono text-slate-500">
+                    <span wire:poll.1s class="text-xs font-mono text-gray-600 dark:text-slate-400">
                         {{ $this->requestCount }}/300 req/min
                     </span>
 
@@ -198,7 +229,7 @@
                             copied = true;
                             setTimeout(() => copied = false, 1500)
                         "
-                        :class="copied ? 'text-emerald-400' : 'text-slate-400 hover:text-emerald-400'"
+                        :class="copied ? 'text-emerald-500 dark:text-emerald-400' : 'text-gray-600 dark:text-slate-300 hover:text-emerald-500 dark:hover:text-emerald-400'"
                         class="transition-colors"
                         title="Copier le résultat SPIP"
                     >
@@ -215,13 +246,13 @@
                     </button>
                 </div>
             </div>
-            <pre id="spip-output" class="flex-1 w-full bg-slate-950 text-emerald-400 p-4 font-mono text-sm overflow-auto whitespace-pre-wrap">{{ $spip }}</pre>
+            <pre id="spip-output" class="flex-1 w-full bg-gray-50 dark:bg-slate-950 text-emerald-600 dark:text-emerald-400 p-4 font-mono text-sm overflow-auto whitespace-pre-wrap transition-colors">{{ $spip }}</pre>
         </div>
     </main>
 
     {{-- Footer --}}
-    <footer class="bg-slate-800 border-t border-slate-700 px-6 py-2 flex items-center justify-between text-xs text-slate-500">
-        <span>Projet open source <a href="https://github.com/Gallyan/md2spip/blob/main/LICENSE" target="_blank" rel="noopener" class="hover:text-slate-300 transition-colors underline">GPL-3.0</a> • Créé par <a href="https://www.orsal.fr" target="_blank" rel="noopener" class="hover:text-slate-300 transition-colors underline">Guillaume Orsal</a> en 2026</span>
-        <a href="/mentions-legales" class="hover:text-slate-300 transition-colors">Mentions légales</a>
+    <footer class="bg-gray-100 dark:bg-slate-800 border-t border-gray-300 dark:border-slate-700 px-6 py-2 flex items-center justify-between text-xs text-gray-600 dark:text-slate-400 transition-colors">
+        <span>Projet open source <a href="https://github.com/Gallyan/md2spip/blob/main/LICENSE" target="_blank" rel="noopener" class="hover:text-gray-900 dark:hover:text-slate-300 transition-colors underline">GPL-3.0</a> • Créé par <a href="https://www.orsal.fr" target="_blank" rel="noopener" class="hover:text-gray-900 dark:hover:text-slate-300 transition-colors underline">Guillaume Orsal</a> en 2026</span>
+        <a href="/mentions-legales" class="hover:text-gray-900 dark:hover:text-slate-300 transition-colors">Mentions légales</a>
     </footer>
 </div>
