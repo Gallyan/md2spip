@@ -45,7 +45,7 @@ Convertisseur en ligne Markdown vers syntaxe SPIP, en temps réel.
 ## Installation locale
 
 ```bash
-git clone https://github.com/votre-user/md2spip.git
+git clone https://github.com/Gallyan/md2spip.git
 cd md2spip
 composer install
 npm install
@@ -54,6 +54,28 @@ php artisan key:generate
 npm run build
 php artisan serve
 ```
+
+### Configuration des mentions légales
+
+Après l'installation, un fichier `resources/views/mentions-legales.blade.php` est automatiquement créé depuis le template `.EXAMPLE`. Vous devez le personnaliser avec vos informations :
+
+1. **Informations légales** : Éditeur du site, hébergeur, SIRET, adresse, etc.
+
+2. **Email de contact obfusqué** :
+   - Définissez votre email dans `.env` :
+     ```env
+     CONTACT_EMAIL=votre-email@domaine.fr
+     ```
+   - Dans `mentions-legales.blade.php`, modifiez les attributs `data-email-*` :
+     ```html
+     <span class="protected-email" data-email-user="votre-identifiant" data-email-domain="domaine.fr">
+     ```
+
+   L'email est protégé contre les robots spammeurs par obfuscation CSS tout en restant cliquable via la route `/contact-email`.
+
+   Pour plus de détails sur la méthode d'obfuscation utilisée, consultez l'article : [Obfuscation d'email : CSS vs JavaScript](https://www.orsal.fr/Obfuscation-d-email-CSS-vs)
+
+**Note :** Le fichier `mentions-legales.blade.php` est dans `.gitignore` pour protéger vos informations personnelles. Seul le template `.EXAMPLE` est versionné.
 
 ## Développement
 
