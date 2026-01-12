@@ -1,4 +1,14 @@
-<div class="flex flex-col h-screen">
+<div class="flex flex-col h-screen"
+    x-data="{
+        init() {
+            // Restaurer le texte depuis localStorage au chargement
+            const saved = localStorage.getItem('md2spip-markdown');
+            if (saved && saved !== '') {
+                $wire.markdown = saved;
+            }
+        }
+    }"
+    x-effect="localStorage.setItem('md2spip-markdown', $wire.markdown || '')">
     {{-- Header --}}
     <header class="bg-slate-800 border-b border-slate-700 px-6 py-3 flex items-center justify-between">
         <div class="flex items-center gap-3">
