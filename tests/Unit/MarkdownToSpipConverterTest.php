@@ -202,8 +202,8 @@ class MarkdownToSpipConverterTest extends TestCase
      */
     public function test_footnote_without_definition_stays_unchanged(): void
     {
-        $markdown = "Texte avec référence[^1] sans définition.";
-        $expected = "Texte avec référence[^1] sans définition.";
+        $markdown = 'Texte avec référence[^1] sans définition.';
+        $expected = 'Texte avec référence[^1] sans définition.';
 
         $this->assertEquals($expected, MarkdownToSpipConverter::convert($markdown));
     }
