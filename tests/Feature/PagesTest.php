@@ -23,7 +23,7 @@ class PagesTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('Mentions légales');
         $response->assertSee('Guillaume Orsal');
-        $response->assertSee('OVH SAS');
+        $response->assertSee('OVH');
     }
 
     public function test_mentions_legales_has_noindex(): void

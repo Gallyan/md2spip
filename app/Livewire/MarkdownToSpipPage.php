@@ -3,7 +3,6 @@
 namespace App\Livewire;
 
 use App\Support\MarkdownToSpipConverter;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
@@ -13,6 +12,8 @@ use Livewire\Component;
 class MarkdownToSpipPage extends Component
 {
     public const MAX_LENGTH = 100000; // 100KB
+
+    public const MAX_ATTEMPTS = 300; // Requêtes par minute
 
     public string $markdown = '';
 
@@ -27,15 +28,12 @@ class MarkdownToSpipPage extends Component
     #[Computed]
     public function requestCount(): int
     {
-        $key = 'markdown-timestamps:'.request()->ip();
-        $timestamps = Cache::get($key, []);
-        $now = time();
-        $oneMinuteAgo = $now - 60;
+        $key = 'markdown-convert:'.request()->ip();
 
-        // Compter les requêtes de la dernière minute (60 secondes glissantes)
-        $recentRequests = array_filter($timestamps, fn ($ts) => $ts > $oneMinuteAgo);
+        // Calculer le nombre de requêtes effectuées : max - remaining
+        $remaining = RateLimiter::remaining($key, self::MAX_ATTEMPTS);
 
-        return count($recentRequests);
+        return self::MAX_ATTEMPTS - $remaining;
     }
 
     public function updatedMarkdown(): void
@@ -47,30 +45,17 @@ class MarkdownToSpipPage extends Component
             return;
         }
 
-        // Rate limiting: 300 conversions per minute per IP (avec debounce 50ms côté front)
+        // Rate limiting: MAX_ATTEMPTS conversions per minute per IP (avec debounce 50ms côté front)
         $key = 'markdown-convert:'.request()->ip();
 
-        if (RateLimiter::tooManyAttempts($key, 300)) {
-            $this->spip = 'Trop de requêtes. Veuillez patienter quelques secondes.';
+        if (RateLimiter::tooManyAttempts($key, self::MAX_ATTEMPTS)) {
+            $this->spip = 'Trop de requêtes ('.self::MAX_ATTEMPTS.'/min). Veuillez patienter quelques secondes.';
 
             return;
         }
 
+        // Incrémenter le compteur RateLimiter (expire après 60 secondes)
         RateLimiter::hit($key, 60);
-
-        // Tracking timestamps pour compteur glissant (60 secondes)
-        $timestampKey = 'markdown-timestamps:'.request()->ip();
-        $timestamps = Cache::get($timestampKey, []);
-        $now = time();
-
-        // Ajouter le timestamp actuel
-        $timestamps[] = $now;
-
-        // Nettoyer les timestamps trop anciens (> 60 secondes)
-        $timestamps = array_filter($timestamps, fn ($ts) => $ts > ($now - 60));
-
-        // Stocker dans le cache pour 70 secondes
-        Cache::put($timestampKey, array_values($timestamps), 70);
 
         $this->spip = MarkdownToSpipConverter::convert($this->markdown);
     }
