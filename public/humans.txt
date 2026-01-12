@@ -1,0 +1,16 @@
+/* TEAM */
+Developer: Guillaume Orsal
+Site: https://md2spip.orsal.net
+Location: France
+
+/* THANKS */
+Laravel Team
+Livewire Team
+TailwindCSS Team
+
+/* SITE */
+Last update: 2026/01/12
+Language: Français
+Standards: HTML5, CSS3
+Components: Laravel 12, Livewire 3, TailwindCSS, Alpine.js
+Software: PHP 8.4, Vite

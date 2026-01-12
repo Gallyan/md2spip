@@ -1,0 +1,79 @@
+# Markdown to SPIP
+
+> Convertisseur en ligne Markdown vers syntaxe SPIP, en temps réel
+
+## Purpose
+
+This web application converts Markdown syntax to SPIP syntax in real-time. It's designed for SPIP CMS users who want to write in Markdown and convert it to SPIP's native format.
+
+## Key Features
+
+- Real-time conversion (no submit button required)
+- Split-view interface: Markdown input on left, SPIP output on right
+- One-click copy to clipboard
+- No data storage (RGPD-compliant)
+- No tracking, no analytics
+- Fully responsive (mobile/desktop)
+
+## Supported Conversions
+
+- Headings: `# Title` → `{{{Title}}}`
+- Bold: `**text**` → `{{text}}`
+- Italic: `*text*` → `{text}`
+- Links: `[text](url)` → `[text->url]`
+- Lists: `- item` → `-* item`
+- Blockquotes: `> quote` → `<quote>quote</quote>`
+
+## Technical Stack
+
+- Backend: Laravel 12
+- Frontend: Livewire 3 (real-time interactivity)
+- Styling: TailwindCSS
+- JS: Alpine.js (minimal)
+- Language: PHP 8.3
+- Build: Vite
+
+## Architecture
+
+- Single-page application using Livewire
+- Stateless converter (no database)
+- All conversion logic in `App\Support\MarkdownToSpipConverter`
+- Real-time updates via Livewire wire:model.live
+- Text is transmitted to server for conversion but never stored
+
+## Installation
+
+```bash
+git clone https://github.com/your-user/md2spip.git
+composer install
+npm install
+cp .env.example .env
+php artisan key:generate
+npm run build
+php artisan serve
+```
+
+## Testing
+
+25 automated tests covering:
+- Unit tests for conversion logic
+- Feature tests for Livewire component
+- Integration tests for pages
+
+Run with: `php artisan test`
+
+## Privacy
+
+- No user tracking
+- No analytics
+- No data storage
+- Online version: text sent to server for conversion but not stored
+- Local version: everything stays on your machine
+
+## License
+
+Proprietary - All rights reserved - Guillaume Orsal
+
+## Contact
+
+GitHub: [repository URL to be added]
