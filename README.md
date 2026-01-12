@@ -77,13 +77,16 @@ php artisan test --testsuite=Feature
 
 - **Rate limiting** : 300 requêtes par minute par IP (fenêtre glissante de 60 secondes)
 - **Validation des entrées** : Limite de 100 000 caractères
-- **En-têtes de sécurité** (via middleware Laravel) :
+- **En-têtes de sécurité** (via middleware Laravel intelligent) :
   - `X-Frame-Options: SAMEORIGIN` (protection clickjacking)
   - `X-Content-Type-Options: nosniff` (protection MIME sniffing)
-  - `Content-Security-Policy` (CSP restrictive)
+  - `Content-Security-Policy` (CSP avec `'unsafe-inline'` et `'unsafe-eval'` pour Alpine.js)
   - `Referrer-Policy: strict-origin-when-cross-origin`
-  - `Permissions-Policy` (désactivation APIs sensibles)
+  - `Permissions-Policy` (désactivation APIs sensibles : geolocation, camera, microphone, etc.)
   - `Strict-Transport-Security` (HSTS) géré par Apache en production HTTPS
+  - **Middleware intelligent** : Détecte et respecte les en-têtes définis par Apache (pas de duplication)
 - **Cookies sécurisés** : httpOnly, secure, sameSite=strict
 - **Pas de base de données** : Aucune donnée utilisateur stockée
 - **Cache éphémère** : Timestamps de requêtes conservés 70 secondes maximum
+
+> **Note :** Voir [APACHE-SECURITY.md](APACHE-SECURITY.md) pour la configuration Apache recommandée
