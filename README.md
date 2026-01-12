@@ -2,7 +2,7 @@
 
 Convertisseur en ligne Markdown vers syntaxe SPIP, en temps réel.
 
-**[https://md2spip.orsal.net](https://md2spip.orsal.net)**
+**[https://markdown2spip.orsal.fr](https://markdown2spip.orsal.fr)**
 
 ## Fonctionnalités
 
