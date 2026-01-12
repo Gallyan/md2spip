@@ -64,4 +64,28 @@ class PagesTest extends TestCase
         $this->assertStringContainsString('geolocation=()', $policy);
         $this->assertStringContainsString('camera=()', $policy);
     }
+
+    public function test_contact_email_redirects_to_mailto(): void
+    {
+        config(['app.contact_email' => 'test@example.com']);
+
+        $response = $this->get('/contact-email');
+
+        $response->assertRedirect('mailto:test@example.com?subject=Contact');
+    }
+
+    public function test_contact_email_has_anti_cache_headers(): void
+    {
+        $response = $this->get('/contact-email');
+
+        $response->assertHeader('Cache-Control');
+        $cacheControl = $response->headers->get('Cache-Control');
+        $this->assertStringContainsString('no-cache', $cacheControl);
+        $this->assertStringContainsString('no-store', $cacheControl);
+        $this->assertStringContainsString('must-revalidate', $cacheControl);
+
+        $response->assertHeader('Pragma', 'no-cache');
+        $response->assertHeader('Expires', '0');
+        $response->assertHeader('X-Robots-Tag', 'noindex, nofollow');
+    }
 }
