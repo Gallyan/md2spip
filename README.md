@@ -1,8 +1,15 @@
 # Markdown to SPIP
 
+[![License: GPL-3.0](https://img.shields.io/badge/License-GPL%203.0-blue.svg)](LICENSE)
+[![PHP Version](https://img.shields.io/badge/PHP-8.2%2B-777BB4?logo=php&logoColor=white)](https://www.php.net/)
+[![Laravel Version](https://img.shields.io/badge/Laravel-12-FF2D20?logo=laravel&logoColor=white)](https://laravel.com/)
+[![Tests](https://img.shields.io/badge/tests-51%20passed-success)](tests/)
+
 Convertisseur en ligne Markdown vers syntaxe SPIP, en temps réel.
 
-**[https://markdown2spip.orsal.fr](https://markdown2spip.orsal.fr)**
+**[✨ Démo en ligne](https://markdown2spip.orsal.fr)**
+
+![Interface desktop du convertisseur Markdown vers SPIP](markdown-spip-converter-desktop-interface.png)
 
 ## Fonctionnalités
 
@@ -24,16 +31,21 @@ Convertisseur en ligne Markdown vers syntaxe SPIP, en temps réel.
 |----------|------|-------------|
 | `# Titre` | `{{{Titre}}}` | Titre principal (h1 uniquement) |
 | `## Sous-titre` | `{{Sous-titre}}` | Sous-titres (h2 à h6) en gras |
-| `**gras**` | `{{gras}}` | Texte en gras |
-| `*italique*` | `{italique}` | Texte en italique |
+| `**gras**` ou `__gras__` | `{{gras}}` | Texte en gras |
+| `*italique*` ou `_italique_` | `{italique}` | Texte en italique |
+| `***gras+ita***` ou `___gras+ita___` | `{{ { gras+ita } }}` | Gras et italique combinés |
+| `~~barré~~` | `<del>barré</del>` | Texte barré |
 | `` `code` `` | `<code>code</code>` | Code inline |
-| ` ```code``` ` | `<code>code</code>` | Blocs de code |
+| ` ```code``` ` ou ` ```js code``` ` | `<code>code</code>` | Blocs de code (nom langage ignoré) |
 | `[lien](url)` | `[lien->url]` | Liens hypertextes |
 | `- item` | `-* item` | Listes à puces |
 | `> citation` | `<quote>citation</quote>` | Citations/blockquotes |
 | `Texte[^1]` + `[^1]: note` | `Texte[[note]]` | Notes de bas de page |
 
-**Note :** Le contenu des blocs de code est protégé et n'est pas transformé par les autres règles de conversion.
+**Notes :**
+- Le contenu des blocs de code est protégé et n'est pas transformé par les autres règles de conversion.
+- Les blocs de code peuvent inclure un nom de langage (```js, ```php, etc.) qui sera automatiquement supprimé.
+- L'underscore `_` fonctionne exactement comme l'astérisque `*` pour le formatage.
 
 ## Stack technique
 
@@ -104,7 +116,9 @@ php artisan test --testsuite=Unit
 php artisan test --testsuite=Feature
 ```
 
-**Couverture :** 39 tests / 62 assertions
+**Couverture :** 51 tests / 84 assertions
+
+Pour plus de détails sur l'évolution du projet, consultez le [CHANGELOG](CHANGELOG.md).
 
 ## Sécurité
 
