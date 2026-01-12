@@ -89,4 +89,28 @@ class MarkdownToSpipConverterTest extends TestCase
         $text = 'Texte simple sans formatage';
         $this->assertEquals($text, MarkdownToSpipConverter::convert($text));
     }
+
+    public function test_converts_inline_code(): void
+    {
+        $markdown = 'Utiliser `echo` pour afficher';
+        $expected = 'Utiliser <code>echo</code> pour afficher';
+
+        $this->assertEquals($expected, MarkdownToSpipConverter::convert($markdown));
+    }
+
+    public function test_converts_code_blocks(): void
+    {
+        $markdown = "Exemple de code:\n\n```\nfunction hello() {\n  return 'world';\n}\n```";
+        $expected = "Exemple de code:\n\n<code>\nfunction hello() {\n  return 'world';\n}\n</code>";
+
+        $this->assertEquals($expected, MarkdownToSpipConverter::convert($markdown));
+    }
+
+    public function test_code_blocks_protect_content_from_conversion(): void
+    {
+        $markdown = '```**gras** et *italique*```';
+        $expected = '<code>**gras** et *italique*</code>';
+
+        $this->assertEquals($expected, MarkdownToSpipConverter::convert($markdown));
+    }
 }
