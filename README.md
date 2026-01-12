@@ -47,11 +47,20 @@ Convertisseur en ligne Markdown vers syntaxe SPIP, en temps réel.
 ```bash
 git clone https://github.com/Gallyan/md2spip.git
 cd md2spip
-composer install
-npm install
-cp .env.example .env
-php artisan key:generate
-npm run build
+composer run setup
+```
+
+Cette commande exécute automatiquement :
+- `composer install` (dépendances PHP)
+- Copie de `.env.example` vers `.env`
+- Copie de `mentions-legales.EXAMPLE.blade.php` vers `mentions-legales.blade.php`
+- `php artisan key:generate` (clé d'application)
+- `php artisan migrate` (base de données SQLite)
+- `npm install` (dépendances front-end)
+- `npm run build` (compilation des assets)
+
+Lancez ensuite le serveur de développement :
+```bash
 php artisan serve
 ```
 
