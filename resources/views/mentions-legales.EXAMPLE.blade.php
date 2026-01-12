@@ -23,21 +23,29 @@
         <div class="space-y-12 leading-relaxed">
             <section class="bg-slate-800/50 rounded-xl p-8 border border-slate-700">
                 <h2 class="text-2xl font-semibold text-white mb-5">Éditeur du site</h2>
-                <p class="text-slate-200 text-lg">Guillaume Orsal<br>
-                Site web : <a href="https://md2spip.orsal.net" class="text-emerald-400 hover:text-emerald-300 underline">md2spip.orsal.net</a></p>
+                <p class="text-slate-200 text-lg">Votre Nom / Raison sociale<br>
+                Adresse complète<br>
+                Email de contact<br>
+                Site web : <a href="https://votre-domaine.fr" class="text-emerald-400 hover:text-emerald-300 underline">votre-domaine.fr</a></p>
             </section>
 
             <section class="bg-slate-800/50 rounded-xl p-8 border border-slate-700">
                 <h2 class="text-2xl font-semibold text-white mb-5">Hébergement</h2>
                 <p class="text-slate-200 text-lg">Ce site est hébergé par :<br>
-                <strong class="text-white">OVH SAS</strong><br>
-                2 rue Kellermann - 59100 Roubaix - France</p>
+                <strong class="text-white">Nom de l'hébergeur</strong><br>
+                Adresse de l'hébergeur</p>
             </section>
 
             <section class="bg-slate-800/50 rounded-xl p-8 border border-slate-700">
-                <h2 class="text-2xl font-semibold text-white mb-5">Propriété intellectuelle</h2>
-                <p class="text-slate-200 text-lg">L'ensemble du contenu de ce site (code source, interface, textes) est la propriété exclusive de Guillaume Orsal, sauf mention contraire.</p>
-                <p class="mt-4 text-slate-200 text-lg">Toute reproduction, distribution, modification ou exploitation sans autorisation préalable est interdite.</p>
+                <h2 class="text-2xl font-semibold text-white mb-5">Logiciel libre</h2>
+                <p class="text-slate-200 text-lg">Cette application est un logiciel libre distribué sous licence <strong class="text-white">GNU GPL-3.0</strong>.</p>
+                <p class="mt-4 text-slate-200 text-lg">
+                    Vous êtes libre de l'utiliser, le modifier et le redistribuer selon les termes de cette licence.<br>
+                    Code source disponible sur : <a href="https://github.com/Gallyan/md2spip" target="_blank" rel="noopener" class="text-emerald-400 hover:text-emerald-300 underline">github.com/Gallyan/md2spip</a>
+                </p>
+                <p class="mt-4 text-slate-200 text-lg">
+                    Projet créé par <a href="https://www.orsal.fr" target="_blank" rel="noopener" class="text-emerald-400 hover:text-emerald-300 underline font-semibold">Guillaume Orsal</a>
+                </p>
             </section>
 
             <section class="bg-slate-800/50 rounded-xl p-8 border border-slate-700">
@@ -58,6 +66,7 @@
             <section class="bg-slate-800/50 rounded-xl p-8 border border-slate-700">
                 <h2 class="text-2xl font-semibold text-white mb-5">Cookies</h2>
                 <p class="text-slate-200 text-lg">Ce site utilise uniquement des cookies techniques essentiels au fonctionnement de l'application (session Laravel, protection CSRF). Aucun cookie de suivi publicitaire ou analytique n'est déposé.</p>
+                <p class="mt-4 text-slate-200 text-lg">Conformément aux recommandations de la CNIL, <strong class="text-white">ce type de cookie est dispensé du recueil de consentement</strong> car il est strictement nécessaire à la fourniture du service.</p>
             </section>
 
             <section class="bg-slate-800/50 rounded-xl p-8 border border-slate-700">
