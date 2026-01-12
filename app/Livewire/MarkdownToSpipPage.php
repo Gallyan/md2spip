@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Support\MarkdownToSpipConverter;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
@@ -60,7 +61,7 @@ class MarkdownToSpipPage extends Component
         $this->spip = MarkdownToSpipConverter::convert($this->markdown);
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.markdown-to-spip-page');
     }
