@@ -54,10 +54,9 @@ Cette commande exécute automatiquement :
 - `composer install` (dépendances PHP)
 - Copie de `.env.example` vers `.env`
 - Copie de `mentions-legales.EXAMPLE.blade.php` vers `mentions-legales.blade.php`
-- `php artisan key:generate` (clé d'application)
-- `php artisan migrate` (base de données SQLite)
+- `php artisan key:generate` (clé d'application Laravel)
 - `npm install` (dépendances front-end)
-- `npm run build` (compilation des assets)
+- `npm run build` (compilation des assets Tailwind/Vite)
 
 Lancez ensuite le serveur de développement :
 ```bash
