@@ -9,6 +9,12 @@ use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
+/**
+ * Composant Livewire de la page principale de conversion Markdown vers SPIP.
+ *
+ * Gère la conversion en temps réel avec validation de taille et rate limiting
+ * pour protéger contre les abus (300 requêtes/minute, max 100KB de texte).
+ */
 #[Layout('layouts.app')]
 class MarkdownToSpipPage extends Component
 {
@@ -20,12 +26,22 @@ class MarkdownToSpipPage extends Component
 
     public string $spip = '';
 
+    /**
+     * Calcule le nombre de caractères du texte Markdown saisi.
+     *
+     * @return int Nombre de caractères (gestion correcte des caractères multi-octets)
+     */
     #[Computed]
     public function characterCount(): int
     {
         return mb_strlen($this->markdown);
     }
 
+    /**
+     * Calcule le nombre de requêtes de conversion effectuées par l'utilisateur.
+     *
+     * @return int Nombre de requêtes effectuées (MAX_ATTEMPTS - remaining)
+     */
     #[Computed]
     public function requestCount(): int
     {
@@ -37,6 +53,11 @@ class MarkdownToSpipPage extends Component
         return self::MAX_ATTEMPTS - $remaining;
     }
 
+    /**
+     * Déclenché automatiquement à chaque modification du texte Markdown.
+     *
+     * Vérifie la taille du texte et le rate limiting avant de convertir.
+     */
     public function updatedMarkdown(): void
     {
         // Validation taille
@@ -61,6 +82,11 @@ class MarkdownToSpipPage extends Component
         $this->spip = MarkdownToSpipConverter::convert($this->markdown);
     }
 
+    /**
+     * Rend la vue du composant Livewire.
+     *
+     * @return View Vue Livewire de la page de conversion
+     */
     public function render(): View
     {
         return view('livewire.markdown-to-spip-page');

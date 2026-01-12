@@ -19,9 +19,12 @@ final class ContactRedirectController extends Controller
      *
      * Headers anti-cache pour empêcher l'indexation et la mise en cache
      * de la redirection par les navigateurs, proxies et robots.
+     *
+     * @return RedirectResponse Redirection vers mailto: avec headers de sécurité
      */
     public function __invoke(): RedirectResponse
     {
+        /** @var string $email */
         $email = config('app.contact_email', 'contact@example.com');
 
         return redirect()
