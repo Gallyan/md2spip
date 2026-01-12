@@ -219,4 +219,76 @@ class MarkdownToSpipConverterTest extends TestCase
 
         $this->assertEquals($expected, MarkdownToSpipConverter::convert($markdown));
     }
+
+    /**
+     * Vérifie que les blocs de code avec nom de langage (```js, ```php)
+     * suppriment correctement le nom du langage lors de la conversion.
+     */
+    public function test_code_blocks_ignore_language_name(): void
+    {
+        $markdown = "```js\nconst x = 42;\n```";
+        $expected = "<code>\nconst x = 42;\n</code>";
+
+        $this->assertEquals($expected, MarkdownToSpipConverter::convert($markdown));
+    }
+
+    /**
+     * Vérifie la conversion de l'italique avec underscore (_texte_)
+     * vers la syntaxe SPIP ({texte}).
+     */
+    public function test_converts_italic_with_underscore(): void
+    {
+        $markdown = '_texte en italique_';
+        $expected = '{texte en italique}';
+
+        $this->assertEquals($expected, MarkdownToSpipConverter::convert($markdown));
+    }
+
+    /**
+     * Vérifie la conversion du gras avec double underscore (__texte__)
+     * vers la syntaxe SPIP ({{texte}}).
+     */
+    public function test_converts_bold_with_underscore(): void
+    {
+        $markdown = '__texte en gras__';
+        $expected = '{{texte en gras}}';
+
+        $this->assertEquals($expected, MarkdownToSpipConverter::convert($markdown));
+    }
+
+    /**
+     * Vérifie la conversion du gras+italique combiné (***texte***)
+     * vers la syntaxe SPIP ({{ { texte } }}).
+     */
+    public function test_converts_bold_and_italic_combined_with_asterisks(): void
+    {
+        $markdown = '***texte gras et italique***';
+        $expected = '{{ { texte gras et italique } }}';
+
+        $this->assertEquals($expected, MarkdownToSpipConverter::convert($markdown));
+    }
+
+    /**
+     * Vérifie la conversion du gras+italique combiné (___texte___)
+     * vers la syntaxe SPIP ({{ { texte } }}).
+     */
+    public function test_converts_bold_and_italic_combined_with_underscores(): void
+    {
+        $markdown = '___texte gras et italique___';
+        $expected = '{{ { texte gras et italique } }}';
+
+        $this->assertEquals($expected, MarkdownToSpipConverter::convert($markdown));
+    }
+
+    /**
+     * Vérifie la conversion du texte barré (~~texte~~)
+     * vers la syntaxe SPIP (<del>texte</del>).
+     */
+    public function test_converts_strikethrough(): void
+    {
+        $markdown = 'Texte avec ~~barré~~ dedans';
+        $expected = 'Texte avec <del>barré</del> dedans';
+
+        $this->assertEquals($expected, MarkdownToSpipConverter::convert($markdown));
+    }
 }
