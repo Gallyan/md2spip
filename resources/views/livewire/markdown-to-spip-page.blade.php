@@ -60,7 +60,7 @@
 
     {{-- Footer --}}
     <footer class="bg-slate-800 border-t border-slate-700 px-6 py-2 flex items-center justify-between text-xs text-slate-500">
-        <span>&copy; {{ date('Y') }} md2spip.orsal.net</span>
+        <span>&copy; {{ date('Y') }} Guillaume Orsal - Tous droits réservés</span>
         <a href="/mentions-legales" class="hover:text-slate-300 transition-colors">Mentions légales</a>
     </footer>
 </div>
