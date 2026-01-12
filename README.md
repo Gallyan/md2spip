@@ -91,5 +91,3 @@ php artisan test --testsuite=Feature
 - **Cookies sécurisés** : httpOnly, secure, sameSite=strict
 - **Pas de base de données** : Aucune donnée utilisateur stockée
 - **Cache éphémère** : Timestamps de requêtes conservés 70 secondes maximum
-
-> **Note :** Voir [APACHE-SECURITY.md](APACHE-SECURITY.md) pour la configuration Apache recommandée
