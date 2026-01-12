@@ -11,34 +11,38 @@ class MarkdownToSpipConverter
         $codeIndex = 0;
 
         // Extraire et protéger les blocs de code avec des placeholders
-        $spip = preg_replace_callback('/```(.+?)```/s', function($matches) use (&$codeBlocks, &$codeIndex) {
+        $spip = preg_replace_callback('/```(.+?)```/s', function ($matches) use (&$codeBlocks, &$codeIndex) {
             $placeholder = "___CODE_BLOCK_{$codeIndex}___";
-            $codeBlocks[$placeholder] = '<code>' . $matches[1] . '</code>';
+            $codeBlocks[$placeholder] = '<code>'.$matches[1].'</code>';
             $codeIndex++;
+
             return $placeholder;
         }, $spip);
 
         // Extraire et protéger le code inline avec des placeholders
-        $spip = preg_replace_callback('/`(.+?)`/', function($matches) use (&$codeBlocks, &$codeIndex) {
+        $spip = preg_replace_callback('/`(.+?)`/', function ($matches) use (&$codeBlocks, &$codeIndex) {
             $placeholder = "___CODE_BLOCK_{$codeIndex}___";
-            $codeBlocks[$placeholder] = '<code>' . $matches[1] . '</code>';
+            $codeBlocks[$placeholder] = '<code>'.$matches[1].'</code>';
             $codeIndex++;
+
             return $placeholder;
         }, $spip);
 
         // Notes de bas de page : extraire les définitions [^id]: texte
         $footnotes = [];
-        $spip = preg_replace_callback('/^\[\^([^\]]+)\]:\s*(.+)$/m', function($matches) use (&$footnotes) {
+        $spip = preg_replace_callback('/^\[\^([^\]]+)\]:\s*(.+)$/m', function ($matches) use (&$footnotes) {
             $footnotes[$matches[1]] = trim($matches[2]);
+
             return ''; // Supprimer la ligne de définition
         }, $spip);
 
         // Remplacer les références [^id] par [[texte]]
-        $spip = preg_replace_callback('/\[\^([^\]]+)\]/', function($matches) use ($footnotes) {
+        $spip = preg_replace_callback('/\[\^([^\]]+)\]/', function ($matches) use ($footnotes) {
             $id = $matches[1];
             if (isset($footnotes[$id])) {
-                return '[[' . $footnotes[$id] . ']]';
+                return '[['.$footnotes[$id].']]';
             }
+
             return $matches[0]; // Garder tel quel si pas de définition trouvée
         }, $spip);
 

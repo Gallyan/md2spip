@@ -19,13 +19,13 @@ class SecurityHeaders
 
         // Empêcher l'affichage dans une iframe (clickjacking protection)
         // Ne pas écraser si déjà défini par Apache
-        if (!$response->headers->has('X-Frame-Options')) {
+        if (! $response->headers->has('X-Frame-Options')) {
             $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
         }
 
         // Empêcher le navigateur de deviner le type MIME
         // Ne pas écraser si déjà défini par Apache
-        if (!$response->headers->has('X-Content-Type-Options')) {
+        if (! $response->headers->has('X-Content-Type-Options')) {
             $response->headers->set('X-Content-Type-Options', 'nosniff');
         }
 
@@ -45,13 +45,13 @@ class SecurityHeaders
 
         // Referrer Policy - Ne pas envoyer de referrer vers des sites externes
         // Ne pas écraser si déjà défini par Apache
-        if (!$response->headers->has('Referrer-Policy')) {
+        if (! $response->headers->has('Referrer-Policy')) {
             $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
         }
 
         // Permissions Policy - Désactiver les APIs sensibles
         // Ne pas écraser si déjà défini par Apache (ex: config globale fullscreen=*)
-        if (!$response->headers->has('Permissions-Policy')) {
+        if (! $response->headers->has('Permissions-Policy')) {
             $response->headers->set('Permissions-Policy', 'geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), fullscreen=*');
         }
 
