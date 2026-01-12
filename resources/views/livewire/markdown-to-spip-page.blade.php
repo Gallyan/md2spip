@@ -221,7 +221,7 @@
 
     {{-- Footer --}}
     <footer class="bg-slate-800 border-t border-slate-700 px-6 py-2 flex items-center justify-between text-xs text-slate-500">
-        <span>&copy; {{ date('Y') }} Guillaume Orsal - Tous droits réservés</span>
+        <span>Projet open source <a href="https://github.com/Gallyan/md2spip/blob/main/LICENSE" target="_blank" rel="noopener" class="hover:text-slate-300 transition-colors underline">GPL-3.0</a> • Créé par <a href="https://www.orsal.fr" target="_blank" rel="noopener" class="hover:text-slate-300 transition-colors underline">Guillaume Orsal</a> en 2026</span>
         <a href="/mentions-legales" class="hover:text-slate-300 transition-colors">Mentions légales</a>
     </footer>
 </div>
