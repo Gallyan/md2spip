@@ -46,8 +46,11 @@
             <div x-data="{ open: false }">
                 <button
                     @click="open = true"
-                    class="w-6 h-6 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-300 flex items-center justify-center text-xs font-semibold transition-colors"
+                    class="w-6 h-6 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-300 flex items-center justify-center text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800"
                     title="Aide"
+                    aria-label="Afficher l'aide sur les conversions supportées"
+                    aria-haspopup="dialog"
+                    :aria-expanded="open"
                 >
                     ?
                 </button>
@@ -62,8 +65,12 @@
                     x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0"
                     @click="open = false"
+                    @keydown.escape="open = false"
                     class="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 z-50 flex items-center justify-center p-4"
                     style="display: none;"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="modal-title"
                 >
                     {{-- Modal content --}}
                     <div
@@ -77,8 +84,12 @@
                         class="bg-white dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg shadow-xl p-6 max-w-md w-full max-h-[80vh] overflow-y-auto"
                     >
                         <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-gray-900 dark:text-white font-semibold text-lg">Conversions supportées</h3>
-                            <button @click="open = false" class="text-gray-600 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+                            <h3 id="modal-title" class="text-gray-900 dark:text-white font-semibold text-lg">Conversions supportées</h3>
+                            <button
+                                @click="open = false"
+                                class="text-gray-600 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded"
+                                aria-label="Fermer la fenêtre d'aide"
+                            >
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                                 </svg>
@@ -149,15 +160,16 @@
         {{-- Theme toggle button (right side) --}}
         <button
             @click="toggleTheme()"
-            class="w-6 h-6 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-300 flex items-center justify-center transition-colors"
+            class="w-6 h-6 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-300 flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800"
             :title="darkMode ? 'Passer en mode clair' : 'Passer en mode sombre'"
+            :aria-label="darkMode ? 'Activer le mode clair' : 'Activer le mode sombre'"
         >
             {{-- Sun icon (shown in dark mode) --}}
-            <svg x-show="darkMode" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+            <svg x-show="darkMode" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
             </svg>
             {{-- Moon icon (shown in light mode) --}}
-            <svg x-show="!darkMode" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+            <svg x-show="!darkMode" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
             </svg>
         </button>
@@ -172,8 +184,12 @@
 
                 <div class="flex items-center gap-3">
                     {{-- Character counter --}}
-                    <span class="text-xs font-mono"
-                        :class="$wire.characterCount > {{ \App\Livewire\MarkdownToSpipPage::MAX_LENGTH }} ? 'text-red-400' : 'text-slate-400'">
+                    <span
+                        class="text-xs font-mono"
+                        :class="$wire.characterCount > {{ \App\Livewire\MarkdownToSpipPage::MAX_LENGTH }} ? 'text-red-400' : 'text-slate-400'"
+                        aria-live="polite"
+                        aria-atomic="true"
+                    >
                         {{ number_format($this->characterCount, 0, ',', ' ') }} / 100k car.
                     </span>
 
@@ -186,27 +202,31 @@
                             setTimeout(() => cleared = false, 1500)
                         "
                         :class="cleared ? 'text-red-400' : 'text-gray-600 dark:text-slate-300 hover:text-red-400'"
-                        class="transition-colors"
+                        class="transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded"
                         title="Effacer tout le texte"
+                        aria-label="Effacer tout le texte Markdown"
                     >
                         <template x-if="!cleared">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                             </svg>
                         </template>
                         <template x-if="cleared">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                             </svg>
                         </template>
+                        <span x-show="cleared" x-cloak class="sr-only" role="status" aria-live="polite">Texte effacé</span>
                     </button>
                 </div>
             </div>
             <textarea
                 wire:model.live.debounce.50ms="markdown"
-                class="flex-1 w-full bg-white dark:bg-slate-900 text-gray-900 dark:text-slate-100 p-4 font-mono text-sm resize-none focus:outline-none placeholder-gray-400 dark:placeholder-slate-600 transition-colors"
+                class="flex-1 w-full bg-white dark:bg-slate-900 text-gray-900 dark:text-slate-100 p-4 font-mono text-sm resize-none focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-500 placeholder-gray-400 dark:placeholder-slate-600 transition-colors"
                 placeholder="Collez ou tapez votre Markdown ici..."
                 spellcheck="false"
+                aria-label="Saisie du texte Markdown à convertir"
+                id="markdown-input"
             ></textarea>
         </div>
 
@@ -217,7 +237,13 @@
 
                 <div class="flex items-center gap-3">
                     {{-- Request counter (minute glissante, mise à jour auto) --}}
-                    <span wire:poll.1s class="text-xs font-mono text-gray-600 dark:text-slate-400">
+                    <span
+                        wire:poll.1s
+                        class="text-xs font-mono text-gray-600 dark:text-slate-400"
+                        aria-live="polite"
+                        aria-atomic="true"
+                        aria-label="Compteur de requêtes"
+                    >
                         {{ $this->requestCount }}/300 req/min
                     </span>
 
@@ -230,23 +256,25 @@
                             setTimeout(() => copied = false, 1500)
                         "
                         :class="copied ? 'text-emerald-500 dark:text-emerald-400' : 'text-gray-600 dark:text-slate-300 hover:text-emerald-500 dark:hover:text-emerald-400'"
-                        class="transition-colors"
+                        class="transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded"
                         title="Copier le résultat SPIP"
+                        aria-label="Copier le résultat SPIP dans le presse-papier"
                     >
                         <template x-if="!copied">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
                             </svg>
                         </template>
                         <template x-if="copied">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                             </svg>
                         </template>
+                        <span x-show="copied" x-cloak class="sr-only" role="status" aria-live="polite">Texte copié dans le presse-papier</span>
                     </button>
                 </div>
             </div>
-            <pre id="spip-output" class="flex-1 w-full bg-gray-50 dark:bg-slate-950 text-emerald-600 dark:text-emerald-400 p-4 font-mono text-sm overflow-auto whitespace-pre-wrap transition-colors">{{ $spip }}</pre>
+            <pre id="spip-output" class="flex-1 w-full bg-gray-50 dark:bg-slate-950 text-emerald-600 dark:text-emerald-400 p-4 font-mono text-sm overflow-auto whitespace-pre-wrap transition-colors" role="region" aria-label="Résultat de la conversion en syntaxe SPIP" aria-live="polite">{{ $spip }}</pre>
         </div>
     </main>
 
