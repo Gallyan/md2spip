@@ -4,11 +4,11 @@ on:
   # Lancement manuel depuis l'interface GitHub
   workflow_dispatch:
 
-  # Décommenter pour activer les déclenchements automatiques
-  # push:
-  #   branches: [ main ]
-  # pull_request:
-  #   branches: [ main ]
+  # Déclenchements automatiques sur la branche main
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   tests:
