@@ -42,6 +42,12 @@ jobs:
       - name: Create mentions-legales from template
         run: cp resources/views/mentions-legales.EXAMPLE.blade.php resources/views/mentions-legales.blade.php
 
+      - name: Install Node.js dependencies
+        run: npm install
+
+      - name: Build frontend assets
+        run: npm run build
+
       - name: Run tests
         run: php artisan test
 
