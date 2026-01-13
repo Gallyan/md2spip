@@ -6,15 +6,15 @@
     <title>Markdown to SPIP - Convertisseur en ligne gratuit</title>
     <meta name="description" content="Convertissez instantanément votre Markdown en syntaxe SPIP. Outil en ligne gratuit, sans inscription, respectueux de votre vie privée.">
     <meta name="keywords" content="markdown, spip, convertisseur, conversion, en ligne, gratuit">
-    <meta name="author" content="md2spip">
+    <meta name="author" content="Guillaume Orsal">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://md2spip.orsal.net/">
+    <link rel="canonical" href="https://markdown2spip.orsal.fr/">
 
     {{-- Open Graph --}}
     <meta property="og:type" content="website">
     <meta property="og:title" content="Markdown to SPIP - Convertisseur en ligne">
     <meta property="og:description" content="Convertissez instantanément votre Markdown en syntaxe SPIP. Gratuit et respectueux de votre vie privée.">
-    <meta property="og:url" content="https://md2spip.orsal.net/">
+    <meta property="og:url" content="https://markdown2spip.orsal.fr/">
     <meta property="og:locale" content="fr_FR">
 
     {{-- Twitter Card --}}
@@ -27,6 +27,40 @@
 
     {{-- Theme color --}}
     <meta name="theme-color" content="#1e293b">
+
+    {{-- Schema.org JSON-LD --}}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Markdown to SPIP",
+        "alternateName": "markdown2spip",
+        "description": "Convertisseur en ligne gratuit pour transformer du Markdown en syntaxe SPIP. Instantané, sans inscription, respectueux de la vie privée.",
+        "url": "https://markdown2spip.orsal.fr/",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript",
+        "permissions": "none",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "EUR"
+        },
+        "author": {
+            "@type": "Person",
+            "name": "Guillaume Orsal",
+            "url": "https://www.orsal.fr"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Guillaume Orsal",
+            "url": "https://www.orsal.fr"
+        },
+        "inLanguage": "fr",
+        "isAccessibleForFree": true,
+        "license": "https://github.com/Gallyan/md2spip/blob/main/LICENSE"
+    }
+    </script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
