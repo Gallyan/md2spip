@@ -120,6 +120,32 @@ php artisan test --testsuite=Feature
 
 Pour plus de détails sur l'évolution du projet, consultez le [CHANGELOG](CHANGELOG.md).
 
+## Accessibilité
+
+- **Score PageSpeed Insights : 100/100** en accessibilité
+- **Attributs ARIA** complets sur tous les éléments interactifs
+- **Focus visible** amélioré sur tous les contrôles (ring emerald-500)
+- **Navigation au clavier** : Tous les boutons et champs sont accessibles via Tab
+- **Annonces vocales** : aria-live sur les compteurs et feedbacks (copié, effacé)
+- **Modales accessibles** : role="dialog", aria-modal, support de la touche Échap
+- **Icônes décoratives** : aria-hidden="true" pour ne pas perturber les lecteurs d'écran
+- **Labels explicites** : aria-label sur tous les boutons icon-only
+
+## CI/CD
+
+Le projet utilise GitHub Actions pour l'intégration continue :
+
+```bash
+# Lancer manuellement le workflow depuis l'interface GitHub
+# Actions → Tests & Quality → Run workflow
+```
+
+Le workflow exécute :
+- **Tests** (PHP 8.2 et 8.3)
+- **PHPStan level 6** (analyse statique)
+
+Pour activer les déclenchements automatiques sur push/PR, décommentez les lignes correspondantes dans `.github/workflows/tests.yml`.
+
 ## Sécurité
 
 - **Rate limiting** : 300 requêtes par minute par IP (fenêtre glissante de 60 secondes)
