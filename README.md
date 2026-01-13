@@ -4,6 +4,8 @@
 [![PHP Version](https://img.shields.io/badge/PHP-8.2%2B-777BB4?logo=php&logoColor=white)](https://www.php.net/)
 [![Laravel Version](https://img.shields.io/badge/Laravel-12-FF2D20?logo=laravel&logoColor=white)](https://laravel.com/)
 [![Tests](https://img.shields.io/badge/tests-51%20passed-success)](tests/)
+[![Lighthouse](https://img.shields.io/badge/Lighthouse-100%2F100-success?logo=lighthouse)](https://markdown2spip.orsal.fr)
+[![Accessibility](https://img.shields.io/badge/A11y-100%2F100-success)](https://markdown2spip.orsal.fr)
 
 Convertisseur en ligne Markdown vers syntaxe SPIP, en temps réel.
 
@@ -122,14 +124,30 @@ Pour plus de détails sur l'évolution du projet, consultez le [CHANGELOG](CHANG
 
 ## Accessibilité
 
-- **Score PageSpeed Insights : 100/100** en accessibilité
-- **Attributs ARIA** complets sur tous les éléments interactifs
-- **Focus visible** amélioré sur tous les contrôles (ring emerald-500)
-- **Navigation au clavier** : Tous les boutons et champs sont accessibles via Tab
-- **Annonces vocales** : aria-live sur les compteurs et feedbacks (copié, effacé)
-- **Modales accessibles** : role="dialog", aria-modal, support de la touche Échap
-- **Icônes décoratives** : aria-hidden="true" pour ne pas perturber les lecteurs d'écran
-- **Labels explicites** : aria-label sur tous les boutons icon-only
+**Scores Lighthouse : 100/100 partout ! 🎉**
+- ✅ **Performance : 100/100**
+- ✅ **Accessibilité : 100/100**
+- ✅ **Best Practices : 100/100**
+- ✅ **SEO : 100/100**
+
+**Fonctionnalités d'accessibilité :**
+- Attributs ARIA complets sur tous les éléments interactifs
+- Focus visible amélioré (ring emerald-500) sur tous les contrôles
+- Navigation au clavier : Tab traverse tous les boutons et champs
+- Annonces vocales : aria-live sur les compteurs et feedbacks (copié, effacé)
+- Modales accessibles : role="dialog", aria-modal, support Échap
+- Icônes décoratives : aria-hidden="true" pour les lecteurs d'écran
+- Labels explicites : aria-label sur tous les boutons icon-only
+
+### Auditer avec Lighthouse
+
+**Chrome DevTools** :
+1. Ouvrir Chrome DevTools (F12)
+2. Onglet "Lighthouse"
+3. Sélectionner les catégories (Accessibility, Performance, SEO...)
+4. Cliquer "Analyze page load"
+
+**Note** : L'application n'utilise aucune ressource externe (pas de CDN, Google Fonts, etc.), ce qui explique le message "no origins were preconnected" - c'est positif pour la performance et la vie privée.
 
 ## CI/CD
 
@@ -141,8 +159,8 @@ Le projet utilise GitHub Actions pour l'intégration continue :
 ```
 
 Le workflow exécute :
-- **Tests** (PHP 8.2 et 8.3)
-- **PHPStan level 6** (analyse statique)
+- **Tests** (PHP 8.2, 8.3 et 8.4 avec PHPUnit - 51 tests, 84 assertions)
+- **PHPStan level 6** (analyse statique - 0 erreur)
 
 Pour activer les déclenchements automatiques sur push/PR, décommentez les lignes correspondantes dans `.github/workflows/tests.yml`.
 
