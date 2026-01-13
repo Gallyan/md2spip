@@ -72,6 +72,7 @@ class PagesTest extends TestCase
 
         $response->assertHeader('Content-Security-Policy');
         $csp = $response->headers->get('Content-Security-Policy');
+        $this->assertNotNull($csp);
 
         $this->assertStringContainsString("default-src 'self'", $csp);
         $this->assertStringContainsString("frame-ancestors 'self'", $csp);
@@ -87,6 +88,7 @@ class PagesTest extends TestCase
 
         $response->assertHeader('Permissions-Policy');
         $policy = $response->headers->get('Permissions-Policy');
+        $this->assertNotNull($policy);
 
         $this->assertStringContainsString('geolocation=()', $policy);
         $this->assertStringContainsString('camera=()', $policy);
@@ -115,6 +117,7 @@ class PagesTest extends TestCase
 
         $response->assertHeader('Cache-Control');
         $cacheControl = $response->headers->get('Cache-Control');
+        $this->assertNotNull($cacheControl);
         $this->assertStringContainsString('no-cache', $cacheControl);
         $this->assertStringContainsString('no-store', $cacheControl);
         $this->assertStringContainsString('must-revalidate', $cacheControl);
