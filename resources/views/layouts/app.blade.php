@@ -8,13 +8,13 @@
     <meta name="keywords" content="markdown, spip, convertisseur, conversion, en ligne, gratuit">
     <meta name="author" content="Guillaume Orsal">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://markdown2spip.orsal.fr/">
+    <link rel="canonical" href="{{ url('/') }}">
 
     {{-- Open Graph --}}
     <meta property="og:type" content="website">
     <meta property="og:title" content="Markdown to SPIP - Convertisseur en ligne">
     <meta property="og:description" content="Convertissez instantanément votre Markdown en syntaxe SPIP. Gratuit et respectueux de votre vie privée.">
-    <meta property="og:url" content="https://markdown2spip.orsal.fr/">
+    <meta property="og:url" content="{{ url('/') }}">
     <meta property="og:locale" content="fr_FR">
 
     {{-- Twitter Card --}}
@@ -36,7 +36,7 @@
         "name": "Markdown to SPIP",
         "alternateName": "markdown2spip",
         "description": "Convertisseur en ligne gratuit pour transformer du Markdown en syntaxe SPIP. Instantané, sans inscription, respectueux de la vie privée.",
-        "url": "https://markdown2spip.orsal.fr/",
+        "url": "{{ url('/') }}",
         "applicationCategory": "UtilitiesApplication",
         "operatingSystem": "Any",
         "browserRequirements": "Requires JavaScript",
