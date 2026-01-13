@@ -236,17 +236,6 @@
                 <span class="text-gray-700 dark:text-slate-300 text-sm font-medium uppercase">Spip</span>
 
                 <div class="flex items-center gap-3">
-                    {{-- Request counter (minute glissante, mise à jour auto) --}}
-                    <span
-                        wire:poll.1s
-                        class="text-xs font-mono text-gray-600 dark:text-slate-400"
-                        aria-live="polite"
-                        aria-atomic="true"
-                        aria-label="Compteur de requêtes"
-                    >
-                        {{ $this->requestCount }}/300 req/min
-                    </span>
-
                     {{-- Copy button --}}
                     <button
                         x-data="{ copied: false }"

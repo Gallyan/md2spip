@@ -200,23 +200,6 @@ class MarkdownToSpipPageTest extends TestCase
     }
 
     /**
-     * Vérifie que le compteur de requêtes s'incrémente
-     * à chaque conversion effectuée.
-     */
-    public function test_request_counter_increments(): void
-    {
-        $component = Livewire::test(MarkdownToSpipPage::class);
-
-        // Première requête
-        $component->set('markdown', 'Test 1');
-        $this->assertGreaterThan(0, $component->get('requestCount'));
-
-        // Deuxième requête
-        $component->set('markdown', 'Test 2');
-        $this->assertGreaterThan(1, $component->get('requestCount'));
-    }
-
-    /**
      * Vérifie que le rate limiter bloque les requêtes excessives
      * après avoir atteint la limite de MAX_ATTEMPTS (300) par minute.
      */

@@ -38,22 +38,6 @@ class MarkdownToSpipPage extends Component
     }
 
     /**
-     * Calcule le nombre de requêtes de conversion effectuées par l'utilisateur.
-     *
-     * @return int Nombre de requêtes effectuées (MAX_ATTEMPTS - remaining)
-     */
-    #[Computed]
-    public function requestCount(): int
-    {
-        $key = 'markdown-convert:'.request()->ip();
-
-        // Calculer le nombre de requêtes effectuées : max - remaining
-        $remaining = RateLimiter::remaining($key, self::MAX_ATTEMPTS);
-
-        return self::MAX_ATTEMPTS - $remaining;
-    }
-
-    /**
      * Déclenché automatiquement à chaque modification du texte Markdown.
      *
      * Vérifie la taille du texte et le rate limiting avant de convertir.
