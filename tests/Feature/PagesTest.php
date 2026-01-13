@@ -32,8 +32,8 @@ class PagesTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('Mentions légales');
-        $response->assertSee('Guillaume Orsal');
-        $response->assertSee('OVH');
+        $response->assertSee('Éditeur du site');
+        $response->assertSee('Hébergement');
     }
 
     /**
