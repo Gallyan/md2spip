@@ -81,7 +81,8 @@ class MarkdownToSpipPage extends Component
         }
 
         $file = $dir.'/stats.json';
-        $stats = file_exists($file) ? json_decode(file_get_contents($file), true) : [];
+        $content = file_exists($file) ? file_get_contents($file) : '';
+        $stats = $content ? json_decode($content, true) : [];
         $today = date('Y-m-d');
         $stats[$today][$key] = ($stats[$today][$key] ?? 0) + $value;
         file_put_contents($file, json_encode($stats, JSON_PRETTY_PRINT));
