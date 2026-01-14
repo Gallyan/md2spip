@@ -3,7 +3,7 @@
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL%203.0-blue.svg)](LICENSE)
 [![PHP Version](https://img.shields.io/badge/PHP-8.4-777BB4?logo=php&logoColor=white)](https://www.php.net/)
 [![Laravel Version](https://img.shields.io/badge/Laravel-12-FF2D20?logo=laravel&logoColor=white)](https://laravel.com/)
-[![Tests](https://img.shields.io/badge/tests-50%20passed-success)](tests/)
+[![Livewire](https://img.shields.io/badge/Livewire-3-FB70A9?logo=livewire&logoColor=white)](https://livewire.laravel.com/)
 
 Convertisseur en ligne Markdown vers syntaxe SPIP, en temps réel.
 
@@ -17,10 +17,8 @@ Convertisseur en ligne Markdown vers syntaxe SPIP, en temps réel.
 - **Interface split-view** : Markdown à gauche, SPIP à droite
 - **Copie en un clic** vers le presse-papier avec feedback visuel
 - **Persistance locale** : Texte sauvegardé dans localStorage du navigateur (navigation sans perte)
-- **Compteur de caractères** en temps réel (limite : 100 000 caractères)
+- **Compteur de caractères** en temps réel
 - **Aide contextuelle** avec popover expliquant les conversions supportées
-- **Aucun stockage serveur** (RGPD-friendly) - données uniquement dans votre navigateur
-- **Rate limiting** : 300 requêtes par minute par IP
 - **Responsive** (mobile/desktop)
 - **Mode sombre** par défaut
 
@@ -46,37 +44,16 @@ Convertisseur en ligne Markdown vers syntaxe SPIP, en temps réel.
 - Les blocs de code peuvent inclure un nom de langage (```js, ```php, etc.) qui sera automatiquement supprimé.
 - L'underscore `_` fonctionne exactement comme l'astérisque `*` pour le formatage.
 
-## Stack technique
-
-- Laravel 12
-- Livewire 3
-- Tailwind CSS 4
-- Alpine.js
-
 ## Installation locale
 
 ```bash
 git clone https://github.com/Gallyan/md2spip.git
 cd md2spip
 composer run setup
-```
-
-Cette commande exécute automatiquement :
-- `composer install` (dépendances PHP)
-- Copie de `.env.example` vers `.env`
-- Copie de `mentions-legales.EXAMPLE.blade.php` vers `mentions-legales.blade.php`
-- `php artisan key:generate` (clé d'application Laravel)
-- `npm install` (dépendances front-end)
-- `npm run build` (compilation des assets Tailwind/Vite)
-
-Lancez ensuite le serveur de développement :
-```bash
 php artisan serve
 ```
 
-### Mentions légales
-
-Personnalisez `resources/views/mentions-legales.blade.php` (créé automatiquement depuis le template `.EXAMPLE`) avec vos informations et votre email de contact dans `.env` (`CONTACT_EMAIL`).
+Personnalisez `resources/views/mentions-legales.blade.php` avec vos informations légales et `CONTACT_EMAIL` dans `.env`.
 
 ## Tests
 
@@ -101,10 +78,6 @@ Le workflow exécute :
 - **Tests** (PHP 8.2, 8.3 et 8.4 avec PHPUnit - 50 tests)
 - **PHPStan level 6** (analyse statique)
 
-## Sécurité
+## Vie privée
 
-- **Rate limiting** : 300 requêtes/minute par IP
-- **Validation** : Limite de 100 000 caractères
-- **En-têtes de sécurité** : CSP, X-Frame-Options, HSTS, Permissions-Policy
-- **Cookies sécurisés** : httpOnly, secure, sameSite=strict
-- **Pas de base de données** : Aucune donnée utilisateur stockée
+Aucune donnée utilisateur n'est stockée côté serveur. Tout reste dans votre navigateur.
