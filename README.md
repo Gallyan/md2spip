@@ -1,9 +1,9 @@
 # Markdown to SPIP
 
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL%203.0-blue.svg)](LICENSE)
-[![PHP Version](https://img.shields.io/badge/PHP-8.2%2B-777BB4?logo=php&logoColor=white)](https://www.php.net/)
+[![PHP Version](https://img.shields.io/badge/PHP-8.4-777BB4?logo=php&logoColor=white)](https://www.php.net/)
 [![Laravel Version](https://img.shields.io/badge/Laravel-12-FF2D20?logo=laravel&logoColor=white)](https://laravel.com/)
-[![Tests](https://img.shields.io/badge/tests-51%20passed-success)](tests/)
+[![Tests](https://img.shields.io/badge/tests-50%20passed-success)](tests/)
 [![Lighthouse](https://img.shields.io/badge/Lighthouse-100%2F100-success?logo=lighthouse)](https://markdown2spip.orsal.fr)
 [![Accessibility](https://img.shields.io/badge/A11y-100%2F100-success)](https://markdown2spip.orsal.fr)
 
@@ -20,7 +20,6 @@ Convertisseur en ligne Markdown vers syntaxe SPIP, en temps réel.
 - **Copie en un clic** vers le presse-papier avec feedback visuel
 - **Persistance locale** : Texte sauvegardé dans localStorage du navigateur (navigation sans perte)
 - **Compteur de caractères** en temps réel (limite : 100 000 caractères)
-- **Compteur de requêtes** par minute (fenêtre glissante de 60 secondes)
 - **Aide contextuelle** avec popover expliquant les conversions supportées
 - **Aucun stockage serveur** (RGPD-friendly) - données uniquement dans votre navigateur
 - **Rate limiting** : 300 requêtes par minute par IP
@@ -53,7 +52,7 @@ Convertisseur en ligne Markdown vers syntaxe SPIP, en temps réel.
 
 - Laravel 12
 - Livewire 3
-- TailwindCSS
+- Tailwind CSS 4
 - Alpine.js
 
 ## Installation locale
@@ -118,13 +117,13 @@ php artisan test --testsuite=Unit
 php artisan test --testsuite=Feature
 ```
 
-**Couverture :** 51 tests / 84 assertions
+**Couverture :** 50 tests / 84 assertions
 
 Pour plus de détails sur l'évolution du projet, consultez le [CHANGELOG](CHANGELOG.md).
 
 ## Accessibilité
 
-**Scores Lighthouse : 100/100 partout ! 🎉**
+**Scores Lighthouse : 100/100 partout**
 - ✅ **Performance : 100/100**
 - ✅ **Accessibilité : 100/100**
 - ✅ **Best Practices : 100/100**
@@ -159,7 +158,7 @@ Le projet utilise GitHub Actions pour l'intégration continue :
 ```
 
 Le workflow exécute :
-- **Tests** (PHP 8.2, 8.3 et 8.4 avec PHPUnit - 51 tests, 84 assertions)
+- **Tests** (PHP 8.2, 8.3 et 8.4 avec PHPUnit - 50 tests, 84 assertions)
 - **PHPStan level 6** (analyse statique - 0 erreur)
 
 Pour activer les déclenchements automatiques sur push/PR, décommentez les lignes correspondantes dans `.github/workflows/tests.yml`.
