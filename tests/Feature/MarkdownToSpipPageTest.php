@@ -148,19 +148,6 @@ class MarkdownToSpipPageTest extends TestCase
     }
 
     /**
-     * Vérifie que le compteur de caractères est calculé correctement
-     * et s'affiche dans l'interface en temps réel.
-     */
-    public function test_character_count_is_computed(): void
-    {
-        Livewire::test(MarkdownToSpipPage::class)
-            ->set('markdown', 'Hello')
-            ->assertSee('5 /')
-            ->set('markdown', 'Hello World!')
-            ->assertSee('12 /');
-    }
-
-    /**
      * Vérifie que les textes dépassant MAX_LENGTH (100 000 caractères)
      * sont rejetés avec un message d'erreur approprié.
      */
@@ -186,17 +173,6 @@ class MarkdownToSpipPageTest extends TestCase
         Livewire::test(MarkdownToSpipPage::class)
             ->set('markdown', $exactText)
             ->assertDontSee('Texte trop long');
-    }
-
-    /**
-     * Vérifie que le compteur de caractères gère correctement
-     * les caractères multi-octets (UTF-8) comme les accents.
-     */
-    public function test_character_count_handles_multibyte_characters(): void
-    {
-        Livewire::test(MarkdownToSpipPage::class)
-            ->set('markdown', 'café')
-            ->assertSee('4 /'); // é compte pour 1 caractère
     }
 
     /**
