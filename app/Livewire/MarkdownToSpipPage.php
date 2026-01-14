@@ -13,14 +13,14 @@ use Livewire\Component;
  * Composant Livewire de la page principale de conversion Markdown vers SPIP.
  *
  * Gère la conversion en temps réel avec validation de taille et rate limiting
- * pour protéger contre les abus (300 requêtes/minute, max 100KB de texte).
+ * pour protéger contre les abus (200 requêtes/minute, max 100KB de texte).
  */
 #[Layout('layouts.app')]
 class MarkdownToSpipPage extends Component
 {
     public const MAX_LENGTH = 100000; // 100KB
 
-    public const MAX_ATTEMPTS = 300; // Requêtes par minute
+    public const MAX_ATTEMPTS = 200; // Requêtes par minute
 
     public string $markdown = '';
 
