@@ -74,48 +74,15 @@ Lancez ensuite le serveur de développement :
 php artisan serve
 ```
 
-### Configuration des mentions légales
+### Mentions légales
 
-Après l'installation, un fichier `resources/views/mentions-legales.blade.php` est automatiquement créé depuis le template `.EXAMPLE`. Vous devez le personnaliser avec vos informations :
-
-1. **Informations légales** : Éditeur du site, hébergeur, SIRET, adresse, etc.
-
-2. **Email de contact obfusqué** :
-   - Définissez votre email dans `.env` :
-     ```env
-     CONTACT_EMAIL=votre-email@example.com
-     ```
-   - Dans `mentions-legales.blade.php`, modifiez les attributs `data-email-*` :
-     ```html
-     <span class="protected-email" data-email-user="votre-identifiant" data-email-domain="example.com">
-     ```
-
-   L'email est protégé contre les robots spammeurs par obfuscation CSS tout en restant cliquable via la route `/contact-email`.
-
-   Pour plus de détails sur la méthode d'obfuscation utilisée, consultez l'article : [Obfuscation d'email : CSS vs JavaScript](https://www.orsal.fr/Obfuscation-d-email-CSS-vs)
-
-**Note :** Le fichier `mentions-legales.blade.php` est dans `.gitignore` pour protéger vos informations personnelles. Seul le template `.EXAMPLE` est versionné.
-
-## Développement
-
-```bash
-npm run dev
-```
+Personnalisez `resources/views/mentions-legales.blade.php` (créé automatiquement depuis le template `.EXAMPLE`) avec vos informations et votre email de contact dans `.env` (`CONTACT_EMAIL`).
 
 ## Tests
 
 ```bash
-# Lancer tous les tests
 php artisan test
-
-# Tests unitaires uniquement
-php artisan test --testsuite=Unit
-
-# Tests fonctionnels uniquement
-php artisan test --testsuite=Feature
 ```
-
-**Couverture :** 50 tests / 84 assertions
 
 Pour plus de détails sur l'évolution du projet, consultez le [CHANGELOG](CHANGELOG.md).
 
