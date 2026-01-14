@@ -4,12 +4,10 @@
 [![PHP Version](https://img.shields.io/badge/PHP-8.4-777BB4?logo=php&logoColor=white)](https://www.php.net/)
 [![Laravel Version](https://img.shields.io/badge/Laravel-12-FF2D20?logo=laravel&logoColor=white)](https://laravel.com/)
 [![Tests](https://img.shields.io/badge/tests-50%20passed-success)](tests/)
-[![Lighthouse](https://img.shields.io/badge/Lighthouse-100%2F100-success?logo=lighthouse)](https://markdown2spip.orsal.fr)
-[![Accessibility](https://img.shields.io/badge/A11y-100%2F100-success)](https://markdown2spip.orsal.fr)
 
 Convertisseur en ligne Markdown vers syntaxe SPIP, en temps réel.
 
-**[✨ Démo en ligne](https://markdown2spip.orsal.fr)**
+**[Démo en ligne](https://markdown2spip.orsal.fr)**
 
 ![Interface desktop du convertisseur Markdown vers SPIP](.github/assets/markdown-spip-converter-desktop-interface.png)
 
@@ -123,30 +121,10 @@ Pour plus de détails sur l'évolution du projet, consultez le [CHANGELOG](CHANG
 
 ## Accessibilité
 
-**Scores Lighthouse : 100/100 partout**
-- ✅ **Performance : 100/100**
-- ✅ **Accessibilité : 100/100**
-- ✅ **Best Practices : 100/100**
-- ✅ **SEO : 100/100**
-
-**Fonctionnalités d'accessibilité :**
-- Attributs ARIA complets sur tous les éléments interactifs
-- Focus visible amélioré (ring emerald-500) sur tous les contrôles
-- Navigation au clavier : Tab traverse tous les boutons et champs
-- Annonces vocales : aria-live sur les compteurs et feedbacks (copié, effacé)
-- Modales accessibles : role="dialog", aria-modal, support Échap
-- Icônes décoratives : aria-hidden="true" pour les lecteurs d'écran
-- Labels explicites : aria-label sur tous les boutons icon-only
-
-### Auditer avec Lighthouse
-
-**Chrome DevTools** :
-1. Ouvrir Chrome DevTools (F12)
-2. Onglet "Lighthouse"
-3. Sélectionner les catégories (Accessibility, Performance, SEO...)
-4. Cliquer "Analyze page load"
-
-**Note** : L'application n'utilise aucune ressource externe (pas de CDN, Google Fonts, etc.), ce qui explique le message "no origins were preconnected" - c'est positif pour la performance et la vie privée.
+- **Lighthouse** : 100/100 (Performance, Accessibilité, Best Practices, SEO)
+- Navigation au clavier complète
+- Support ARIA et lecteurs d'écran
+- Aucune ressource externe (pas de CDN, Google Fonts)
 
 ## CI/CD
 
@@ -158,15 +136,8 @@ Le workflow exécute :
 
 ## Sécurité
 
-- **Rate limiting** : 300 requêtes par minute par IP (fenêtre glissante de 60 secondes)
-- **Validation des entrées** : Limite de 100 000 caractères
-- **En-têtes de sécurité** (via middleware Laravel intelligent) :
-  - `X-Frame-Options: SAMEORIGIN` (protection clickjacking)
-  - `X-Content-Type-Options: nosniff` (protection MIME sniffing)
-  - `Content-Security-Policy` (CSP avec `'unsafe-inline'` et `'unsafe-eval'` pour Alpine.js)
-  - `Referrer-Policy: strict-origin-when-cross-origin`
-  - `Permissions-Policy` (désactivation APIs sensibles : geolocation, camera, microphone, etc.)
-  - `Strict-Transport-Security` (HSTS) géré par Apache en production HTTPS
-  - **Middleware intelligent** : Détecte et respecte les en-têtes définis par Apache (pas de duplication)
+- **Rate limiting** : 300 requêtes/minute par IP
+- **Validation** : Limite de 100 000 caractères
+- **En-têtes de sécurité** : CSP, X-Frame-Options, HSTS, Permissions-Policy
 - **Cookies sécurisés** : httpOnly, secure, sameSite=strict
 - **Pas de base de données** : Aucune donnée utilisateur stockée
