@@ -65,10 +65,8 @@ Pour plus de détails sur l'évolution du projet, consultez le [CHANGELOG](CHANG
 
 ## Accessibilité
 
-- **Lighthouse** : 100/100 (Performance, Accessibilité, Best Practices, SEO)
 - Navigation au clavier complète
 - Support ARIA et lecteurs d'écran
-- Aucune ressource externe (pas de CDN, Google Fonts)
 
 ## Vie privée
 
