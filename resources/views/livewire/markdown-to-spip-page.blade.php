@@ -128,6 +128,7 @@
                         x-data="{ copied: false }"
                         @click="
                             navigator.clipboard.writeText(document.getElementById('spip-output').innerText);
+                            $wire.countCopy();
                             copied = true;
                             setTimeout(() => copied = false, 1500)
                         "

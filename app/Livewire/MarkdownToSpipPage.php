@@ -32,6 +32,12 @@ class MarkdownToSpipPage extends Component
      */
     public function updatedMarkdown(): void
     {
+        // Stats : compter la session (une seule fois par session)
+        if (! session()->has('stats_counted')) {
+            $this->incrementStat('sessions');
+            session()->put('stats_counted', true);
+        }
+
         // Validation taille
         if (mb_strlen($this->markdown) > self::MAX_LENGTH) {
             $this->spip = 'Texte trop long (maximum '.number_format(self::MAX_LENGTH, 0, ',', ' ').' caractères).';
@@ -52,6 +58,33 @@ class MarkdownToSpipPage extends Component
         RateLimiter::hit($key, 60);
 
         $this->spip = MarkdownToSpipConverter::convert($this->markdown);
+    }
+
+    /**
+     * Appelé lors du clic sur le bouton copier.
+     * Comptabilise les stats de copie.
+     */
+    public function countCopy(): void
+    {
+        $this->incrementStat('copies');
+        $this->incrementStat('total_chars', mb_strlen($this->markdown));
+    }
+
+    /**
+     * Incrémente une statistique dans le fichier JSON.
+     */
+    private function incrementStat(string $key, int $value = 1): void
+    {
+        $dir = storage_path('stats');
+        if (! is_dir($dir)) {
+            mkdir($dir, 0755, true);
+        }
+
+        $file = $dir.'/stats.json';
+        $stats = file_exists($file) ? json_decode(file_get_contents($file), true) : [];
+        $today = date('Y-m-d');
+        $stats[$today][$key] = ($stats[$today][$key] ?? 0) + $value;
+        file_put_contents($file, json_encode($stats, JSON_PRETTY_PRINT));
     }
 
     /**
