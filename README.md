@@ -150,18 +150,11 @@ Pour plus de détails sur l'évolution du projet, consultez le [CHANGELOG](CHANG
 
 ## CI/CD
 
-Le projet utilise GitHub Actions pour l'intégration continue :
-
-```bash
-# Lancer manuellement le workflow depuis l'interface GitHub
-# Actions → Tests & Quality → Run workflow
-```
+Le projet utilise GitHub Actions pour l'intégration continue. Le workflow se déclenche automatiquement sur push et pull request vers `main`.
 
 Le workflow exécute :
-- **Tests** (PHP 8.2, 8.3 et 8.4 avec PHPUnit - 50 tests, 84 assertions)
-- **PHPStan level 6** (analyse statique - 0 erreur)
-
-Pour activer les déclenchements automatiques sur push/PR, décommentez les lignes correspondantes dans `.github/workflows/tests.yml`.
+- **Tests** (PHP 8.2, 8.3 et 8.4 avec PHPUnit - 50 tests)
+- **PHPStan level 6** (analyse statique)
 
 ## Sécurité
 
@@ -177,4 +170,3 @@ Pour activer les déclenchements automatiques sur push/PR, décommentez les lign
   - **Middleware intelligent** : Détecte et respecte les en-têtes définis par Apache (pas de duplication)
 - **Cookies sécurisés** : httpOnly, secure, sameSite=strict
 - **Pas de base de données** : Aucune donnée utilisateur stockée
-- **Cache éphémère** : Timestamps de requêtes conservés 70 secondes maximum
