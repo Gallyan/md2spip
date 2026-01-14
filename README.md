@@ -18,7 +18,7 @@ Convertisseur en ligne Markdown vers syntaxe SPIP, en temps réel.
 - **Copie en un clic** vers le presse-papier avec feedback visuel
 - **Persistance locale** : Texte sauvegardé dans localStorage du navigateur (navigation sans perte)
 - **Compteur de caractères** en temps réel
-- **Aide contextuelle** avec popover expliquant les conversions supportées
+- **Aide contextuelle**
 - **Responsive** (mobile/desktop)
 - **Mode sombre** par défaut
 
