@@ -17,8 +17,7 @@ Première version stable du convertisseur Markdown vers SPIP.
 - Italique (`*italique*` → `{italique}`)
 - Gras et italique combinés (`***texte***` → `{{{texte}}}`)
 - Texte barré (`~~barré~~` → `<del>barré</del>`)
-- Code inline (`` `code` `` → `<code>code</code>`)
-- Blocs de code avec suppression automatique de l'identifiant de langage
+- Code inline et blocs de code
 - Liens (`[texte](url)` → `[texte->url]`)
 - Listes à puces (`- item` → `-* item`)
 - Citations (`> citation` → `<quote>citation</quote>`)
@@ -26,46 +25,23 @@ Première version stable du convertisseur Markdown vers SPIP.
 
 ### Interface utilisateur
 
-- Interface en deux colonnes : Markdown à gauche, SPIP à droite
-- Conversion en temps réel avec debounce de 50ms
-- Bouton de copie vers le presse-papier avec retour visuel
-- Bouton d'effacement du texte
-- Compteur de caractères en temps réel (limite : 100 000 caractères)
-- Mode sombre activé par défaut avec bascule
-- Sauvegarde automatique dans le localStorage du navigateur
-- Modale d'aide listant toutes les conversions supportées
-- Gestion élégante de l'expiration de session (erreur 419)
+- Interface en deux colonnes avec conversion en temps réel
+- Copie en un clic vers le presse-papier
+- Compteur de caractères
+- Mode sombre par défaut
+- Sauvegarde automatique dans le navigateur
+- Modale d'aide
 
 ### Accessibilité
 
-- Support complet ARIA (labels, rôles, descriptions)
-- Navigation au clavier sur tous les éléments interactifs
+- Support ARIA complet
+- Navigation au clavier
 - Compatibilité lecteurs d'écran
-- Score Lighthouse Accessibilité : 100/100
-
-### Sécurité et performance
-
-- Rate limiting : 300 requêtes/minute par IP
-- Headers de sécurité complets (CSP, X-Frame-Options, etc.)
-- Protection anti-spam de l'email de contact
-- Aucune donnée stockée côté serveur (respect RGPD)
-- Score Lighthouse Performance : 100/100
 
 ### SEO
 
-- Balises meta complètes (Open Graph, Twitter Card)
-- Données structurées Schema.org (WebApplication)
-- URL canonique dynamique
+- Données structurées Schema.org
 
-### Pages
+### Vie privée
 
-- Page principale de conversion
-- Mentions légales
-
-### Stack technique
-
-- Laravel 12
-- Livewire 3
-- Alpine.js
-- Tailwind CSS 4
-- PHP 8.3
+- Aucune donnée stockée côté serveur

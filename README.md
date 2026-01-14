@@ -13,7 +13,7 @@ Convertisseur en ligne Markdown vers syntaxe SPIP, en temps réel.
 
 ## Fonctionnalités
 
-- **Conversion en temps réel** avec debounce de 50ms (pas de bouton "Convertir")
+- **Conversion en temps réel** (pas de bouton "Convertir")
 - **Interface split-view** : Markdown à gauche, SPIP à droite
 - **Copie en un clic** vers le presse-papier avec feedback visuel
 - **Persistance locale** : Texte sauvegardé dans localStorage du navigateur (navigation sans perte)
@@ -69,14 +69,6 @@ Pour plus de détails sur l'évolution du projet, consultez le [CHANGELOG](CHANG
 - Navigation au clavier complète
 - Support ARIA et lecteurs d'écran
 - Aucune ressource externe (pas de CDN, Google Fonts)
-
-## CI/CD
-
-Le projet utilise GitHub Actions pour l'intégration continue. Le workflow se déclenche automatiquement sur push et pull request vers `main`.
-
-Le workflow exécute :
-- **Tests** (PHP 8.2, 8.3 et 8.4 avec PHPUnit - 50 tests)
-- **PHPStan level 6** (analyse statique)
 
 ## Vie privée
 
