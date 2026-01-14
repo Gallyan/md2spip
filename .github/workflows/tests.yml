@@ -62,7 +62,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: '8.4'
           extensions: dom, curl, libxml, mbstring, zip
           coverage: none
 
@@ -75,24 +75,23 @@ jobs:
       - name: Run PHPStan
         run: ./vendor/bin/phpstan analyse --memory-limit=256M
 
-  # Décommenter pour activer la vérification du formatage
-  # pint:
-  #   name: Laravel Pint (Code Style)
-  #   runs-on: ubuntu-latest
-  #
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
-  #
-  #     - name: Setup PHP
-  #       uses: shivammathur/setup-php@v2
-  #       with:
-  #         php-version: '8.2'
-  #         extensions: dom, curl, libxml, mbstring, zip
-  #         coverage: none
-  #
-  #     - name: Install Composer dependencies
-  #       run: composer install --prefer-dist --no-interaction --no-progress
-  #
-  #     - name: Run Laravel Pint
-  #       run: ./vendor/bin/pint --test
+  pint:
+    name: Laravel Pint (Code Style)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: dom, curl, libxml, mbstring, zip
+          coverage: none
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Run Laravel Pint
+        run: ./vendor/bin/pint --test
