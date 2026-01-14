@@ -31,8 +31,8 @@
     {{-- Schema.org JSON-LD --}}
     <script type="application/ld+json">
     {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
+        "@@context": "https://schema.org",
+        "@@type": "WebApplication",
         "name": "Markdown to SPIP",
         "alternateName": "markdown2spip",
         "description": "Convertisseur en ligne gratuit pour transformer du Markdown en syntaxe SPIP. Instantané, sans inscription, respectueux de la vie privée.",
@@ -42,17 +42,17 @@
         "browserRequirements": "Requires JavaScript",
         "permissions": "none",
         "offers": {
-            "@type": "Offer",
+            "@@type": "Offer",
             "price": "0",
             "priceCurrency": "EUR"
         },
         "author": {
-            "@type": "Person",
+            "@@type": "Person",
             "name": "Guillaume Orsal",
             "url": "https://www.orsal.fr"
         },
         "publisher": {
-            "@type": "Person",
+            "@@type": "Person",
             "name": "Guillaume Orsal",
             "url": "https://www.orsal.fr"
         },
