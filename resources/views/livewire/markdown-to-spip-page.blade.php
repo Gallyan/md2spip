@@ -74,12 +74,11 @@
                     {{-- Character counter --}}
                     <span
                         class="text-xs font-mono"
-                        :class="$wire.characterCount > {{ \App\Livewire\MarkdownToSpipPage::MAX_LENGTH }} ? 'text-red-400' : 'text-slate-400'"
+                        :class="($wire.markdown || '').length > {{ \App\Livewire\MarkdownToSpipPage::MAX_LENGTH }} ? 'text-red-400' : 'text-slate-400'"
                         aria-live="polite"
                         aria-atomic="true"
-                    >
-                        {{ number_format($this->characterCount, 0, ',', ' ') }} / 100k car.
-                    </span>
+                        x-text="[...($wire.markdown || '')].length.toLocaleString('fr-FR') + ' / 100k car.'"
+                    ></span>
 
                     {{-- Clear button --}}
                     <button

@@ -5,7 +5,6 @@ namespace App\Livewire;
 use App\Support\MarkdownToSpipConverter;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\RateLimiter;
-use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -25,17 +24,6 @@ class MarkdownToSpipPage extends Component
     public string $markdown = '';
 
     public string $spip = '';
-
-    /**
-     * Calcule le nombre de caractères du texte Markdown saisi.
-     *
-     * @return int Nombre de caractères (gestion correcte des caractères multi-octets)
-     */
-    #[Computed]
-    public function characterCount(): int
-    {
-        return mb_strlen($this->markdown);
-    }
 
     /**
      * Déclenché automatiquement à chaque modification du texte Markdown.
