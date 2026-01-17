@@ -68,7 +68,7 @@
         {{-- Markdown input --}}
         <div class="flex flex-col border-r border-gray-300 dark:border-slate-700 min-h-0">
             <div class="bg-gray-100 dark:bg-slate-800 px-4 py-2 border-b border-gray-300 dark:border-slate-700 flex items-center justify-between transition-colors">
-                <span class="text-gray-700 dark:text-slate-300 text-sm font-medium uppercase">Markdown</span>
+                <span class="text-gray-700 dark:text-slate-300 text-sm font-semibold uppercase tracking-wide">Markdown</span>
 
                 <div class="flex items-center gap-3">
                     {{-- Character counter --}}
@@ -121,7 +121,7 @@
         {{-- SPIP output --}}
         <div class="flex flex-col min-h-0">
             <div class="bg-gray-100 dark:bg-slate-800 px-4 py-2 border-b border-gray-300 dark:border-slate-700 flex items-center justify-between transition-colors">
-                <span class="text-gray-700 dark:text-slate-300 text-sm font-medium uppercase">Spip</span>
+                <span class="text-gray-700 dark:text-slate-300 text-sm font-semibold uppercase tracking-wide">Spip</span>
 
                 <div class="flex items-center gap-3">
                     {{-- Copy button --}}
