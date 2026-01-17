@@ -128,13 +128,15 @@
                     <button
                         x-data="{ copied: false }"
                         @click="
+                            if (!$wire.spip) return;
                             navigator.clipboard.writeText(document.getElementById('spip-output').innerText);
                             $wire.countCopy();
                             copied = true;
                             setTimeout(() => copied = false, 1500)
                         "
-                        :class="copied ? 'text-emerald-500 dark:text-emerald-400' : 'text-gray-600 dark:text-slate-300 hover:text-emerald-500 dark:hover:text-emerald-400'"
-                        class="cursor-pointer transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded"
+                        :class="!$wire.spip ? 'text-gray-300/70 dark:text-slate-600 cursor-not-allowed' : (copied ? 'text-emerald-500 dark:text-emerald-400 cursor-pointer' : 'text-gray-600 dark:text-slate-300 hover:text-emerald-500 dark:hover:text-emerald-400 cursor-pointer')"
+                        :disabled="!$wire.spip"
+                        class="transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded"
                         title="Copier le résultat SPIP"
                         aria-label="Copier le résultat SPIP dans le presse-papier"
                     >
