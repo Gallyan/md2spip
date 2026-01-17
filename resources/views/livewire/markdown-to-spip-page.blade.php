@@ -48,7 +48,7 @@
         {{-- Theme toggle button (right side) --}}
         <button
             @click="toggleTheme()"
-            class="w-6 h-6 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-300 flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800"
+            class="cursor-pointer w-6 h-6 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-300 flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800"
             :title="darkMode ? 'Passer en mode clair' : 'Passer en mode sombre'"
             :aria-label="darkMode ? 'Activer le mode clair' : 'Activer le mode sombre'"
         >
@@ -89,7 +89,7 @@
                             setTimeout(() => cleared = false, 1500)
                         "
                         :class="cleared ? 'text-red-400' : 'text-gray-600 dark:text-slate-300 hover:text-red-400'"
-                        class="transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded"
+                        class="cursor-pointer transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded"
                         title="Effacer tout le texte"
                         aria-label="Effacer tout le texte Markdown"
                     >
@@ -133,7 +133,7 @@
                             setTimeout(() => copied = false, 1500)
                         "
                         :class="copied ? 'text-emerald-500 dark:text-emerald-400' : 'text-gray-600 dark:text-slate-300 hover:text-emerald-500 dark:hover:text-emerald-400'"
-                        class="transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded"
+                        class="cursor-pointer transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded"
                         title="Copier le résultat SPIP"
                         aria-label="Copier le résultat SPIP dans le presse-papier"
                     >
