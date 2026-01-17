@@ -85,6 +85,7 @@
                         x-data="{ cleared: false }"
                         @click="
                             $wire.markdown = '';
+                            $wire.spip = '';
                             cleared = true;
                             setTimeout(() => cleared = false, 1500)
                         "
@@ -151,7 +152,20 @@
                     </button>
                 </div>
             </div>
-            <pre id="spip-output" class="flex-1 w-full bg-gray-50 dark:bg-slate-950 text-emerald-600 dark:text-emerald-400 p-4 font-mono text-sm overflow-auto whitespace-pre-wrap transition-colors" role="region" aria-label="Résultat de la conversion en syntaxe SPIP" aria-live="polite">{{ $spip }}</pre>
+            <div class="flex-1 w-full bg-gray-50 dark:bg-slate-950 p-4 overflow-auto transition-colors relative" role="region" aria-label="Résultat de la conversion en syntaxe SPIP" aria-live="polite">
+                {{-- Empty state --}}
+                <div
+                    x-show="!$wire.spip"
+                    class="absolute inset-0 flex items-center justify-center text-gray-400 dark:text-slate-500"
+                >
+                    <p class="text-center">
+                        <span class="block text-2xl mb-2">→</span>
+                        Le résultat SPIP apparaîtra ici
+                    </p>
+                </div>
+                {{-- Output --}}
+                <pre id="spip-output" class="font-mono text-sm text-emerald-600 dark:text-emerald-400 whitespace-pre-wrap" x-show="$wire.spip">{{ $spip }}</pre>
+            </div>
         </div>
     </main>
 
