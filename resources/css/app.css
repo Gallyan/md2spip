@@ -4,3 +4,73 @@
 
 @source '../**/*.blade.php';
 @source '../**/*.js';
+
+@layer base {
+    textarea,
+    [class*="overflow-auto"],
+    [class*="overflow-y-auto"],
+    [class*="overflow-x-auto"] {
+        scrollbar-width: thin;
+        scrollbar-color: rgb(203 213 225) transparent;
+    }
+
+    .dark textarea,
+    .dark [class*="overflow-auto"],
+    .dark [class*="overflow-y-auto"],
+    .dark [class*="overflow-x-auto"] {
+        scrollbar-color: rgb(51 65 85) transparent;
+    }
+
+    textarea::-webkit-scrollbar,
+    [class*="overflow-auto"]::-webkit-scrollbar,
+    [class*="overflow-y-auto"]::-webkit-scrollbar,
+    [class*="overflow-x-auto"]::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+
+    textarea::-webkit-scrollbar-track,
+    [class*="overflow-auto"]::-webkit-scrollbar-track,
+    [class*="overflow-y-auto"]::-webkit-scrollbar-track,
+    [class*="overflow-x-auto"]::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    textarea::-webkit-scrollbar-thumb,
+    [class*="overflow-auto"]::-webkit-scrollbar-thumb,
+    [class*="overflow-y-auto"]::-webkit-scrollbar-thumb,
+    [class*="overflow-x-auto"]::-webkit-scrollbar-thumb {
+        background-color: rgb(203 213 225);
+        border-radius: 9999px;
+        border: 2px solid transparent;
+        background-clip: padding-box;
+    }
+
+    textarea::-webkit-scrollbar-thumb:hover,
+    [class*="overflow-auto"]::-webkit-scrollbar-thumb:hover,
+    [class*="overflow-y-auto"]::-webkit-scrollbar-thumb:hover,
+    [class*="overflow-x-auto"]::-webkit-scrollbar-thumb:hover {
+        background-color: rgb(148 163 184);
+    }
+
+    .dark textarea::-webkit-scrollbar-thumb,
+    .dark [class*="overflow-auto"]::-webkit-scrollbar-thumb,
+    .dark [class*="overflow-y-auto"]::-webkit-scrollbar-thumb,
+    .dark [class*="overflow-x-auto"]::-webkit-scrollbar-thumb {
+        background-color: rgb(51 65 85);
+    }
+
+    .dark textarea::-webkit-scrollbar-thumb:hover,
+    .dark [class*="overflow-auto"]::-webkit-scrollbar-thumb:hover,
+    .dark [class*="overflow-y-auto"]::-webkit-scrollbar-thumb:hover,
+    .dark [class*="overflow-x-auto"]::-webkit-scrollbar-thumb:hover {
+        background-color: rgb(71 85 105);
+    }
+
+    textarea::-webkit-scrollbar-corner,
+    [class*="overflow-auto"]::-webkit-scrollbar-corner,
+    [class*="overflow-y-auto"]::-webkit-scrollbar-corner,
+    [class*="overflow-x-auto"]::-webkit-scrollbar-corner {
+        background: transparent;
+    }
+}
