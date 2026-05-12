@@ -144,7 +144,7 @@
                 {{-- Empty state --}}
                 <div
                     x-show="!$wire.spip"
-                    class="absolute inset-0 flex items-center justify-center text-gray-400 dark:text-slate-500"
+                    class="absolute inset-0 flex items-center justify-center text-gray-500 dark:text-slate-400"
                 >
                     <p class="text-center">
                         <span class="block text-2xl mb-2">→</span>
