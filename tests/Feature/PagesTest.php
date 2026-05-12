@@ -167,4 +167,65 @@ class PagesTest extends TestCase
         $response->assertSee('Disallow: /contact', false);
         $response->assertSee('Sitemap: '.url('/sitemap.xml'), false);
     }
+
+    public function test_english_home_loads(): void
+    {
+        $response = $this->get('/en');
+
+        $response->assertStatus(200);
+        $response->assertSee('<html lang="en"', false);
+        $response->assertSee('Free, instant online converter');
+    }
+
+    public function test_english_legal_loads(): void
+    {
+        config([
+            'legal.editor_name' => 'Acme',
+            'legal.hosting.name' => 'OVH',
+        ]);
+
+        $response = $this->get('/en/legal');
+
+        $response->assertStatus(200);
+        $response->assertSee('Legal notice');
+        $response->assertSee('Site editor');
+        $response->assertSee('Hosting');
+    }
+
+    public function test_english_stats_loads(): void
+    {
+        $response = $this->get('/en/stats');
+
+        $response->assertStatus(200);
+        $response->assertSee('Usage statistics');
+        $response->assertSee('Last 30 days');
+    }
+
+    public function test_english_contact_redirects(): void
+    {
+        config(['legal.contact_email' => 'test@example.com']);
+
+        $response = $this->get('/en/contact');
+
+        $response->assertRedirect('mailto:test@example.com?subject=Contact');
+    }
+
+    public function test_home_has_hreflang_alternates(): void
+    {
+        $response = $this->get('/');
+
+        $response->assertSee('hreflang="fr"', false);
+        $response->assertSee('hreflang="en"', false);
+        $response->assertSee('hreflang="x-default"', false);
+    }
+
+    public function test_sitemap_includes_both_locales(): void
+    {
+        $response = $this->get('/sitemap.xml');
+
+        $response->assertSee(url('/').'</loc>', false);
+        $response->assertSee(url('/en').'</loc>', false);
+        $response->assertSee('hreflang="fr"', false);
+        $response->assertSee('hreflang="en"', false);
+    }
 }

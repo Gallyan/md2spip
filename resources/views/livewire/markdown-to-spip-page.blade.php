@@ -1,13 +1,19 @@
+@php
+    $locale = app()->getLocale();
+    $isEn = $locale === 'en';
+    $statsUrl = $isEn ? '/en/stats' : '/stats';
+    $legalUrl = $isEn ? '/en/legal' : '/mentions-legales';
+    $altLocaleUrl = $isEn ? '/' : '/en';
+    $altLocaleLabel = $isEn ? __('messages.switcher.fr') : __('messages.switcher.en');
+@endphp
 <div class="flex flex-col h-screen"
     x-data="{
         darkMode: localStorage.getItem('md2spip-theme') !== 'light',
         init() {
-            // Restaurer le texte depuis localStorage au chargement
             const saved = localStorage.getItem('md2spip-markdown');
             if (saved && saved !== '') {
                 $wire.markdown = saved;
             }
-            // Appliquer le thème au chargement
             this.updateTheme();
         },
         toggleTheme() {
@@ -47,7 +53,7 @@
                     </svg>
                     <div>
                         <h1 class="text-gray-900 dark:text-white font-semibold text-lg leading-tight">Markdown to SPIP</h1>
-                        <h2 class="hidden md:block text-gray-600 dark:text-slate-300 text-xs font-normal">Convertisseur en ligne gratuit et instantané</h2>
+                        <h2 class="hidden md:block text-gray-600 dark:text-slate-300 text-xs font-normal">{{ __('messages.home.subtitle') }}</h2>
                     </div>
                 </div>
             </div>
@@ -55,16 +61,21 @@
             <x-help-modal />
         </div>
 
-        {{-- Theme toggle button (right side) --}}
-        <button
-            @click="toggleTheme()"
-            class="cursor-pointer w-6 h-6 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-300 flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800"
-            :title="darkMode ? 'Passer en mode clair' : 'Passer en mode sombre'"
-            :aria-label="darkMode ? 'Activer le mode clair' : 'Activer le mode sombre'"
-        >
-            <x-icon.sun x-show="darkMode" />
-            <x-icon.moon x-show="!darkMode" />
-        </button>
+        <div class="flex items-center gap-3">
+            {{-- Language switcher --}}
+            <a href="{{ $altLocaleUrl }}" class="text-xs font-semibold uppercase tracking-wide px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-300 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800" aria-label="{{ __('messages.switcher.aria') }}" hreflang="{{ $isEn ? 'fr' : 'en' }}">{{ $isEn ? 'FR' : 'EN' }}</a>
+
+            {{-- Theme toggle button --}}
+            <button
+                @click="toggleTheme()"
+                class="cursor-pointer w-6 h-6 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-300 flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800"
+                :title="darkMode ? @js(__('messages.theme.switch_to_light_title')) : @js(__('messages.theme.switch_to_dark_title'))"
+                :aria-label="darkMode ? @js(__('messages.theme.switch_to_light_aria')) : @js(__('messages.theme.switch_to_dark_aria'))"
+            >
+                <x-icon.sun x-show="darkMode" />
+                <x-icon.moon x-show="!darkMode" />
+            </button>
+        </div>
     </header>
 
     {{-- Main content --}}
@@ -72,7 +83,7 @@
         {{-- Markdown input --}}
         <div class="flex flex-col border-r border-gray-300 dark:border-slate-700 min-h-0">
             <div class="bg-gray-100 dark:bg-slate-800 px-4 py-2 border-b border-gray-300 dark:border-slate-700 flex items-center justify-between transition-colors">
-                <label for="markdown-input" id="markdown-label" class="text-gray-700 dark:text-slate-300 text-sm font-semibold uppercase tracking-wide">Markdown</label>
+                <label for="markdown-input" id="markdown-label" class="text-gray-700 dark:text-slate-300 text-sm font-semibold uppercase tracking-wide">{{ __('messages.home.markdown_label') }}</label>
 
                 <div class="flex items-center gap-3">
                     {{-- Character counter --}}
@@ -81,7 +92,7 @@
                         :class="($wire.markdown || '').length > {{ \App\Livewire\MarkdownToSpipPage::MAX_LENGTH }} ? 'text-red-400' : 'text-slate-400'"
                         aria-live="polite"
                         aria-atomic="true"
-                        x-text="[...($wire.markdown || '')].length.toLocaleString('fr-FR') + ' / 100k car.'"
+                        x-text="[...($wire.markdown || '')].length.toLocaleString({{ $isEn ? "'en-GB'" : "'fr-FR'" }}) + ' {{ __('messages.home.counter_unit') }}'"
                     ></span>
 
                     {{-- Clear button --}}
@@ -95,8 +106,8 @@
                         "
                         :class="cleared ? 'text-red-400' : 'text-gray-600 dark:text-slate-300 hover:text-red-400'"
                         class="cursor-pointer transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded"
-                        title="Effacer tout le texte"
-                        aria-label="Effacer tout le texte Markdown"
+                        title="{{ __('messages.home.clear_title') }}"
+                        aria-label="{{ __('messages.home.clear_aria') }}"
                     >
                         <template x-if="!cleared">
                             <x-icon.trash />
@@ -104,14 +115,14 @@
                         <template x-if="cleared">
                             <x-icon.check-circle />
                         </template>
-                        <span x-show="cleared" x-cloak class="sr-only" role="status" aria-live="polite">Texte effacé</span>
+                        <span x-show="cleared" x-cloak class="sr-only" role="status" aria-live="polite">{{ __('messages.home.cleared_status') }}</span>
                     </button>
                 </div>
             </div>
             <textarea
                 wire:model.live.debounce.50ms="markdown"
                 class="flex-1 w-full bg-white dark:bg-slate-900 text-gray-900 dark:text-slate-100 p-4 font-mono text-sm resize-none focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-500 placeholder-gray-400 dark:placeholder-slate-600 transition-colors"
-                placeholder="Collez ou tapez votre Markdown ici..."
+                placeholder="{{ __('messages.home.placeholder') }}"
                 spellcheck="false"
                 id="markdown-input"
             ></textarea>
@@ -120,7 +131,7 @@
         {{-- SPIP output --}}
         <div class="flex flex-col min-h-0">
             <div class="bg-gray-100 dark:bg-slate-800 px-4 py-2 border-b border-gray-300 dark:border-slate-700 flex items-center justify-between transition-colors">
-                <span id="spip-label" class="text-gray-700 dark:text-slate-300 text-sm font-semibold uppercase tracking-wide">Spip</span>
+                <span id="spip-label" class="text-gray-700 dark:text-slate-300 text-sm font-semibold uppercase tracking-wide">{{ __('messages.home.spip_label') }}</span>
 
                 <div class="flex items-center gap-3">
                     {{-- Copy button --}}
@@ -136,8 +147,8 @@
                         :class="!$wire.spip ? 'text-gray-300/70 dark:text-slate-600 cursor-not-allowed' : (copied ? 'text-emerald-500 dark:text-emerald-400 cursor-pointer' : 'text-gray-600 dark:text-slate-300 hover:text-emerald-500 dark:hover:text-emerald-400 cursor-pointer')"
                         :disabled="!$wire.spip"
                         class="transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded"
-                        title="Copier le résultat SPIP"
-                        aria-label="Copier le résultat SPIP dans le presse-papier"
+                        title="{{ __('messages.home.copy_title') }}"
+                        aria-label="{{ __('messages.home.copy_aria') }}"
                     >
                         <template x-if="!copied">
                             <x-icon.clipboard />
@@ -145,7 +156,7 @@
                         <template x-if="copied">
                             <x-icon.check-circle />
                         </template>
-                        <span x-show="copied" x-cloak class="sr-only" role="status" aria-live="polite">Texte copié dans le presse-papier</span>
+                        <span x-show="copied" x-cloak class="sr-only" role="status" aria-live="polite">{{ __('messages.home.copied_status') }}</span>
                     </button>
                 </div>
             </div>
@@ -157,7 +168,7 @@
                 >
                     <p class="text-center">
                         <span class="block text-2xl mb-2">→</span>
-                        Le résultat SPIP apparaîtra ici
+                        {{ __('messages.home.empty_state') }}
                     </p>
                 </div>
                 {{-- Output --}}
@@ -169,18 +180,18 @@
     {{-- Footer --}}
     <footer class="bg-gray-100 dark:bg-slate-800 border-t border-gray-300 dark:border-slate-700 px-6 py-2 flex items-center justify-between text-xs text-gray-600 dark:text-slate-400 transition-colors">
         <span class="inline-flex items-center gap-1.5">
-            Projet open source <a href="https://github.com/Gallyan/md2spip/blob/main/LICENSE" target="_blank" rel="noopener" class="hover:text-gray-900 dark:hover:text-slate-300 transition-colors underline">GPL-3.0</a>
+            {{ __('messages.footer.open_source') }} <a href="https://github.com/Gallyan/md2spip/blob/main/LICENSE" target="_blank" rel="noopener" class="hover:text-gray-900 dark:hover:text-slate-300 transition-colors underline">GPL-3.0</a>
             <span aria-hidden="true">•</span>
-            <a href="https://github.com/Gallyan/md2spip" target="_blank" rel="noopener" aria-label="Code source sur GitHub" class="inline-flex hover:text-gray-900 dark:hover:text-slate-300 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded">
+            <a href="https://github.com/Gallyan/md2spip" target="_blank" rel="noopener" aria-label="{{ __('messages.footer.github_aria') }}" class="inline-flex hover:text-gray-900 dark:hover:text-slate-300 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded">
                 <x-icon.github class="w-3.5 h-3.5" />
             </a>
             <span aria-hidden="true">•</span>
-            Créé par <a href="https://www.orsal.fr" target="_blank" rel="noopener" class="hover:text-gray-900 dark:hover:text-slate-300 transition-colors underline">Guillaume Orsal</a> en 2026
+            {{ __('messages.footer.created_by') }} <a href="https://www.orsal.fr" target="_blank" rel="noopener" class="hover:text-gray-900 dark:hover:text-slate-300 transition-colors underline">Guillaume Orsal</a> {{ __('messages.footer.year_suffix') }}
         </span>
         <span class="inline-flex items-center gap-1.5">
-            <a href="/stats" class="hover:text-gray-900 dark:hover:text-slate-300 transition-colors">Stats</a>
+            <a href="{{ $statsUrl }}" class="hover:text-gray-900 dark:hover:text-slate-300 transition-colors">{{ __('messages.footer.stats') }}</a>
             <span aria-hidden="true">•</span>
-            <a href="/mentions-legales" class="hover:text-gray-900 dark:hover:text-slate-300 transition-colors">Mentions légales</a>
+            <a href="{{ $legalUrl }}" class="hover:text-gray-900 dark:hover:text-slate-300 transition-colors">{{ __('messages.footer.legal') }}</a>
         </span>
     </footer>
 </div>

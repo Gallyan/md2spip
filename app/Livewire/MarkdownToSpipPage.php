@@ -44,7 +44,9 @@ class MarkdownToSpipPage extends Component
 
         // Size validation
         if (mb_strlen($this->markdown) > self::MAX_LENGTH) {
-            $this->spip = 'Texte trop long (maximum '.number_format(self::MAX_LENGTH, 0, ',', ' ').' caractères).';
+            $isEn = app()->getLocale() === 'en';
+            $formatted = number_format(self::MAX_LENGTH, 0, $isEn ? '.' : ',', $isEn ? ',' : ' ');
+            $this->spip = __('messages.errors.too_long', ['max' => $formatted]);
 
             return;
         }
@@ -53,7 +55,7 @@ class MarkdownToSpipPage extends Component
         $key = 'markdown-convert:'.request()->ip();
 
         if (RateLimiter::tooManyAttempts($key, self::MAX_ATTEMPTS)) {
-            $this->spip = 'Trop de requêtes ('.self::MAX_ATTEMPTS.'/min). Veuillez patienter quelques secondes.';
+            $this->spip = __('messages.errors.rate_limit', ['max' => self::MAX_ATTEMPTS]);
 
             return;
         }

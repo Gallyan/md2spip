@@ -21,7 +21,7 @@ class StatsControllerTest extends TestCase
         $response = $this->get('/stats');
 
         $response->assertStatus(200);
-        $response->assertSee('Statistiques d\'usage', false);
+        $response->assertSee('Statistiques d\'usage');
     }
 
     public function test_stats_page_is_noindex(): void

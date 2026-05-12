@@ -1,0 +1,138 @@
+<?php
+
+declare(strict_types=1);
+
+return [
+    'meta' => [
+        'title' => 'Markdown to SPIP - Convertisseur en ligne gratuit',
+        'description' => 'Convertissez instantanément votre Markdown en syntaxe SPIP. Outil en ligne gratuit, sans inscription, respectueux de votre vie privée.',
+        'keywords' => 'markdown, spip, convertisseur, conversion, en ligne, gratuit',
+        'og_title' => 'Markdown to SPIP - Convertisseur en ligne',
+        'og_description' => 'Convertissez instantanément votre Markdown en syntaxe SPIP. Gratuit et respectueux de votre vie privée.',
+        'og_locale' => 'fr_FR',
+        'twitter_description' => 'Convertisseur Markdown vers SPIP en ligne, gratuit et sans tracking.',
+        'image_alt' => 'Capture de l\'interface du convertisseur Markdown vers SPIP',
+        'description_short' => 'Convertisseur en ligne Markdown vers syntaxe SPIP, en temps réel.',
+        'organization_description' => 'Projet open source dédié à la conversion de Markdown vers la syntaxe SPIP. Gratuit, sans inscription, sans tracking.',
+    ],
+
+    'skip_to_content' => 'Aller au contenu principal',
+
+    'session' => [
+        'expired_strong' => 'Session expirée',
+        'expired_text' => 'Rechargez la page pour continuer. Votre texte est sauvegardé.',
+        'reload' => 'Recharger',
+    ],
+
+    'theme' => [
+        'switch_to_light_title' => 'Passer en mode clair',
+        'switch_to_dark_title' => 'Passer en mode sombre',
+        'switch_to_light_aria' => 'Activer le mode clair',
+        'switch_to_dark_aria' => 'Activer le mode sombre',
+    ],
+
+    'home' => [
+        'subtitle' => 'Convertisseur en ligne gratuit et instantané',
+        'markdown_label' => 'Markdown',
+        'spip_label' => 'Spip',
+        'placeholder' => 'Collez ou tapez votre Markdown ici...',
+        'counter_unit' => '/ 100k car.',
+        'clear_title' => 'Effacer tout le texte',
+        'clear_aria' => 'Effacer tout le texte Markdown',
+        'cleared_status' => 'Texte effacé',
+        'copy_title' => 'Copier le résultat SPIP',
+        'copy_aria' => 'Copier le résultat SPIP dans le presse-papier',
+        'copied_status' => 'Texte copié dans le presse-papier',
+        'empty_state' => 'Le résultat SPIP apparaîtra ici',
+        'output_region_aria' => 'Résultat de la conversion en syntaxe SPIP',
+    ],
+
+    'footer' => [
+        'open_source' => 'Projet open source',
+        'created_by' => 'Créé par',
+        'year_suffix' => 'en 2026',
+        'github_aria' => 'Code source sur GitHub',
+        'stats' => 'Stats',
+        'legal' => 'Mentions légales',
+    ],
+
+    'help' => [
+        'open_title' => 'Aide',
+        'open_aria' => 'Afficher l\'aide sur les conversions supportées',
+        'title' => 'Conversions supportées',
+        'close_aria' => 'Fermer la fenêtre d\'aide',
+        'limit_label' => 'Limite :',
+        'limit_value' => ':count caractères',
+    ],
+
+    'legal' => [
+        'page_title' => 'Mentions légales - Markdown to SPIP',
+        'back' => 'Retour au convertisseur',
+        'h1' => 'Mentions légales',
+        'editor' => 'Éditeur du site',
+        'editor_phone_label' => 'Tél :',
+        'editor_email_label' => 'E-mail :',
+        'editor_website_label' => 'Site web :',
+        'hosting' => 'Hébergement',
+        'hosting_intro' => 'Ce site est hébergé par :',
+        'hosting_phone_label' => 'Tél :',
+        'free_software' => 'Logiciel libre',
+        'free_software_intro' => 'Cette application est un logiciel libre distribué sous licence',
+        'free_software_freedom' => 'Vous êtes libre de l\'utiliser, le modifier et le redistribuer selon les termes de cette licence.',
+        'free_software_source' => 'Code source disponible sur :',
+        'personal_data' => 'Données personnelles',
+        'personal_data_intro' => 'Ce site ne collecte',
+        'personal_data_intro_strong' => 'aucune donnée personnelle',
+        'personal_data_list' => [
+            'Aucun cookie de tracking',
+            'Aucune analyse de trafic',
+            'Aucun stockage des conversions Markdown/SPIP',
+            'Aucun compte utilisateur',
+        ],
+        'personal_data_online_label' => 'Version en ligne :',
+        'personal_data_online_text' => 'Le texte que vous convertissez est transmis au serveur pour effectuer la conversion en temps réel, mais',
+        'personal_data_online_text_strong' => 'il n\'est jamais stocké',
+        'personal_data_online_text_after' => '. Aucune trace de vos conversions n\'est conservée.',
+        'personal_data_local_label' => 'Version locale :',
+        'personal_data_local_text' => 'Si vous installez l\'application localement, toutes les conversions restent sur votre machine.',
+        'cookies' => 'Cookies',
+        'cookies_p1' => 'Ce site utilise uniquement des cookies techniques essentiels au fonctionnement de l\'application (session Laravel, protection CSRF). Aucun cookie de suivi publicitaire ou analytique n\'est déposé.',
+        'cookies_p2_intro' => 'Conformément aux recommandations de la CNIL,',
+        'cookies_p2_strong' => 'ce type de cookie est dispensé du recueil de consentement',
+        'cookies_p2_outro' => 'car il est strictement nécessaire à la fourniture du service.',
+        'responsibility' => 'Responsabilité',
+        'responsibility_p1' => 'L\'éditeur s\'efforce d\'assurer la précision et la fiabilité des conversions Markdown vers SPIP, mais ne peut garantir l\'exactitude absolue des résultats.',
+        'responsibility_p2' => 'L\'utilisateur reste responsable de la vérification du code SPIP généré avant utilisation en production.',
+        'last_update' => 'Dernière mise à jour :',
+    ],
+
+    'stats' => [
+        'page_title' => 'Statistiques - Markdown to SPIP',
+        'back' => 'Retour au convertisseur',
+        'h1' => 'Statistiques d\'usage',
+        'kpi_visits' => 'visites',
+        'kpi_conversions' => 'conversions',
+        'kpi_copies' => 'copies',
+        'kpi_chars' => 'caractères copiés',
+        'chart_title' => '30 derniers jours',
+        'chart_legend_visits' => 'Visites',
+        'chart_legend_conversions' => 'Conversions',
+        'chart_legend_copies' => 'Copies',
+        'chart_label_aria' => 'Courbes des visites, conversions et copies sur 30 jours',
+        'chart_kpi_aria' => 'Indicateurs clés',
+        'chart_activity_aria' => 'Activité quotidienne',
+        'empty' => 'Pas encore de données. Reviens dans quelques jours !',
+        'footer_note' => 'Aucune donnée personnelle n\'est collectée. Seuls les compteurs anonymes sont stockés côté serveur.',
+    ],
+
+    'errors' => [
+        'too_long' => 'Texte trop long (maximum :max caractères).',
+        'rate_limit' => 'Trop de requêtes (:max/min). Veuillez patienter quelques secondes.',
+    ],
+
+    'switcher' => [
+        'aria' => 'Choisir la langue',
+        'fr' => 'Français',
+        'en' => 'English',
+    ],
+];

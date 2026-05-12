@@ -1,5 +1,14 @@
+@php
+    $locale = app()->getLocale();
+    $isEn = $locale === 'en';
+    $thousands = $isEn ? ',' : ' ';
+    $decimal = $isEn ? '.' : ',';
+    $dateLocale = $isEn ? 'en-GB' : 'fr-FR';
+    $dateFormat = $isEn ? 'm/d' : 'd/m';
+    $homeUrl = $isEn ? '/en' : '/';
+@endphp
 <!DOCTYPE html>
-<html lang="fr" class="dark">
+<html lang="{{ $locale }}" class="dark">
 <head>
     <script>
         if (localStorage.getItem('md2spip-theme') === 'light') {
@@ -8,7 +17,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Statistiques - Markdown to SPIP</title>
+    <title>{{ __('messages.stats.page_title') }}</title>
     <meta name="robots" content="noindex, nofollow">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -30,32 +39,32 @@
     <div class="max-w-5xl mx-auto px-6 py-12">
         <header class="mb-12">
             <div class="flex items-center justify-between mb-8">
-                <a href="/" class="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-900 dark:text-white rounded-lg transition-colors border border-gray-300 dark:border-slate-700">
+                <a href="{{ $homeUrl }}" class="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-900 dark:text-white rounded-lg transition-colors border border-gray-300 dark:border-slate-700">
                     <x-icon.arrow-left />
-                    <span class="text-sm font-medium">Retour au convertisseur</span>
+                    <span class="text-sm font-medium">{{ __('messages.stats.back') }}</span>
                 </a>
 
                 <button
                     @click="toggleTheme()"
                     class="cursor-pointer w-6 h-6 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-300 flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
-                    :title="darkMode ? 'Passer en mode clair' : 'Passer en mode sombre'"
-                    :aria-label="darkMode ? 'Activer le mode clair' : 'Activer le mode sombre'"
+                    :title="darkMode ? @js(__('messages.theme.switch_to_light_title')) : @js(__('messages.theme.switch_to_dark_title'))"
+                    :aria-label="darkMode ? @js(__('messages.theme.switch_to_light_aria')) : @js(__('messages.theme.switch_to_dark_aria'))"
                 >
                     <x-icon.sun x-show="darkMode" style="display: none;" />
                     <x-icon.moon x-show="!darkMode" style="display: none;" />
                 </button>
             </div>
-            <h1 class="text-5xl font-bold text-gray-900 dark:text-white">Statistiques d'usage</h1>
+            <h1 class="text-5xl font-bold text-gray-900 dark:text-white">{{ __('messages.stats.h1') }}</h1>
         </header>
 
         {{-- KPI cards --}}
-        <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12" aria-label="Indicateurs clés">
+        <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12" aria-label="{{ __('messages.stats.chart_kpi_aria') }}">
             @php
                 $kpis = [
-                    ['value' => number_format($totals['sessions'], 0, ',', ' '), 'sub' => 'visites'],
-                    ['value' => number_format($totals['conversions'], 0, ',', ' '), 'sub' => 'conversions'],
-                    ['value' => number_format($totals['copies'], 0, ',', ' '), 'sub' => 'copies'],
-                    ['value' => number_format($totals['total_chars'], 0, ',', ' '), 'sub' => 'caractères copiés'],
+                    ['value' => number_format($totals['sessions'], 0, $decimal, $thousands), 'sub' => __('messages.stats.kpi_visits')],
+                    ['value' => number_format($totals['conversions'], 0, $decimal, $thousands), 'sub' => __('messages.stats.kpi_conversions')],
+                    ['value' => number_format($totals['copies'], 0, $decimal, $thousands), 'sub' => __('messages.stats.kpi_copies')],
+                    ['value' => number_format($totals['total_chars'], 0, $decimal, $thousands), 'sub' => __('messages.stats.kpi_chars')],
                 ];
             @endphp
             @foreach ($kpis as $kpi)
@@ -67,24 +76,24 @@
         </section>
 
         {{-- Line chart --}}
-        <section class="bg-white dark:bg-slate-800/50 border border-gray-200 dark:border-slate-700 rounded-xl p-6 mb-8" aria-label="Activité quotidienne">
+        <section class="bg-white dark:bg-slate-800/50 border border-gray-200 dark:border-slate-700 rounded-xl p-6 mb-8" aria-label="{{ __('messages.stats.chart_activity_aria') }}">
             <div class="flex items-baseline justify-between mb-6">
-                <h2 class="text-2xl font-semibold text-gray-900 dark:text-white">30 derniers jours</h2>
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-white">{{ __('messages.stats.chart_title') }}</h2>
                 <div class="flex flex-wrap items-center gap-4 text-xs">
                     <span class="inline-flex items-center gap-2 text-gray-600 dark:text-slate-300">
-                        <span class="inline-block w-4 h-0.5 bg-slate-400 dark:bg-slate-500"></span> Visites
+                        <span class="inline-block w-4 h-0.5 bg-slate-400 dark:bg-slate-500"></span> {{ __('messages.stats.chart_legend_visits') }}
                     </span>
                     <span class="inline-flex items-center gap-2 text-gray-600 dark:text-slate-300">
-                        <span class="inline-block w-4 h-0.5 bg-emerald-500"></span> Conversions
+                        <span class="inline-block w-4 h-0.5 bg-emerald-500"></span> {{ __('messages.stats.chart_legend_conversions') }}
                     </span>
                     <span class="inline-flex items-center gap-2 text-gray-600 dark:text-slate-300">
-                        <span class="inline-block w-4 h-0.5 bg-sky-500"></span> Copies
+                        <span class="inline-block w-4 h-0.5 bg-sky-500"></span> {{ __('messages.stats.chart_legend_copies') }}
                     </span>
                 </div>
             </div>
 
             @if (empty($daily))
-                <p class="text-center text-gray-500 dark:text-slate-400 py-12">Pas encore de données. Reviens dans quelques jours !</p>
+                <p class="text-center text-gray-500 dark:text-slate-400 py-12">{{ __('messages.stats.empty') }}</p>
             @else
                 @php
                     $chartWidth = 800;
@@ -117,19 +126,19 @@
                     };
 
                     $series = [
-                        ['key' => 'sessions', 'label' => 'visite', 'class' => 'stroke-slate-400 dark:stroke-slate-500'],
-                        ['key' => 'conversions', 'label' => 'conversion', 'class' => 'stroke-emerald-500'],
-                        ['key' => 'copies', 'label' => 'copie', 'class' => 'stroke-sky-500'],
+                        ['key' => 'sessions', 'label' => $isEn ? 'visit' : 'visite', 'class' => 'stroke-slate-400 dark:stroke-slate-500'],
+                        ['key' => 'conversions', 'label' => $isEn ? 'conversion' : 'conversion', 'class' => 'stroke-emerald-500'],
+                        ['key' => 'copies', 'label' => $isEn ? 'copy' : 'copie', 'class' => 'stroke-sky-500'],
                     ];
                 @endphp
-                <svg viewBox="0 0 {{ $chartWidth }} {{ $chartHeight + $padBottom }}" class="w-full h-auto" role="img" aria-label="Courbes des visites, conversions et copies sur 30 jours">
+                <svg viewBox="0 0 {{ $chartWidth }} {{ $chartHeight + $padBottom }}" class="w-full h-auto" role="img" aria-label="{{ __('messages.stats.chart_label_aria') }}">
                     @for ($t = 0; $t <= $tickCount; $t++)
                         @php
                             $value = (int) round($niceMax * $t / $tickCount);
                             $y = $chartHeight - ($t / $tickCount) * ($chartHeight - $padTop);
                         @endphp
                         <line x1="{{ $padLeft }}" y1="{{ round($y, 2) }}" x2="{{ $chartWidth }}" y2="{{ round($y, 2) }}" stroke="currentColor" stroke-opacity="{{ $t === 0 ? '0.2' : '0.08' }}" stroke-width="1" />
-                        <text x="{{ $padLeft - 8 }}" y="{{ round($y + 4, 2) }}" text-anchor="end" class="fill-gray-600 dark:fill-slate-300" font-size="12">{{ number_format($value, 0, ',', ' ') }}</text>
+                        <text x="{{ $padLeft - 8 }}" y="{{ round($y + 4, 2) }}" text-anchor="end" class="fill-gray-600 dark:fill-slate-300" font-size="12">{{ number_format($value, 0, $decimal, $thousands) }}</text>
                     @endfor
 
                     @foreach ($series as $serie)
@@ -150,14 +159,14 @@
                     @endforeach
 
                     @foreach ($labelIndices as $i)
-                        <text x="{{ round($padLeft + $i * $stepX, 2) }}" y="{{ $chartHeight + 22 }}" text-anchor="middle" class="fill-gray-600 dark:fill-slate-300" font-size="14">{{ \Carbon\Carbon::parse($daily[$i]['date'])->format('d/m') }}</text>
+                        <text x="{{ round($padLeft + $i * $stepX, 2) }}" y="{{ $chartHeight + 22 }}" text-anchor="middle" class="fill-gray-600 dark:fill-slate-300" font-size="14">{{ \Carbon\Carbon::parse($daily[$i]['date'])->format($dateFormat) }}</text>
                     @endforeach
                 </svg>
             @endif
         </section>
 
         <footer class="text-center text-xs text-gray-500 dark:text-slate-400 pt-8 border-t border-gray-300 dark:border-slate-700">
-            <p>Aucune donnée personnelle n'est collectée. Seuls les compteurs anonymes sont stockés côté serveur.</p>
+            <p>{{ __('messages.stats.footer_note') }}</p>
         </footer>
     </div>
     @livewireScripts

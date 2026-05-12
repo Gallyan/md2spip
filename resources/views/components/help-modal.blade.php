@@ -4,8 +4,8 @@
         x-ref="trigger"
         @click="open = true; $nextTick(() => $refs.closeBtn?.focus())"
         class="cursor-pointer w-6 h-6 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-300 flex items-center justify-center text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800"
-        title="Aide"
-        aria-label="Afficher l'aide sur les conversions supportées"
+        title="{{ __('messages.help.open_title') }}"
+        aria-label="{{ __('messages.help.open_aria') }}"
         aria-haspopup="dialog"
         :aria-expanded="open"
     >
@@ -41,12 +41,12 @@
             class="bg-white dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg shadow-xl p-6 max-w-md w-full max-h-[80vh] overflow-y-auto"
         >
             <div class="flex items-center justify-between mb-4">
-                <h3 id="modal-title" class="text-gray-900 dark:text-white font-semibold text-lg">Conversions supportées</h3>
+                <h3 id="modal-title" class="text-gray-900 dark:text-white font-semibold text-lg">{{ __('messages.help.title') }}</h3>
                 <button
                     x-ref="closeBtn"
                     @click="open = false; $nextTick(() => $refs.trigger?.focus())"
                     class="cursor-pointer text-gray-600 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded"
-                    aria-label="Fermer la fenêtre d'aide"
+                    aria-label="{{ __('messages.help.close_aria') }}"
                 >
                     <x-icon.x-mark class="w-5 h-5" />
                 </button>
@@ -105,7 +105,7 @@
             </div>
 
             <div class="mt-4 pt-3 border-t border-gray-300 dark:border-slate-600 text-xs text-gray-600 dark:text-slate-300">
-                <p><strong class="text-gray-900 dark:text-white">Limite :</strong> {{ number_format(\App\Livewire\MarkdownToSpipPage::MAX_LENGTH, 0, ',', ' ') }} caractères</p>
+                <p><strong class="text-gray-900 dark:text-white">{{ __('messages.help.limit_label') }}</strong> {{ __('messages.help.limit_value', ['count' => number_format(\App\Livewire\MarkdownToSpipPage::MAX_LENGTH, 0, app()->getLocale() === 'en' ? '.' : ',', app()->getLocale() === 'en' ? ',' : ' ')]) }}</p>
             </div>
         </div>
     </div>
