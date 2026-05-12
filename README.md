@@ -55,6 +55,25 @@ php artisan serve
 
 Personnalisez `resources/views/mentions-legales.blade.php` avec vos informations légales et `CONTACT_EMAIL` dans `.env`.
 
+## Déploiement en production
+
+Le workflow `.github/workflows/pipeline.yml` déploie automatiquement sur le serveur après succès des tests sur `main`. Secrets requis listés en commentaire du fichier.
+
+Pour la première install serveur :
+
+```bash
+git clone <repo> /chemin/du/site
+cd /chemin/du/site
+composer install --no-dev --optimize-autoloader
+cp .env.production .env
+# éditer APP_URL et CONTACT_EMAIL
+php artisan key:generate
+cp resources/views/mentions-legales.EXAMPLE.blade.php resources/views/mentions-legales.blade.php
+# personnaliser le contenu
+npm ci && npm run build
+php artisan optimize
+```
+
 ## Tests
 
 ```bash
