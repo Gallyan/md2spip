@@ -72,7 +72,7 @@
         {{-- Markdown input --}}
         <div class="flex flex-col border-r border-gray-300 dark:border-slate-700 min-h-0">
             <div class="bg-gray-100 dark:bg-slate-800 px-4 py-2 border-b border-gray-300 dark:border-slate-700 flex items-center justify-between transition-colors">
-                <span class="text-gray-700 dark:text-slate-300 text-sm font-semibold uppercase tracking-wide">Markdown</span>
+                <label for="markdown-input" id="markdown-label" class="text-gray-700 dark:text-slate-300 text-sm font-semibold uppercase tracking-wide">Markdown</label>
 
                 <div class="flex items-center gap-3">
                     {{-- Character counter --}}
@@ -113,7 +113,6 @@
                 class="flex-1 w-full bg-white dark:bg-slate-900 text-gray-900 dark:text-slate-100 p-4 font-mono text-sm resize-none focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-500 placeholder-gray-400 dark:placeholder-slate-600 transition-colors"
                 placeholder="Collez ou tapez votre Markdown ici..."
                 spellcheck="false"
-                aria-label="Saisie du texte Markdown à convertir"
                 id="markdown-input"
             ></textarea>
         </div>
@@ -121,7 +120,7 @@
         {{-- SPIP output --}}
         <div class="flex flex-col min-h-0">
             <div class="bg-gray-100 dark:bg-slate-800 px-4 py-2 border-b border-gray-300 dark:border-slate-700 flex items-center justify-between transition-colors">
-                <span class="text-gray-700 dark:text-slate-300 text-sm font-semibold uppercase tracking-wide">Spip</span>
+                <span id="spip-label" class="text-gray-700 dark:text-slate-300 text-sm font-semibold uppercase tracking-wide">Spip</span>
 
                 <div class="flex items-center gap-3">
                     {{-- Copy button --}}
@@ -150,7 +149,7 @@
                     </button>
                 </div>
             </div>
-            <div class="flex-1 w-full bg-gray-50 dark:bg-slate-950 p-4 overflow-auto transition-colors relative" role="region" aria-label="Résultat de la conversion en syntaxe SPIP" aria-live="polite">
+            <div class="flex-1 w-full bg-gray-50 dark:bg-slate-950 p-4 overflow-auto transition-colors relative" role="region" aria-labelledby="spip-label" aria-live="polite">
                 {{-- Empty state --}}
                 <div
                     x-show="!$wire.spip"

@@ -1,7 +1,8 @@
 {{-- Help button with modal --}}
 <div x-data="{ open: false }">
     <button
-        @click="open = true"
+        x-ref="trigger"
+        @click="open = true; $nextTick(() => $refs.closeBtn?.focus())"
         class="cursor-pointer w-6 h-6 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-300 flex items-center justify-center text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800"
         title="Aide"
         aria-label="Afficher l'aide sur les conversions supportées"
@@ -20,8 +21,8 @@
         x-transition:leave="transition ease-in duration-150"
         x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0"
-        @click="open = false"
-        @keydown.escape="open = false"
+        @click="open = false; $nextTick(() => $refs.trigger?.focus())"
+        @keydown.escape.window="open = false; $nextTick(() => $refs.trigger?.focus())"
         class="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 z-50 flex items-center justify-center p-4"
         style="display: none;"
         role="dialog"
@@ -42,7 +43,8 @@
             <div class="flex items-center justify-between mb-4">
                 <h3 id="modal-title" class="text-gray-900 dark:text-white font-semibold text-lg">Conversions supportées</h3>
                 <button
-                    @click="open = false"
+                    x-ref="closeBtn"
+                    @click="open = false; $nextTick(() => $refs.trigger?.focus())"
                     class="cursor-pointer text-gray-600 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded"
                     aria-label="Fermer la fenêtre d'aide"
                 >

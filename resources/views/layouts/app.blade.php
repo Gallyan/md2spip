@@ -205,6 +205,8 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-50 dark:bg-slate-900 min-h-screen flex flex-col transition-colors">
+    <a href="#markdown-input" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-emerald-500 focus:text-white focus:rounded">Aller au contenu principal</a>
+
     {{-- Session expired banner --}}
     <div
         x-data="{ show: false }"
