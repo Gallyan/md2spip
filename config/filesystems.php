@@ -47,6 +47,13 @@ return [
             'report' => false,
         ],
 
+        'stats' => [
+            'driver' => 'local',
+            'root' => storage_path('stats'),
+            'throw' => false,
+            'report' => false,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

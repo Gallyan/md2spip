@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Affiche le tableau de bord public des statistiques d'usage.
@@ -13,11 +14,11 @@ final class StatsController extends Controller
 {
     public function __invoke(): View
     {
-        $statsFile = storage_path('stats/stats.json');
+        $disk = Storage::disk('stats');
 
         /** @var array<string, array{sessions?: int, conversions?: int, copies?: int, total_chars?: int}> $raw */
-        $raw = file_exists($statsFile)
-            ? (json_decode((string) file_get_contents($statsFile), true) ?: [])
+        $raw = $disk->exists('stats.json')
+            ? (json_decode((string) $disk->get('stats.json'), true) ?: [])
             : [];
 
         ksort($raw);

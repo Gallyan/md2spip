@@ -7,6 +7,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Storage;
 
 #[Signature('stats:seed {--days=30 : Nombre de jours à générer} {--fresh : Écrase le fichier existant}')]
 #[Description('Génère des statistiques d\'usage fictives pour le dashboard /stats.')]
@@ -24,15 +25,15 @@ final class StatsSeed extends Command
         $days = (int) $this->option('days');
         $fresh = (bool) $this->option('fresh');
 
-        $dir = storage_path('stats');
-        if (! is_dir($dir)) {
-            mkdir($dir, 0755, true);
+        $disk = Storage::disk('stats');
+        $root = $disk->path('');
+        if (! is_dir($root)) {
+            mkdir($root, 0755, true);
         }
 
-        $file = $dir.'/stats.json';
-        $stats = $fresh || ! file_exists($file)
+        $stats = $fresh || ! $disk->exists('stats.json')
             ? []
-            : (json_decode((string) file_get_contents($file), true) ?: []);
+            : (json_decode((string) $disk->get('stats.json'), true) ?: []);
 
         for ($i = $days - 1; $i >= 0; $i--) {
             $ts = strtotime("-{$i} days") ?: time();
@@ -54,9 +55,9 @@ final class StatsSeed extends Command
         }
 
         ksort($stats);
-        file_put_contents($file, json_encode($stats, JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR));
+        $disk->put('stats.json', json_encode($stats, JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR));
 
-        $this->info("Stats générées pour {$days} jour(s) → {$file}");
+        $this->info("Stats générées pour {$days} jour(s) → {$disk->path('stats.json')}");
 
         return self::SUCCESS;
     }

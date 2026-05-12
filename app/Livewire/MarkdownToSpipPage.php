@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Support\MarkdownToSpipConverter;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -81,13 +82,13 @@ class MarkdownToSpipPage extends Component
      */
     private function incrementStat(string $key, int $value = 1): void
     {
-        $dir = storage_path('stats');
-        if (! is_dir($dir)) {
-            mkdir($dir, 0755, true);
+        $disk = Storage::disk('stats');
+        $root = $disk->path('');
+        if (! is_dir($root)) {
+            mkdir($root, 0755, true);
         }
 
-        $file = $dir.'/stats.json';
-        $handle = fopen($file, 'c+');
+        $handle = fopen($disk->path('stats.json'), 'c+');
         if ($handle === false) {
             return;
         }

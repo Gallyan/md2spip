@@ -6,6 +6,7 @@ namespace Tests\Feature;
 
 use App\Livewire\MarkdownToSpipPage;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\TestCase;
 
@@ -17,6 +18,9 @@ class MarkdownToSpipPageTest extends TestCase
 
         // Nettoyer le rate limiter avant chaque test pour éviter les interférences
         RateLimiter::clear('markdown-convert:'.request()->ip());
+
+        // Isoler les écritures de stats pour ne pas polluer le fichier réel
+        Storage::fake('stats');
     }
 
     /**
@@ -211,5 +215,42 @@ class MarkdownToSpipPageTest extends TestCase
         Livewire::test(MarkdownToSpipPage::class)
             ->set('markdown', "```\ncode\n```")
             ->assertSet('spip', "<code>\ncode\n</code>");
+    }
+
+    /**
+     * Vérifie que le premier clic sur Copier incrémente la stat "conversions"
+     * en plus de "copies" et "total_chars".
+     */
+    public function test_count_copy_increments_conversion_on_first_call(): void
+    {
+        Livewire::test(MarkdownToSpipPage::class)
+            ->set('markdown', 'bonjour')
+            ->call('countCopy');
+
+        $stats = json_decode((string) Storage::disk('stats')->get('stats.json'), true);
+        $today = date('Y-m-d');
+
+        $this->assertSame(1, $stats[$today]['conversions']);
+        $this->assertSame(1, $stats[$today]['copies']);
+        $this->assertSame(mb_strlen('bonjour'), $stats[$today]['total_chars']);
+    }
+
+    /**
+     * Vérifie qu'un deuxième clic sur Copier dans la même session
+     * n'incrémente plus "conversions" mais continue à incrémenter "copies".
+     */
+    public function test_count_copy_does_not_increment_conversion_twice_in_same_session(): void
+    {
+        $component = Livewire::test(MarkdownToSpipPage::class)
+            ->set('markdown', 'salut');
+
+        $component->call('countCopy');
+        $component->call('countCopy');
+
+        $stats = json_decode((string) Storage::disk('stats')->get('stats.json'), true);
+        $today = date('Y-m-d');
+
+        $this->assertSame(1, $stats[$today]['conversions']);
+        $this->assertSame(2, $stats[$today]['copies']);
     }
 }
