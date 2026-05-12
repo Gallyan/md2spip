@@ -191,7 +191,10 @@ jobs:
             rm -f bootstrap/cache/*.php
             composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
 
+            # Pas de "php artisan optimize" ici : génère un cache config dans le
+            # contexte deploy, qui se retrouve servi par PHP-FPM via OPcache et
+            # peut être désynchronisé avec .env. Laravel reconstruira les caches
+            # à la première requête, côté www-data qui lit .env sans souci.
             php artisan optimize:clear
-            php artisan optimize
 
             php artisan up
