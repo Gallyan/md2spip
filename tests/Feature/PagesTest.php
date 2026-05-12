@@ -100,7 +100,7 @@ class PagesTest extends TestCase
      */
     public function test_contact_email_redirects_to_mailto(): void
     {
-        config(['app.contact_email' => 'test@example.com']);
+        config(['legal.contact_email' => 'test@example.com']);
 
         $response = $this->get('/contact-email');
 

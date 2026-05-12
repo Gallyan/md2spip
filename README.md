@@ -53,7 +53,7 @@ composer run setup
 php artisan serve
 ```
 
-Personnalisez `resources/views/mentions-legales.blade.php` avec vos informations légales et `CONTACT_EMAIL` dans `.env`.
+Personnalisez les variables `LEGAL_*` dans `.env` (éditeur, hébergeur, contact). Voir `.env.example`.
 
 ## Déploiement en production
 
@@ -66,10 +66,8 @@ git clone <repo> /chemin/du/site
 cd /chemin/du/site
 composer install --no-dev --optimize-autoloader
 cp .env.production .env
-# éditer APP_URL et CONTACT_EMAIL
+# éditer APP_URL et LEGAL_* (éditeur, hébergeur, contact)
 php artisan key:generate
-cp resources/views/mentions-legales.EXAMPLE.blade.php resources/views/mentions-legales.blade.php
-# personnaliser le contenu
 npm ci && npm run build
 php artisan optimize
 ```

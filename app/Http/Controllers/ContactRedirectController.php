@@ -25,7 +25,7 @@ final class ContactRedirectController extends Controller
     public function __invoke(): RedirectResponse
     {
         /** @var string $email */
-        $email = config('app.contact_email', 'contact@example.com');
+        $email = config('legal.contact_email', 'contact@example.com');
 
         return redirect()
             ->away("mailto:{$email}?subject=Contact")

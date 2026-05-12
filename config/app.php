@@ -56,18 +56,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Contact Email
-    |--------------------------------------------------------------------------
-    |
-    | This value is the contact email address used in legal notices.
-    | The email is obfuscated with CSS to protect against spam bots.
-    |
-    */
-
-    'contact_email' => env('CONTACT_EMAIL', 'contact@example.com'),
-
-    /*
-    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |

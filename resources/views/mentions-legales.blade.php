@@ -2,7 +2,6 @@
 <html lang="fr" class="dark">
 <head>
     <script>
-        // Appliquer le thème immédiatement pour éviter le flash
         if (localStorage.getItem('md2spip-theme') === 'light') {
             document.documentElement.classList.remove('dark');
         }
@@ -15,10 +14,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
     <style>
-        /* Obfuscation email */
-        .protected-email {
-            font-size: 0;
-        }
+        .protected-email { font-size: 0; }
         .protected-email::before {
             font-size: 1.125rem;
             content: attr(data-email-user) "@" attr(data-email-domain);
@@ -28,22 +24,21 @@
 <body class="bg-gray-50 dark:bg-slate-900 min-h-screen text-gray-900 dark:text-slate-100 transition-colors"
     x-data="{
         darkMode: localStorage.getItem('md2spip-theme') !== 'light',
-        init() {
-            this.updateTheme();
-        },
+        init() { this.updateTheme(); },
         toggleTheme() {
             this.darkMode = !this.darkMode;
             this.updateTheme();
         },
         updateTheme() {
             localStorage.setItem('md2spip-theme', this.darkMode ? 'dark' : 'light');
-            if (this.darkMode) {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
+            document.documentElement.classList.toggle('dark', this.darkMode);
         }
     }">
+    @php
+        $email = (string) config('legal.contact_email', 'contact@example.com');
+        [$emailUser, $emailDomain] = str_contains($email, '@') ? explode('@', $email, 2) : [$email, ''];
+        $website = (string) config('legal.social.website');
+    @endphp
     <div class="max-w-4xl mx-auto px-6 py-16">
         <header class="mb-16">
             <div class="flex items-center justify-between mb-8">
@@ -52,7 +47,6 @@
                     <span class="text-sm font-medium">Retour au convertisseur</span>
                 </a>
 
-                {{-- Theme toggle button --}}
                 <button
                     @click="toggleTheme()"
                     class="cursor-pointer w-6 h-6 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-300 flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
@@ -70,13 +64,15 @@
             <section class="bg-white dark:bg-slate-800/50 rounded-xl p-8 border border-gray-200 dark:border-slate-700 transition-colors">
                 <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-5">Éditeur du site</h2>
                 <p class="text-gray-700 dark:text-slate-200 text-lg">
-                    <strong class="text-gray-900 dark:text-white">Votre Nom / Raison sociale</strong><br>
-                    SIRET : XXX XXX XXX XXXXX<br>
-                    N° TVA : FRXXXXXXXXXXX (si applicable)<br>
-                    Adresse complète<br>
-                    Tél : +33 X XX XX XX XX<br>
-                    E-mail : <a href="/contact-email" class="hover:text-emerald-600 dark:hover:text-emerald-300 transition-colors"><span class="protected-email text-emerald-600 dark:text-emerald-400" data-email-user="votre-email" data-email-domain="example.com">[email protected]</span></a><br>
-                    Site web : <a href="https://example.com" target="_blank" rel="noopener" class="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 underline">example.com</a>
+                    <strong class="text-gray-900 dark:text-white">{{ config('legal.editor_name') }}</strong><br>
+                    SIRET : {{ config('legal.editor_siret') }}<br>
+                    @if (config('legal.editor_vat'))
+                        N° TVA : {{ config('legal.editor_vat') }}<br>
+                    @endif
+                    {{ config('legal.editor_address') }}<br>
+                    Tél : {{ config('legal.editor_phone') }}<br>
+                    E-mail : <a href="/contact-email" class="hover:text-emerald-600 dark:hover:text-emerald-300 transition-colors"><span class="protected-email text-emerald-600 dark:text-emerald-400" data-email-user="{{ $emailUser }}" data-email-domain="{{ $emailDomain }}">[email protected]</span></a><br>
+                    Site web : <a href="{{ $website }}" target="_blank" rel="noopener" class="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 underline">{{ preg_replace('#^https?://#', '', $website) }}</a>
                 </p>
             </section>
 
@@ -84,10 +80,10 @@
                 <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-5">Hébergement</h2>
                 <p class="text-gray-700 dark:text-slate-200 text-lg">
                     Ce site est hébergé par :<br>
-                    <strong class="text-gray-900 dark:text-white">Nom de l'hébergeur</strong><br>
-                    Adresse complète<br>
-                    Tél : numéro<br>
-                    SIRET : XXX XXX XXX XXXXX
+                    <strong class="text-gray-900 dark:text-white">{{ config('legal.hosting.name') }}</strong><br>
+                    {{ config('legal.hosting.address') }}<br>
+                    Tél : {{ config('legal.hosting.phone') }}<br>
+                    SIRET : {{ config('legal.hosting.siret') }}
                 </p>
             </section>
 
@@ -118,7 +114,7 @@
             <section class="bg-white dark:bg-slate-800/50 rounded-xl p-8 border border-gray-200 dark:border-slate-700 transition-colors">
                 <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-5">Cookies</h2>
                 <p class="text-gray-700 dark:text-slate-200 text-lg">Ce site utilise uniquement des cookies techniques essentiels au fonctionnement de l'application (session Laravel, protection CSRF). Aucun cookie de suivi publicitaire ou analytique n'est déposé.</p>
-                <p class="mt-4 text-gray-700 dark:text-slate-200 text-lg">Conformément aux recommandations de la CNIL, <strong class="text-white">ce type de cookie est dispensé du recueil de consentement</strong> car il est strictement nécessaire à la fourniture du service.</p>
+                <p class="mt-4 text-gray-700 dark:text-slate-200 text-lg">Conformément aux recommandations de la CNIL, <strong class="text-gray-900 dark:text-white">ce type de cookie est dispensé du recueil de consentement</strong> car il est strictement nécessaire à la fourniture du service.</p>
             </section>
 
             <section class="bg-white dark:bg-slate-800/50 rounded-xl p-8 border border-gray-200 dark:border-slate-700 transition-colors">
