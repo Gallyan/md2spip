@@ -173,7 +173,15 @@
 
     {{-- Footer --}}
     <footer class="bg-gray-100 dark:bg-slate-800 border-t border-gray-300 dark:border-slate-700 px-6 py-2 flex items-center justify-between text-xs text-gray-600 dark:text-slate-400 transition-colors">
-        <span>Projet open source <a href="https://github.com/Gallyan/md2spip/blob/main/LICENSE" target="_blank" rel="noopener" class="hover:text-gray-900 dark:hover:text-slate-300 transition-colors underline">GPL-3.0</a> • Créé par <a href="https://www.orsal.fr" target="_blank" rel="noopener" class="hover:text-gray-900 dark:hover:text-slate-300 transition-colors underline">Guillaume Orsal</a> en 2026</span>
+        <span class="inline-flex items-center gap-1.5">
+            Projet open source <a href="https://github.com/Gallyan/md2spip/blob/main/LICENSE" target="_blank" rel="noopener" class="hover:text-gray-900 dark:hover:text-slate-300 transition-colors underline">GPL-3.0</a>
+            <span aria-hidden="true">•</span>
+            <a href="https://github.com/Gallyan/md2spip" target="_blank" rel="noopener" aria-label="Code source sur GitHub" class="inline-flex hover:text-gray-900 dark:hover:text-slate-300 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded">
+                <x-icon.github class="w-3.5 h-3.5" />
+            </a>
+            <span aria-hidden="true">•</span>
+            Créé par <a href="https://www.orsal.fr" target="_blank" rel="noopener" class="hover:text-gray-900 dark:hover:text-slate-300 transition-colors underline">Guillaume Orsal</a> en 2026
+        </span>
         <a href="/mentions-legales" class="hover:text-gray-900 dark:hover:text-slate-300 transition-colors">Mentions légales</a>
     </footer>
 </div>
