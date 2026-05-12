@@ -67,9 +67,6 @@
                 <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-5">Éditeur du site</h2>
                 <p class="text-gray-700 dark:text-slate-200 text-lg">
                     <strong class="text-gray-900 dark:text-white">{{ config('legal.editor_name') }}</strong><br>
-                    @if (config('legal.editor_siret'))
-                        SIRET : {{ config('legal.editor_siret') }}<br>
-                    @endif
                     @if (config('legal.editor_vat'))
                         N° TVA : {{ config('legal.editor_vat') }}<br>
                     @endif
