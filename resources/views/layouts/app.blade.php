@@ -43,40 +43,16 @@
                 "publisher": { "@@id": "{{ url('/') }}/#person" }
             },
             {
-                "@@type": "Organization",
-                "@@id": "{{ url('/') }}/#organization",
-                "name": "{{ config('legal.organization_name') }}",
-                "url": "{{ url('/') }}",
-                "logo": {
-                    "@@type": "ImageObject",
-                    "url": "{{ asset('favicon.svg') }}"
-                },
-                "description": "Projet open source dédié à la conversion de Markdown vers la syntaxe SPIP. Gratuit, sans inscription, sans tracking.",
-                "foundingDate": "2026"@if(config('legal.contact_email')),
-                "email": "{{ config('legal.contact_email') }}",
-                "contactPoint": {
-                    "@@type": "ContactPoint",
-                    "contactType": "customer service",
-                    "email": "{{ config('legal.contact_email') }}"
-                }@endif,
-                "knowsAbout": ["Markdown", "SPIP CMS", "content conversion", "text formatting"],
-                "founder": { "@@id": "{{ url('/') }}/#person" },
-                @if(collect(config('legal.social'))->filter()->isNotEmpty())
-                "sameAs": {!! json_encode(collect(config('legal.social'))->filter()->values()) !!},
-                @endif
-                "owns": { "@@id": "{{ url('/') }}/#application" }
-            },
-            {
                 "@@type": "Person",
                 "@@id": "{{ url('/') }}/#person",
                 "name": "{{ config('legal.editor_name') }}",
                 "url": "{{ config('legal.social.website', 'https://www.orsal.fr') }}",
                 "jobTitle": "Software Engineer",
-                "knowsAbout": ["Laravel development", "web development", "open source", "Markdown", "SPIP CMS"],
+                "knowsAbout": ["Laravel development", "web development", "open source", "Markdown", "SPIP CMS"]@if(config('legal.contact_email')),
+                "email": "{{ config('legal.contact_email') }}"@endif
                 @if(collect(config('legal.social'))->filter()->isNotEmpty())
-                "sameAs": {!! json_encode(collect(config('legal.social'))->filter()->values()) !!},
+                ,"sameAs": {!! json_encode(collect(config('legal.social'))->filter()->values()) !!}
                 @endif
-                "worksFor": { "@@id": "{{ url('/') }}/#organization" }
             },
             {
                 "@@type": ["WebApplication", "SoftwareApplication"],
@@ -106,7 +82,7 @@
                 ],
                 "author": { "@@id": "{{ url('/') }}/#person" },
                 "creator": { "@@id": "{{ url('/') }}/#person" },
-                "publisher": { "@@id": "{{ url('/') }}/#organization" }
+                "publisher": { "@@id": "{{ url('/') }}/#person" }
             }
         ]
     }
