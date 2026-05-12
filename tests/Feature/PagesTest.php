@@ -143,4 +143,28 @@ class PagesTest extends TestCase
         $response->assertHeader('Expires', '0');
         $response->assertHeader('X-Robots-Tag', 'noindex, nofollow');
     }
+
+    public function test_sitemap_xml_serves_xml_with_home_url(): void
+    {
+        $response = $this->get('/sitemap.xml');
+
+        $response->assertStatus(200);
+        $response->assertHeader('Content-Type', 'application/xml');
+        $response->assertSee('<urlset', false);
+        $response->assertSee(url('/'), false);
+        $response->assertSee('<lastmod>', false);
+    }
+
+    public function test_robots_txt_lists_disallows_and_sitemap(): void
+    {
+        $response = $this->get('/robots.txt');
+
+        $response->assertStatus(200);
+        $response->assertHeader('Content-Type', 'text/plain; charset=UTF-8');
+        $response->assertSee('User-agent: *', false);
+        $response->assertSee('Disallow: /mentions-legales', false);
+        $response->assertSee('Disallow: /stats', false);
+        $response->assertSee('Disallow: /contact', false);
+        $response->assertSee('Sitemap: '.url('/sitemap.xml'), false);
+    }
 }
