@@ -218,12 +218,13 @@ class MarkdownToSpipPageTest extends TestCase
     }
 
     /**
-     * Vérifie qu'une conversion est comptée dès le premier caractère saisi.
+     * Vérifie que trackConversion incrémente la stat "conversions".
+     * Le déclenchement réel se fait côté client via localStorage (Alpine).
      */
-    public function test_first_keystroke_counts_one_conversion(): void
+    public function test_track_conversion_increments_conversions(): void
     {
         Livewire::test(MarkdownToSpipPage::class)
-            ->set('markdown', 'b');
+            ->call('trackConversion');
 
         $stats = json_decode((string) Storage::disk('stats')->get('stats.json'), true);
         $today = date('Y-m-d');
@@ -232,40 +233,7 @@ class MarkdownToSpipPageTest extends TestCase
     }
 
     /**
-     * Vérifie que plusieurs frappes consécutives sur la même page
-     * ne comptent qu'une seule conversion.
-     */
-    public function test_multiple_keystrokes_count_only_one_conversion(): void
-    {
-        Livewire::test(MarkdownToSpipPage::class)
-            ->set('markdown', 'a')
-            ->set('markdown', 'ab')
-            ->set('markdown', 'abc');
-
-        $stats = json_decode((string) Storage::disk('stats')->get('stats.json'), true);
-        $today = date('Y-m-d');
-
-        $this->assertSame(1, $stats[$today]['conversions']);
-    }
-
-    /**
-     * Vérifie que clear puis re-saisie ne re-compte pas une conversion.
-     */
-    public function test_clearing_and_retyping_does_not_recount_conversion(): void
-    {
-        Livewire::test(MarkdownToSpipPage::class)
-            ->set('markdown', 'hello')
-            ->set('markdown', '')
-            ->set('markdown', 'hello again');
-
-        $stats = json_decode((string) Storage::disk('stats')->get('stats.json'), true);
-        $today = date('Y-m-d');
-
-        $this->assertSame(1, $stats[$today]['conversions']);
-    }
-
-    /**
-     * Vérifie que countCopy incrémente copies et total_chars (pas conversions).
+     * Vérifie que countCopy incrémente copies et total_chars.
      */
     public function test_count_copy_increments_copies_and_chars(): void
     {

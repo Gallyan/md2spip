@@ -23,7 +23,13 @@
             }
         }
     }"
-    x-effect="localStorage.setItem('md2spip-markdown', $wire.markdown || '')">
+    x-effect="
+        localStorage.setItem('md2spip-markdown', $wire.markdown || '');
+        if ($wire.markdown && !localStorage.getItem('md2spip-converted')) {
+            localStorage.setItem('md2spip-converted', '1');
+            $wire.trackConversion();
+        }
+    ">
     {{-- Header --}}
     <header class="bg-gray-100 dark:bg-slate-800 border-b border-gray-300 dark:border-slate-700 px-6 py-3 flex items-center justify-between transition-colors">
         <div class="flex items-center gap-3">
