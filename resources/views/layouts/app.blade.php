@@ -48,9 +48,7 @@
                 "name": "{{ config('legal.editor_name') }}",
                 "url": "{{ config('legal.social.website', 'https://www.orsal.fr') }}",
                 "jobTitle": "Software Engineer",
-                "knowsAbout": ["Laravel development", "web development", "open source", "Markdown", "SPIP CMS"]@if(config('legal.contact_email')),
-                "email": "{{ config('legal.contact_email') }}"@endif
-                @if(collect(config('legal.social'))->filter()->isNotEmpty())
+                "knowsAbout": ["Laravel development", "web development", "open source", "Markdown", "SPIP CMS"]@if(collect(config('legal.social'))->filter()->isNotEmpty())
                 ,"sameAs": {!! json_encode(collect(config('legal.social'))->filter()->values()) !!}
                 @endif
             },
