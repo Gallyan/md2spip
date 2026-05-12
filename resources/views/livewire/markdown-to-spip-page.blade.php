@@ -25,9 +25,13 @@
     }"
     x-effect="
         localStorage.setItem('md2spip-markdown', $wire.markdown || '');
-        if ($wire.markdown && !localStorage.getItem('md2spip-converted')) {
-            localStorage.setItem('md2spip-converted', '1');
-            $wire.trackConversion();
+        if ($wire.markdown) {
+            if (!localStorage.getItem('md2spip-converted')) {
+                localStorage.setItem('md2spip-converted', '1');
+                $wire.trackConversion();
+            }
+        } else {
+            localStorage.removeItem('md2spip-converted');
         }
     ">
     {{-- Header --}}
