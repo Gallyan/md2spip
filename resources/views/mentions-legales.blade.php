@@ -35,9 +35,11 @@
         }
     }">
     @php
-        $email = (string) config('legal.contact_email', 'contact@example.com');
-        [$emailUser, $emailDomain] = str_contains($email, '@') ? explode('@', $email, 2) : [$email, ''];
-        $website = (string) config('legal.social.website');
+        $email = (string) (config('legal.contact_email') ?? config('mail.from.address') ?? '');
+        [$emailUser, $emailDomain] = $email && str_contains($email, '@')
+            ? explode('@', $email, 2)
+            : [null, null];
+        $website = (string) (config('legal.social.website') ?? '');
     @endphp
     <div class="max-w-4xl mx-auto px-6 py-16">
         <header class="mb-16">
@@ -65,27 +67,45 @@
                 <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-5">Éditeur du site</h2>
                 <p class="text-gray-700 dark:text-slate-200 text-lg">
                     <strong class="text-gray-900 dark:text-white">{{ config('legal.editor_name') }}</strong><br>
-                    SIRET : {{ config('legal.editor_siret') }}<br>
+                    @if (config('legal.editor_siret'))
+                        SIRET : {{ config('legal.editor_siret') }}<br>
+                    @endif
                     @if (config('legal.editor_vat'))
                         N° TVA : {{ config('legal.editor_vat') }}<br>
                     @endif
-                    {{ config('legal.editor_address') }}<br>
-                    Tél : {{ config('legal.editor_phone') }}<br>
-                    E-mail : <a href="/contact-email" class="hover:text-emerald-600 dark:hover:text-emerald-300 transition-colors"><span class="protected-email text-emerald-600 dark:text-emerald-400" data-email-user="{{ $emailUser }}" data-email-domain="{{ $emailDomain }}">[email protected]</span></a><br>
-                    Site web : <a href="{{ $website }}" target="_blank" rel="noopener" class="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 underline">{{ preg_replace('#^https?://#', '', $website) }}</a>
+                    @if (config('legal.editor_address'))
+                        {{ config('legal.editor_address') }}<br>
+                    @endif
+                    @if (config('legal.editor_phone'))
+                        Tél : {{ config('legal.editor_phone') }}<br>
+                    @endif
+                    @if ($emailUser && $emailDomain)
+                        E-mail : <a href="/contact-email" class="hover:text-emerald-600 dark:hover:text-emerald-300 transition-colors"><span class="protected-email text-emerald-600 dark:text-emerald-400" data-email-user="{{ $emailUser }}" data-email-domain="{{ $emailDomain }}">[email protected]</span></a><br>
+                    @endif
+                    @if ($website)
+                        Site web : <a href="{{ $website }}" target="_blank" rel="noopener" class="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 underline">{{ preg_replace('#^https?://#', '', $website) }}</a>
+                    @endif
                 </p>
             </section>
 
-            <section class="bg-white dark:bg-slate-800/50 rounded-xl p-8 border border-gray-200 dark:border-slate-700 transition-colors">
-                <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-5">Hébergement</h2>
-                <p class="text-gray-700 dark:text-slate-200 text-lg">
-                    Ce site est hébergé par :<br>
-                    <strong class="text-gray-900 dark:text-white">{{ config('legal.hosting.name') }}</strong><br>
-                    {{ config('legal.hosting.address') }}<br>
-                    Tél : {{ config('legal.hosting.phone') }}<br>
-                    SIRET : {{ config('legal.hosting.siret') }}
-                </p>
-            </section>
+            @if (config('legal.hosting.name'))
+                <section class="bg-white dark:bg-slate-800/50 rounded-xl p-8 border border-gray-200 dark:border-slate-700 transition-colors">
+                    <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-5">Hébergement</h2>
+                    <p class="text-gray-700 dark:text-slate-200 text-lg">
+                        Ce site est hébergé par :<br>
+                        <strong class="text-gray-900 dark:text-white">{{ config('legal.hosting.name') }}</strong><br>
+                        @if (config('legal.hosting.address'))
+                            {{ config('legal.hosting.address') }}<br>
+                        @endif
+                        @if (config('legal.hosting.phone'))
+                            Tél : {{ config('legal.hosting.phone') }}<br>
+                        @endif
+                        @if (config('legal.hosting.siret'))
+                            SIRET : {{ config('legal.hosting.siret') }}
+                        @endif
+                    </p>
+                </section>
+            @endif
 
             <section class="bg-white dark:bg-slate-800/50 rounded-xl p-8 border border-gray-200 dark:border-slate-700 transition-colors">
                 <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-5">Logiciel libre</h2>

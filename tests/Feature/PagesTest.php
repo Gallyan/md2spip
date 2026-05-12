@@ -28,12 +28,29 @@ class PagesTest extends TestCase
      */
     public function test_mentions_legales_page_loads_successfully(): void
     {
+        config([
+            'legal.editor_name' => 'Acme',
+            'legal.hosting.name' => 'OVH',
+        ]);
+
         $response = $this->get('/mentions-legales');
 
         $response->assertStatus(200);
         $response->assertSee('Mentions légales');
         $response->assertSee('Éditeur du site');
         $response->assertSee('Hébergement');
+        $response->assertSee('Acme');
+        $response->assertSee('OVH');
+    }
+
+    public function test_mentions_legales_hides_hosting_section_when_not_configured(): void
+    {
+        config(['legal.hosting.name' => null]);
+
+        $response = $this->get('/mentions-legales');
+
+        $response->assertStatus(200);
+        $response->assertDontSee('Hébergement');
     }
 
     /**
