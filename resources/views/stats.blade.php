@@ -55,7 +55,7 @@
                     ['value' => number_format($totals['sessions'], 0, ',', ' '), 'sub' => 'visites'],
                     ['value' => number_format($totals['conversions'], 0, ',', ' '), 'sub' => 'conversions'],
                     ['value' => number_format($totals['copies'], 0, ',', ' '), 'sub' => 'copies'],
-                    ['value' => number_format($totals['total_chars'], 0, ',', ' '), 'sub' => 'caractères'],
+                    ['value' => number_format($totals['total_chars'], 0, ',', ' '), 'sub' => 'caractères copiés'],
                 ];
             @endphp
             @foreach ($kpis as $kpi)
