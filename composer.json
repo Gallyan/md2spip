@@ -41,6 +41,7 @@
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "@php -r \"file_exists('resources/views/mentions-legales.blade.php') || copy('resources/views/mentions-legales.EXAMPLE.blade.php', 'resources/views/mentions-legales.blade.php');\"",
             "@php artisan key:generate",
+            "git config core.hooksPath .githooks",
             "npm install",
             "npm run build"
         ],
