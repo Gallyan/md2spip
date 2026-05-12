@@ -178,8 +178,9 @@
             <span aria-hidden="true">•</span>
             Créé par <a href="https://www.orsal.fr" target="_blank" rel="noopener" class="hover:text-gray-900 dark:hover:text-slate-300 transition-colors underline">Guillaume Orsal</a> en 2026
         </span>
-        <span class="inline-flex items-center gap-4">
+        <span class="inline-flex items-center gap-1.5">
             <a href="/stats" class="hover:text-gray-900 dark:hover:text-slate-300 transition-colors">Stats</a>
+            <span aria-hidden="true">•</span>
             <a href="/mentions-legales" class="hover:text-gray-900 dark:hover:text-slate-300 transition-colors">Mentions légales</a>
         </span>
     </footer>
