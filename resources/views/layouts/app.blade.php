@@ -103,7 +103,7 @@
                     "Open source GPL-3.0"
                 ],
                 "potentialAction": {
-                    "@@type": "ConvertAction",
+                    "@@type": "CreateAction",
                     "target": {
                         "@@type": "EntryPoint",
                         "urlTemplate": "{{ url('/') }}",
