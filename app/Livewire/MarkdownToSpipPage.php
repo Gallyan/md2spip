@@ -71,7 +71,8 @@ class MarkdownToSpipPage extends Component
     }
 
     /**
-     * Incrémente une statistique dans le fichier JSON.
+     * Incrémente une statistique dans le fichier JSON sous verrou exclusif
+     * pour éviter les écritures concurrentes.
      */
     private function incrementStat(string $key, int $value = 1): void
     {
@@ -81,11 +82,29 @@ class MarkdownToSpipPage extends Component
         }
 
         $file = $dir.'/stats.json';
-        $content = file_exists($file) ? file_get_contents($file) : '';
-        $stats = $content ? json_decode($content, true) : [];
-        $today = date('Y-m-d');
-        $stats[$today][$key] = ($stats[$today][$key] ?? 0) + $value;
-        file_put_contents($file, json_encode($stats, JSON_PRETTY_PRINT));
+        $handle = fopen($file, 'c+');
+        if ($handle === false) {
+            return;
+        }
+
+        try {
+            if (! flock($handle, LOCK_EX)) {
+                return;
+            }
+
+            $content = stream_get_contents($handle);
+            $stats = $content ? json_decode($content, true) : [];
+            $today = date('Y-m-d');
+            $stats[$today][$key] = ($stats[$today][$key] ?? 0) + $value;
+
+            ftruncate($handle, 0);
+            rewind($handle);
+            fwrite($handle, json_encode($stats, JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR));
+            fflush($handle);
+            flock($handle, LOCK_UN);
+        } finally {
+            fclose($handle);
+        }
     }
 
     /**
