@@ -3,8 +3,6 @@
     $isEn = $locale === 'en';
     $statsUrl = $isEn ? '/en/stats' : '/stats';
     $legalUrl = $isEn ? '/en/legal' : '/mentions-legales';
-    $altLocaleUrl = $isEn ? '/' : '/en';
-    $altLocaleLabel = $isEn ? __('messages.switcher.fr') : __('messages.switcher.en');
 @endphp
 <div class="flex flex-col h-screen"
     x-data="{
@@ -62,8 +60,7 @@
         </div>
 
         <div class="flex items-center gap-3">
-            {{-- Language switcher --}}
-            <a href="{{ $altLocaleUrl }}" class="text-xs font-semibold uppercase tracking-wide px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-300 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800" aria-label="{{ __('messages.switcher.aria') }}" hreflang="{{ $isEn ? 'fr' : 'en' }}">{{ $isEn ? 'FR' : 'EN' }}</a>
+            <x-language-switcher url-fr="/" url-en="/en" />
 
             {{-- Theme toggle button --}}
             <button

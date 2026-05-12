@@ -6,7 +6,6 @@
     $dateLocale = $isEn ? 'en-GB' : 'fr-FR';
     $dateFormat = $isEn ? 'm/d' : 'd/m';
     $homeUrl = $isEn ? '/en' : '/';
-    $altLocaleUrl = $isEn ? '/stats' : '/en/stats';
 @endphp
 <!DOCTYPE html>
 <html lang="{{ $locale }}" class="dark">
@@ -46,7 +45,7 @@
                 </a>
 
                 <div class="flex items-center gap-3">
-                <a href="{{ $altLocaleUrl }}" class="text-xs font-semibold uppercase tracking-wide px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-300 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900" aria-label="{{ __('messages.switcher.aria') }}" hreflang="{{ $isEn ? 'fr' : 'en' }}">{{ $isEn ? 'FR' : 'EN' }}</a>
+                <x-language-switcher url-fr="/stats" url-en="/en/stats" />
 
                 <button
                     @click="toggleTheme()"
