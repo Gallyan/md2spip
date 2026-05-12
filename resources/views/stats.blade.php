@@ -65,11 +65,25 @@
         {{-- KPI cards --}}
         <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12" aria-label="{{ __('messages.stats.chart_kpi_aria') }}">
             @php
+                $humanize = function (int $value) use ($decimal): string {
+                    $format = fn (float $v, string $unit): string => rtrim(rtrim(number_format($v, 1, $decimal, ''), '0'), $decimal).$unit;
+                    if ($value < 1000) {
+                        return (string) $value;
+                    }
+                    if ($value < 1_000_000) {
+                        return $format($value / 1000, 'k');
+                    }
+                    if ($value < 1_000_000_000) {
+                        return $format($value / 1_000_000, 'M');
+                    }
+
+                    return $format($value / 1_000_000_000, 'G');
+                };
                 $kpis = [
                     ['value' => number_format($totals['sessions'], 0, $decimal, $thousands), 'sub' => __('messages.stats.kpi_visits')],
                     ['value' => number_format($totals['conversions'], 0, $decimal, $thousands), 'sub' => __('messages.stats.kpi_conversions')],
                     ['value' => number_format($totals['copies'], 0, $decimal, $thousands), 'sub' => __('messages.stats.kpi_copies')],
-                    ['value' => number_format($totals['total_chars'], 0, $decimal, $thousands), 'sub' => __('messages.stats.kpi_chars')],
+                    ['value' => $humanize($totals['total_chars']), 'sub' => __('messages.stats.kpi_chars')],
                 ];
             @endphp
             @foreach ($kpis as $kpi)
