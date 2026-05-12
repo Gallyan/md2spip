@@ -5,46 +5,46 @@
 [![Laravel Version](https://img.shields.io/badge/Laravel-13-FF2D20?logo=laravel&logoColor=white)](https://laravel.com/)
 [![Livewire](https://img.shields.io/badge/Livewire-4-FB70A9?logo=livewire&logoColor=white)](https://livewire.laravel.com/)
 
-Convertisseur en ligne Markdown vers syntaxe SPIP, en temps réel.
+Real-time online converter from Markdown to SPIP syntax.
 
-**[Démo en ligne](https://markdown2spip.orsal.fr)**
+**[Live demo](https://markdown2spip.orsal.fr)**
 
-![Interface desktop du convertisseur Markdown vers SPIP](public/og-image.png)
+![Desktop interface of the Markdown to SPIP converter](public/og-image.png)
 
-## Fonctionnalités
+## Features
 
-- **Conversion en temps réel** (pas de bouton "Convertir")
-- **Interface split-view** : Markdown à gauche, SPIP à droite
-- **Copie en un clic** vers le presse-papier avec feedback visuel
-- **Persistance locale** : Texte sauvegardé dans localStorage du navigateur (navigation sans perte)
-- **Compteur de caractères** en temps réel
-- **Aide contextuelle**
+- **Real-time conversion** (no "Convert" button)
+- **Split-view interface**: Markdown on the left, SPIP on the right
+- **One-click copy** to clipboard with visual feedback
+- **Local persistence**: text saved to browser localStorage (no loss on navigation)
+- **Live character counter**
+- **Contextual help**
 - **Responsive** (mobile/desktop)
-- **Mode sombre** par défaut
+- **Dark mode** by default
 
-## Conversions supportées
+## Supported conversions
 
 | Markdown | SPIP | Description |
 |----------|------|-------------|
-| `# Titre` | `{{{Titre}}}` | Titre principal (h1 uniquement) |
-| `## Sous-titre` | `{{Sous-titre}}` | Sous-titres (h2 à h6) en gras |
-| `**gras**` ou `__gras__` | `{{gras}}` | Texte en gras |
-| `*italique*` ou `_italique_` | `{italique}` | Texte en italique |
-| `***gras+ita***` ou `___gras+ita___` | `{{ { gras+ita } }}` | Gras et italique combinés |
-| `~~barré~~` | `<del>barré</del>` | Texte barré |
-| `` `code` `` | `<code>code</code>` | Code inline |
-| ` ```code``` ` ou ` ```js code``` ` | `<code>code</code>` | Blocs de code (nom langage ignoré) |
-| `[lien](url)` | `[lien->url]` | Liens hypertextes |
-| `- item` | `-* item` | Listes à puces |
-| `> citation` | `<quote>citation</quote>` | Citations/blockquotes |
-| `Texte[^1]` + `[^1]: note` | `Texte[[note]]` | Notes de bas de page |
+| `# Title` | `{{{Title}}}` | Main heading (h1 only) |
+| `## Subtitle` | `{{Subtitle}}` | Subheadings (h2 to h6) in bold |
+| `**bold**` or `__bold__` | `{{bold}}` | Bold text |
+| `*italic*` or `_italic_` | `{italic}` | Italic text |
+| `***bold+ita***` or `___bold+ita___` | `{{ { bold+ita } }}` | Combined bold and italic |
+| `~~strike~~` | `<del>strike</del>` | Strikethrough text |
+| `` `code` `` | `<code>code</code>` | Inline code |
+| ` ```code``` ` or ` ```js code``` ` | `<code>code</code>` | Code blocks (language name stripped) |
+| `[link](url)` | `[link->url]` | Hyperlinks |
+| `- item` | `-* item` | Bullet lists |
+| `> quote` | `<quote>quote</quote>` | Blockquotes |
+| `Text[^1]` + `[^1]: note` | `Text[[note]]` | Footnotes |
 
-**Notes :**
-- Le contenu des blocs de code est protégé et n'est pas transformé par les autres règles de conversion.
-- Les blocs de code peuvent inclure un nom de langage (```js, ```php, etc.) qui sera automatiquement supprimé.
-- L'underscore `_` fonctionne exactement comme l'astérisque `*` pour le formatage.
+**Notes:**
+- Code block contents are protected and not transformed by other conversion rules.
+- Code blocks may include a language name (```js, ```php, etc.) which is stripped automatically.
+- The underscore `_` works exactly like the asterisk `*` for formatting.
 
-## Installation locale
+## Local installation
 
 ```bash
 git clone https://github.com/Gallyan/md2spip.git
@@ -53,20 +53,20 @@ composer run setup
 php artisan serve
 ```
 
-Personnalisez les variables `LEGAL_*` dans `.env` (éditeur, hébergeur, contact). Voir `.env.example`.
+Customize the `LEGAL_*` variables in `.env` (editor, hosting, contact). See `.env.example`.
 
-## Déploiement en production
+## Production deployment
 
-Le workflow `.github/workflows/pipeline.yml` déploie automatiquement sur le serveur après succès des tests sur `main`. Secrets requis listés en commentaire du fichier.
+The `.github/workflows/pipeline.yml` workflow auto-deploys to the server after a successful test run on `main`. Required secrets are listed in the file's comments.
 
-Pour la première install serveur :
+First-time server setup:
 
 ```bash
-git clone <repo> /chemin/du/site
-cd /chemin/du/site
+git clone <repo> /path/to/site
+cd /path/to/site
 composer install --no-dev --optimize-autoloader
 cp .env.production .env
-# éditer APP_URL et LEGAL_* (éditeur, hébergeur, contact)
+# edit APP_URL and LEGAL_* (editor, hosting, contact)
 php artisan key:generate
 npm ci && npm run build
 php artisan optimize
@@ -78,13 +78,13 @@ php artisan optimize
 php artisan test
 ```
 
-Pour plus de détails sur l'évolution du projet, consultez le [CHANGELOG](CHANGELOG.md).
+See the [CHANGELOG](CHANGELOG.md) for project history.
 
-## Accessibilité
+## Accessibility
 
-- Navigation au clavier complète
-- Support ARIA et lecteurs d'écran
+- Full keyboard navigation
+- ARIA support and screen readers
 
-## Vie privée
+## Privacy
 
-Aucune donnée utilisateur n'est stockée côté serveur. Tout reste dans votre navigateur.
+No user data is stored server-side. Everything stays in your browser.
