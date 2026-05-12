@@ -83,8 +83,12 @@
                 "datePublished": "2026-01-15",
                 "isAccessibleForFree": true,
                 "license": "https://www.gnu.org/licenses/gpl-3.0",
-                "codeRepository": "https://github.com/Gallyan/md2spip",
-                "programmingLanguage": ["PHP", "JavaScript"],
+                "isBasedOn": {
+                    "@@type": "SoftwareSourceCode",
+                    "codeRepository": "https://github.com/Gallyan/md2spip",
+                    "programmingLanguage": ["PHP", "JavaScript"],
+                    "license": "https://www.gnu.org/licenses/gpl-3.0"
+                },
                 "offers": {
                     "@@type": "Offer",
                     "price": "0",
