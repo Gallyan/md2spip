@@ -21,6 +21,7 @@ Route::get('/sitemap.xml', function () {
         : now()->toIso8601String();
 
     $xml = '<?xml version="1.0" encoding="UTF-8"?>'."\n"
+        .'<?xml-stylesheet type="text/xsl" href="/sitemap.xsl"?>'."\n"
         .'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'."\n"
         .'  <url>'."\n"
         .'    <loc>'.url('/').'</loc>'."\n"

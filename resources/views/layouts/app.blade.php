@@ -60,24 +60,42 @@
                 "description": "Convertisseur en ligne gratuit pour transformer du Markdown en syntaxe SPIP. Instantané, sans inscription, respectueux de la vie privée.",
                 "url": "{{ url('/') }}",
                 "applicationCategory": "UtilitiesApplication",
+                "applicationSubCategory": "Text conversion tool",
                 "operatingSystem": "Any",
                 "browserRequirements": "Requires JavaScript",
                 "inLanguage": "fr",
                 "image": "{{ asset('favicon.svg') }}",
+                "keywords": "markdown, spip, convertisseur, conversion, syntaxe SPIP, mise en forme",
+                "dateCreated": "2026-01-01",
+                "datePublished": "2026-01-15",
                 "isAccessibleForFree": true,
                 "license": "https://www.gnu.org/licenses/gpl-3.0",
+                "codeRepository": "https://github.com/Gallyan/md2spip",
+                "programmingLanguage": ["PHP", "JavaScript"],
                 "offers": {
                     "@@type": "Offer",
                     "price": "0",
                     "priceCurrency": "EUR"
                 },
                 "featureList": [
-                    "Conversion en temps réel",
-                    "Interface split-view Markdown / SPIP",
-                    "Mode sombre",
+                    "Conversion Markdown vers SPIP en temps réel",
+                    "Interface split-view (saisie / résultat)",
+                    "Persistance locale du texte (localStorage)",
+                    "Mode sombre par défaut",
                     "Aucune donnée personnelle collectée",
                     "Open source GPL-3.0"
                 ],
+                "potentialAction": {
+                    "@@type": "ConvertAction",
+                    "target": {
+                        "@@type": "EntryPoint",
+                        "urlTemplate": "{{ url('/') }}",
+                        "actionPlatform": [
+                            "http://schema.org/DesktopWebPlatform",
+                            "http://schema.org/MobileWebPlatform"
+                        ]
+                    }
+                },
                 "author": { "@@id": "{{ url('/') }}/#person" },
                 "creator": { "@@id": "{{ url('/') }}/#person" },
                 "publisher": { "@@id": "{{ url('/') }}/#person" }
