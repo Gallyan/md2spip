@@ -7,20 +7,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\RedirectResponse;
 
 /**
- * Gère la redirection email obfusquée pour protéger contre les robots spammeurs.
+ * Handles the obfuscated email redirect to protect against spam bots.
  *
- * Cette classe implémente la méthode d'obfuscation décrite dans :
+ * This class implements the obfuscation method described at:
  * https://www.orsal.fr/Obfuscation-d-email-CSS-vs
  */
 final class ContactRedirectController extends Controller
 {
     /**
-     * Redirige vers mailto: avec l'email configuré.
+     * Redirect to mailto: with the configured email address.
      *
-     * Headers anti-cache pour empêcher l'indexation et la mise en cache
-     * de la redirection par les navigateurs, proxies et robots.
+     * Anti-cache headers prevent indexing and caching of the redirect
+     * by browsers, proxies and bots.
      *
-     * @return RedirectResponse Redirection vers mailto: avec headers de sécurité
+     * @return RedirectResponse Redirect to mailto: with security headers
      */
     public function __invoke(): RedirectResponse
     {

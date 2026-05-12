@@ -9,14 +9,14 @@ use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 
-#[Signature('stats:seed {--days=30 : Nombre de jours à générer} {--fresh : Écrase le fichier existant}')]
-#[Description('Génère des statistiques d\'usage fictives pour le dashboard /stats.')]
+#[Signature('stats:seed {--days=30 : Number of days to generate} {--fresh : Overwrite the existing file}')]
+#[Description('Generates fake usage statistics for the /stats dashboard.')]
 final class StatsSeed extends Command
 {
     public function handle(): int
     {
         if (app()->environment('production')) {
-            $this->error('Refusé en production.');
+            $this->error('Refused in production.');
 
             return self::FAILURE;
         }
@@ -57,7 +57,7 @@ final class StatsSeed extends Command
         ksort($stats);
         $disk->put('stats.json', json_encode($stats, JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR));
 
-        $this->info("Stats générées pour {$days} jour(s) → {$disk->path('stats.json')}");
+        $this->info("Stats generated for {$days} day(s) → {$disk->path('stats.json')}");
 
         return self::SUCCESS;
     }

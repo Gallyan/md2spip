@@ -12,7 +12,7 @@ Route::get('/', MarkdownToSpipPage::class);
 Route::get('/mentions-legales', fn () => view('mentions-legales'));
 Route::get('/stats', StatsController::class);
 
-// Redirection email obfusquée (protection anti-spam)
+// Obfuscated email redirect (spam protection)
 Route::get('/contact', ContactRedirectController::class);
 
 Route::get('/sitemap.xml', function () {

@@ -10,8 +10,7 @@ use PHPUnit\Framework\TestCase;
 class MarkdownToSpipConverterTest extends TestCase
 {
     /**
-     * Vérifie la conversion des titres H1 Markdown (# texte)
-     * vers la syntaxe SPIP ({{{texte}}}).
+     * Verifies H1 conversion (# text → {{{text}}}).
      */
     public function test_converts_h1_title(): void
     {
@@ -22,8 +21,7 @@ class MarkdownToSpipConverterTest extends TestCase
     }
 
     /**
-     * Vérifie la conversion des titres H2 Markdown (## texte)
-     * vers la syntaxe SPIP ({{texte}}).
+     * Verifies H2 conversion (## text → {{text}}).
      */
     public function test_converts_h2_title(): void
     {
@@ -34,8 +32,8 @@ class MarkdownToSpipConverterTest extends TestCase
     }
 
     /**
-     * Vérifie que tous les niveaux de titres (H1 à H6)
-     * sont convertis correctement (H1 → {{{}}}, H2-H6 → {{}}).
+     * Verifies that all heading levels (H1 to H6) are converted properly
+     * (H1 → {{{}}}, H2-H6 → {{}}).
      */
     public function test_converts_multiple_title_levels(): void
     {
@@ -46,8 +44,7 @@ class MarkdownToSpipConverterTest extends TestCase
     }
 
     /**
-     * Vérifie la conversion du gras Markdown (**texte**)
-     * vers la syntaxe SPIP ({{texte}}).
+     * Verifies bold conversion (**text** → {{text}}).
      */
     public function test_converts_bold_text(): void
     {
@@ -58,8 +55,7 @@ class MarkdownToSpipConverterTest extends TestCase
     }
 
     /**
-     * Vérifie la conversion de l'italique Markdown (*texte*)
-     * vers la syntaxe SPIP ({texte}).
+     * Verifies italic conversion (*text* → {text}).
      */
     public function test_converts_italic_text(): void
     {
@@ -70,8 +66,7 @@ class MarkdownToSpipConverterTest extends TestCase
     }
 
     /**
-     * Vérifie la conversion des liens Markdown [texte](url)
-     * vers la syntaxe SPIP [texte->url].
+     * Verifies link conversion ([text](url) → [text->url]).
      */
     public function test_converts_links(): void
     {
@@ -82,8 +77,7 @@ class MarkdownToSpipConverterTest extends TestCase
     }
 
     /**
-     * Vérifie la conversion des listes à puces Markdown (- item)
-     * vers la syntaxe SPIP (-* item).
+     * Verifies bullet list conversion (- item → -* item).
      */
     public function test_converts_lists(): void
     {
@@ -94,8 +88,7 @@ class MarkdownToSpipConverterTest extends TestCase
     }
 
     /**
-     * Vérifie la conversion des citations Markdown (> texte)
-     * vers la syntaxe SPIP (<quote>texte</quote>).
+     * Verifies blockquote conversion (> text → <quote>text</quote>).
      */
     public function test_converts_blockquotes(): void
     {
@@ -106,8 +99,8 @@ class MarkdownToSpipConverterTest extends TestCase
     }
 
     /**
-     * Vérifie que tous les types de formatage sont convertis correctement
-     * dans un document Markdown complexe combinant plusieurs syntaxes.
+     * Verifies that all formatting types are converted properly
+     * in a complex Markdown document combining multiple syntaxes.
      */
     public function test_converts_complex_markdown(): void
     {
@@ -118,8 +111,8 @@ class MarkdownToSpipConverterTest extends TestCase
     }
 
     /**
-     * Vérifie que les chaînes vides sont gérées correctement
-     * et retournent une chaîne vide sans erreur.
+     * Verifies that empty strings are handled properly
+     * and return an empty string without error.
      */
     public function test_handles_empty_string(): void
     {
@@ -127,8 +120,7 @@ class MarkdownToSpipConverterTest extends TestCase
     }
 
     /**
-     * Vérifie que le texte sans formatage Markdown
-     * est retourné inchangé.
+     * Verifies that text without any Markdown formatting is returned unchanged.
      */
     public function test_handles_text_without_markdown(): void
     {
@@ -137,8 +129,7 @@ class MarkdownToSpipConverterTest extends TestCase
     }
 
     /**
-     * Vérifie la conversion du code inline Markdown (`code`)
-     * vers la syntaxe SPIP (<code>code</code>).
+     * Verifies inline code conversion (`code` → <code>code</code>).
      */
     public function test_converts_inline_code(): void
     {
@@ -149,8 +140,7 @@ class MarkdownToSpipConverterTest extends TestCase
     }
 
     /**
-     * Vérifie la conversion des blocs de code Markdown (```)
-     * vers la syntaxe SPIP (<code>...</code>).
+     * Verifies code block conversion (``` → <code>...</code>).
      */
     public function test_converts_code_blocks(): void
     {
@@ -161,8 +151,8 @@ class MarkdownToSpipConverterTest extends TestCase
     }
 
     /**
-     * Vérifie que le contenu des blocs de code est protégé
-     * et que les syntaxes Markdown à l'intérieur ne sont pas converties.
+     * Verifies that code block contents are protected
+     * and inner Markdown syntax is not converted.
      */
     public function test_code_blocks_protect_content_from_conversion(): void
     {
@@ -173,8 +163,7 @@ class MarkdownToSpipConverterTest extends TestCase
     }
 
     /**
-     * Vérifie la conversion des notes de bas de page Markdown ([^ref])
-     * vers la syntaxe SPIP ([[note]]) avec suppression des définitions.
+     * Verifies footnote conversion ([^ref] → [[note]]) with definition removal.
      */
     public function test_converts_footnotes(): void
     {
@@ -185,8 +174,7 @@ class MarkdownToSpipConverterTest extends TestCase
     }
 
     /**
-     * Vérifie la conversion d'une note de bas de page unique
-     * avec référence et définition.
+     * Verifies the conversion of a single footnote with reference and definition.
      */
     public function test_converts_single_footnote(): void
     {
@@ -197,8 +185,8 @@ class MarkdownToSpipConverterTest extends TestCase
     }
 
     /**
-     * Vérifie que les références de notes sans définition
-     * sont laissées intactes dans le texte converti.
+     * Verifies that footnote references without a definition
+     * stay unchanged in the converted text.
      */
     public function test_footnote_without_definition_stays_unchanged(): void
     {
@@ -209,8 +197,8 @@ class MarkdownToSpipConverterTest extends TestCase
     }
 
     /**
-     * Vérifie que les notes de bas de page sont converties correctement
-     * dans un document complexe combinant titres, formatage et notes.
+     * Verifies footnote conversion in a complex document
+     * combining headings, formatting and footnotes.
      */
     public function test_complex_document_with_footnotes(): void
     {
@@ -221,8 +209,8 @@ class MarkdownToSpipConverterTest extends TestCase
     }
 
     /**
-     * Vérifie que les blocs de code avec nom de langage (```js, ```php)
-     * suppriment correctement le nom du langage lors de la conversion.
+     * Verifies that code blocks with a language name (```js, ```php)
+     * strip the language name when converted.
      */
     public function test_code_blocks_ignore_language_name(): void
     {
@@ -233,8 +221,7 @@ class MarkdownToSpipConverterTest extends TestCase
     }
 
     /**
-     * Vérifie la conversion de l'italique avec underscore (_texte_)
-     * vers la syntaxe SPIP ({texte}).
+     * Verifies italic conversion with underscore (_text_ → {text}).
      */
     public function test_converts_italic_with_underscore(): void
     {
@@ -245,8 +232,7 @@ class MarkdownToSpipConverterTest extends TestCase
     }
 
     /**
-     * Vérifie la conversion du gras avec double underscore (__texte__)
-     * vers la syntaxe SPIP ({{texte}}).
+     * Verifies bold conversion with double underscore (__text__ → {{text}}).
      */
     public function test_converts_bold_with_underscore(): void
     {
@@ -257,8 +243,7 @@ class MarkdownToSpipConverterTest extends TestCase
     }
 
     /**
-     * Vérifie la conversion du gras+italique combiné (***texte***)
-     * vers la syntaxe SPIP ({{ { texte } }}).
+     * Verifies combined bold+italic conversion (***text*** → {{ { text } }}).
      */
     public function test_converts_bold_and_italic_combined_with_asterisks(): void
     {
@@ -269,8 +254,7 @@ class MarkdownToSpipConverterTest extends TestCase
     }
 
     /**
-     * Vérifie la conversion du gras+italique combiné (___texte___)
-     * vers la syntaxe SPIP ({{ { texte } }}).
+     * Verifies combined bold+italic conversion (___text___ → {{ { text } }}).
      */
     public function test_converts_bold_and_italic_combined_with_underscores(): void
     {
@@ -281,8 +265,7 @@ class MarkdownToSpipConverterTest extends TestCase
     }
 
     /**
-     * Vérifie la conversion du texte barré (~~texte~~)
-     * vers la syntaxe SPIP (<del>texte</del>).
+     * Verifies strikethrough conversion (~~text~~ → <del>text</del>).
      */
     public function test_converts_strikethrough(): void
     {

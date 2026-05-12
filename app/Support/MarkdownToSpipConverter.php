@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace App\Support;
 
 /**
- * Convertisseur Markdown vers syntaxe SPIP.
+ * Markdown to SPIP syntax converter.
  *
- * Transforme les éléments Markdown courants (titres, gras, italique, liens, listes, etc.)
- * vers leur équivalent dans la syntaxe de publication SPIP.
+ * Transforms common Markdown elements (headings, bold, italic, links, lists, etc.)
+ * to their equivalent in the SPIP publishing syntax.
  */
 class MarkdownToSpipConverter
 {
     /**
-     * Convertit du texte Markdown en syntaxe SPIP.
+     * Convert Markdown text to SPIP syntax.
      *
-     * @param  string  $markdown  Le texte au format Markdown à convertir
-     * @return string Le texte converti en syntaxe SPIP
+     * @param  string  $markdown  The Markdown-formatted text to convert
+     * @return string The text converted to SPIP syntax
      */
     public static function convert(string $markdown): string
     {
@@ -24,12 +24,12 @@ class MarkdownToSpipConverter
         $codeBlocks = [];
         $codeIndex = 0;
 
-        // Extraire et protéger les blocs de code avec des placeholders
-        // Supprimer le nom du langage optionnel (```js, ```php, etc.)
+        // Extract and protect code blocks with placeholders
+        // Strip the optional language name (```js, ```php, etc.)
         $spip = preg_replace_callback('/```(?:\w+)?\n?(.+?)```/s', function ($matches) use (&$codeBlocks, &$codeIndex) {
             $placeholder = "\x00CODEBLOCK{$codeIndex}\x00";
             $content = $matches[1];
-            // Ajouter des sauts de ligne uniquement si le contenu est multiligne
+            // Add line breaks only if content is multi-line
             if (str_contains($content, "\n")) {
                 $codeBlocks[$placeholder] = '<code>'."\n".trim($content)."\n".'</code>';
             } else {
@@ -40,7 +40,7 @@ class MarkdownToSpipConverter
             return $placeholder;
         }, $spip) ?? $spip;
 
-        // Extraire et protéger le code inline avec des placeholders
+        // Extract and protect inline code with placeholders
         $spip = preg_replace_callback('/`(.+?)`/', function ($matches) use (&$codeBlocks, &$codeIndex) {
             $placeholder = "\x00CODEBLOCK{$codeIndex}\x00";
             $codeBlocks[$placeholder] = '<code>'.$matches[1].'</code>';
@@ -49,55 +49,55 @@ class MarkdownToSpipConverter
             return $placeholder;
         }, $spip) ?? $spip;
 
-        // Notes de bas de page : extraire les définitions [^id]: texte
+        // Footnotes: extract definitions [^id]: text
         $footnotes = [];
         $spip = preg_replace_callback('/^\[\^([^\]]+)\]:\s*(.+)$/m', function ($matches) use (&$footnotes) {
             $footnotes[$matches[1]] = trim($matches[2]);
 
-            return ''; // Supprimer la ligne de définition
+            return ''; // Remove the definition line
         }, $spip) ?? $spip;
 
-        // Remplacer les références [^id] par [[texte]]
+        // Replace references [^id] with [[text]]
         $spip = preg_replace_callback('/\[\^([^\]]+)\]/', function ($matches) use ($footnotes) {
             $id = $matches[1];
             if (isset($footnotes[$id])) {
                 return '[['.$footnotes[$id].']]';
             }
 
-            return $matches[0]; // Garder tel quel si pas de définition trouvée
+            return $matches[0]; // Keep as-is if no definition found
         }, $spip) ?? $spip;
 
-        // Titres niveau 1 : # Titre → {{{Titre}}}
+        // Level 1 headings: # Title → {{{Title}}}
         $spip = preg_replace('/^#\s+(.+)$/m', '{{{$1}}}', $spip) ?? $spip;
 
-        // Titres niveaux 2+ : ## à ###### → {{Titre}} (en gras)
+        // Level 2+ headings: ## to ###### → {{Title}} (bold)
         $spip = preg_replace('/^#{2,6}\s+(.+)$/m', '{{$1}}', $spip) ?? $spip;
 
-        // Barré ~~texte~~ → <del>texte</del>
+        // Strikethrough ~~text~~ → <del>text</del>
         $spip = preg_replace('/~~(.+?)~~/s', '<del>$1</del>', $spip) ?? $spip;
 
-        // Gras+Italique combiné ***texte*** ou ___texte___ → {{ { texte } }}
+        // Combined bold+italic ***text*** or ___text___ → {{ { text } }}
         $spip = preg_replace('/\*\*\*(.+?)\*\*\*/s', '{{ { $1 } }}', $spip) ?? $spip;
         $spip = preg_replace('/___(.+?)___/s', '{{ { $1 } }}', $spip) ?? $spip;
 
-        // Gras **texte** ou __texte__ → {{texte}}
+        // Bold **text** or __text__ → {{text}}
         $spip = preg_replace('/\*\*(.+?)\*\*/s', '{{$1}}', $spip) ?? $spip;
         $spip = preg_replace('/__(.+?)__/s', '{{$1}}', $spip) ?? $spip;
 
-        // Italique *texte* ou _texte_ → {texte}
+        // Italic *text* or _text_ → {text}
         $spip = preg_replace('/\*(.+?)\*/s', '{$1}', $spip) ?? $spip;
         $spip = preg_replace('/_(.+?)_/s', '{$1}', $spip) ?? $spip;
 
-        // Liens [texte](url) → [texte->url]
+        // Links [text](url) → [text->url]
         $spip = preg_replace('/\[([^\]]+)\]\(([^)]+)\)/', '[$1->$2]', $spip) ?? $spip;
 
-        // Listes - item → -* item
+        // Lists - item → -* item
         $spip = preg_replace('/^-\s+/m', '-* ', $spip) ?? $spip;
 
-        // Citations > texte → <quote>texte</quote>
+        // Blockquotes > text → <quote>text</quote>
         $spip = preg_replace('/^>\s*(.+)$/m', '<quote>$1</quote>', $spip) ?? $spip;
 
-        // Restaurer les blocs de code
+        // Restore code blocks
         foreach ($codeBlocks as $placeholder => $code) {
             $spip = str_replace($placeholder, $code, $spip);
         }

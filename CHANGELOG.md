@@ -1,47 +1,47 @@
 # Changelog
 
-Toutes les modifications notables de ce projet seront documentées dans ce fichier.
+All notable changes to this project will be documented in this file.
 
-Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
-et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [1.0.0] - 2026-01-14
 
-Première version stable du convertisseur Markdown vers SPIP.
+First stable release of the Markdown to SPIP converter.
 
-### Conversion Markdown vers SPIP
+### Markdown to SPIP conversion
 
-- Titres H1 (`# Titre` → `{{{Titre}}}`)
-- Sous-titres H2-H6 (`## Sous-titre` → `{{Sous-titre}}`)
-- Gras (`**gras**` → `{{gras}}`)
-- Italique (`*italique*` → `{italique}`)
-- Gras et italique combinés (`***texte***` → `{{{texte}}}`)
-- Texte barré (`~~barré~~` → `<del>barré</del>`)
-- Code inline et blocs de code
-- Liens (`[texte](url)` → `[texte->url]`)
-- Listes à puces (`- item` → `-* item`)
-- Citations (`> citation` → `<quote>citation</quote>`)
-- Notes de bas de page (`Texte[^1]` + `[^1]: note` → `Texte[[note]]`)
+- H1 headings (`# Title` → `{{{Title}}}`)
+- H2-H6 subheadings (`## Subtitle` → `{{Subtitle}}`)
+- Bold (`**bold**` → `{{bold}}`)
+- Italic (`*italic*` → `{italic}`)
+- Combined bold and italic (`***text***` → `{{{text}}}`)
+- Strikethrough (`~~strike~~` → `<del>strike</del>`)
+- Inline code and code blocks
+- Links (`[text](url)` → `[text->url]`)
+- Bullet lists (`- item` → `-* item`)
+- Blockquotes (`> quote` → `<quote>quote</quote>`)
+- Footnotes (`Text[^1]` + `[^1]: note` → `Text[[note]]`)
 
-### Interface utilisateur
+### User interface
 
-- Interface en deux colonnes avec conversion en temps réel
-- Copie en un clic vers le presse-papier
-- Compteur de caractères
-- Mode sombre par défaut
-- Sauvegarde automatique dans le navigateur
-- Modale d'aide
+- Two-column interface with real-time conversion
+- One-click copy to clipboard
+- Character counter
+- Dark mode by default
+- Automatic saving in the browser
+- Help modal
 
-### Accessibilité
+### Accessibility
 
-- Support ARIA complet
-- Navigation au clavier
-- Compatibilité lecteurs d'écran
+- Full ARIA support
+- Keyboard navigation
+- Screen reader compatibility
 
 ### SEO
 
-- Données structurées Schema.org
+- Schema.org structured data
 
-### Vie privée
+### Privacy
 
-- Aucune donnée stockée côté serveur
+- No data stored server-side

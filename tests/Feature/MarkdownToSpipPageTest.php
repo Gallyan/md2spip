@@ -16,16 +16,15 @@ class MarkdownToSpipPageTest extends TestCase
     {
         parent::setUp();
 
-        // Nettoyer le rate limiter avant chaque test pour éviter les interférences
+        // Clear the rate limiter before each test to avoid interference
         RateLimiter::clear('markdown-convert:'.request()->ip());
 
-        // Isoler les écritures de stats pour ne pas polluer le fichier réel
+        // Isolate stats writes so tests don't pollute the real file
         Storage::fake('stats');
     }
 
     /**
-     * Vérifie que le composant Livewire se charge correctement
-     * et affiche les éléments de base de l'interface.
+     * Verifies that the Livewire component loads and shows the basic UI.
      */
     public function test_component_renders(): void
     {
@@ -37,8 +36,7 @@ class MarkdownToSpipPageTest extends TestCase
     }
 
     /**
-     * Vérifie que les propriétés markdown et spip sont initialisées
-     * avec des chaînes vides au chargement du composant.
+     * Verifies that markdown and spip properties are initialized to empty strings.
      */
     public function test_markdown_property_is_initialized(): void
     {
@@ -48,8 +46,7 @@ class MarkdownToSpipPageTest extends TestCase
     }
 
     /**
-     * Vérifie que la conversion Markdown → SPIP se déclenche
-     * automatiquement lors de la modification du texte.
+     * Verifies that Markdown → SPIP conversion is triggered automatically on text change.
      */
     public function test_converts_markdown_to_spip_on_update(): void
     {
@@ -59,8 +56,7 @@ class MarkdownToSpipPageTest extends TestCase
     }
 
     /**
-     * Vérifie la conversion du gras Markdown (**texte**)
-     * vers la syntaxe SPIP ({{texte}}).
+     * Verifies bold conversion (**text** → {{text}}).
      */
     public function test_converts_bold_text(): void
     {
@@ -70,8 +66,7 @@ class MarkdownToSpipPageTest extends TestCase
     }
 
     /**
-     * Vérifie la conversion de l'italique Markdown (*texte*)
-     * vers la syntaxe SPIP ({texte}).
+     * Verifies italic conversion (*text* → {text}).
      */
     public function test_converts_italic_text(): void
     {
@@ -81,8 +76,7 @@ class MarkdownToSpipPageTest extends TestCase
     }
 
     /**
-     * Vérifie la conversion des liens Markdown [texte](url)
-     * vers la syntaxe SPIP [texte->url].
+     * Verifies link conversion ([text](url) → [text->url]).
      */
     public function test_converts_links(): void
     {
@@ -92,8 +86,7 @@ class MarkdownToSpipPageTest extends TestCase
     }
 
     /**
-     * Vérifie la conversion des listes à puces Markdown (- item)
-     * vers la syntaxe SPIP (-* item).
+     * Verifies bullet list conversion (- item → -* item).
      */
     public function test_converts_lists(): void
     {
@@ -103,8 +96,7 @@ class MarkdownToSpipPageTest extends TestCase
     }
 
     /**
-     * Vérifie la conversion des citations Markdown (> texte)
-     * vers la syntaxe SPIP (<quote>texte</quote>).
+     * Verifies blockquote conversion (> text → <quote>text</quote>).
      */
     public function test_converts_blockquotes(): void
     {
@@ -114,8 +106,7 @@ class MarkdownToSpipPageTest extends TestCase
     }
 
     /**
-     * Vérifie que les conversions se font en temps réel
-     * et que chaque mise à jour remplace complètement la précédente.
+     * Verifies that conversions happen in real time and each update fully replaces the previous one.
      */
     public function test_updates_in_real_time(): void
     {
@@ -127,8 +118,7 @@ class MarkdownToSpipPageTest extends TestCase
     }
 
     /**
-     * Vérifie que les champs vides sont gérés correctement
-     * sans produire d'erreur.
+     * Verifies that empty input is handled correctly without error.
      */
     public function test_handles_empty_input(): void
     {
@@ -138,8 +128,7 @@ class MarkdownToSpipPageTest extends TestCase
     }
 
     /**
-     * Vérifie que plusieurs types de formatage Markdown
-     * sont convertis correctement dans un document complexe.
+     * Verifies that multiple Markdown formats are converted properly in a complex document.
      */
     public function test_handles_complex_markdown(): void
     {
@@ -152,8 +141,7 @@ class MarkdownToSpipPageTest extends TestCase
     }
 
     /**
-     * Vérifie que les textes dépassant MAX_LENGTH (100 000 caractères)
-     * sont rejetés avec un message d'erreur approprié.
+     * Verifies that text exceeding MAX_LENGTH (100,000 chars) is rejected with an error message.
      */
     public function test_rejects_text_exceeding_max_length(): void
     {
@@ -166,8 +154,7 @@ class MarkdownToSpipPageTest extends TestCase
     }
 
     /**
-     * Vérifie que les textes à la limite exacte (100 000 caractères)
-     * sont acceptés sans message d'erreur.
+     * Verifies that text exactly at the max length is accepted without an error.
      */
     public function test_accepts_text_at_max_length(): void
     {
@@ -180,14 +167,13 @@ class MarkdownToSpipPageTest extends TestCase
     }
 
     /**
-     * Vérifie que le rate limiter bloque les requêtes excessives
-     * après avoir atteint la limite de MAX_ATTEMPTS (300) par minute.
+     * Verifies that the rate limiter blocks excessive requests after MAX_ATTEMPTS per minute.
      */
     public function test_rate_limiter_blocks_excessive_requests(): void
     {
         $component = Livewire::test(MarkdownToSpipPage::class);
 
-        // Faire 301 requêtes pour dépasser la limite
+        // Send 301 requests to exceed the limit
         for ($i = 0; $i < 301; $i++) {
             $component->set('markdown', "Test $i");
         }
@@ -196,8 +182,7 @@ class MarkdownToSpipPageTest extends TestCase
     }
 
     /**
-     * Vérifie la conversion du code inline Markdown (`code`)
-     * vers la syntaxe SPIP (<code>code</code>).
+     * Verifies inline code conversion (`code` → <code>code</code>).
      */
     public function test_converts_inline_code(): void
     {
@@ -207,8 +192,7 @@ class MarkdownToSpipPageTest extends TestCase
     }
 
     /**
-     * Vérifie la conversion des blocs de code Markdown (```)
-     * vers la syntaxe SPIP (<code>...</code>).
+     * Verifies code block conversion (``` → <code>...</code>).
      */
     public function test_converts_code_blocks(): void
     {
@@ -218,8 +202,8 @@ class MarkdownToSpipPageTest extends TestCase
     }
 
     /**
-     * Vérifie que trackConversion incrémente la stat "conversions".
-     * Le déclenchement réel se fait côté client via localStorage (Alpine).
+     * Verifies that trackConversion increments the "conversions" stat.
+     * The real trigger happens client-side via localStorage (Alpine).
      */
     public function test_track_conversion_increments_conversions(): void
     {
@@ -233,7 +217,7 @@ class MarkdownToSpipPageTest extends TestCase
     }
 
     /**
-     * Vérifie que countCopy incrémente copies et total_chars.
+     * Verifies that countCopy increments copies and total_chars.
      */
     public function test_count_copy_increments_copies_and_chars(): void
     {

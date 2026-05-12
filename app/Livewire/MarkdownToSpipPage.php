@@ -10,43 +10,46 @@ use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 /**
- * Composant Livewire de la page principale de conversion Markdown vers SPIP.
+ * Livewire component for the main Markdown-to-SPIP conversion page.
  *
- * Gère la conversion en temps réel avec validation de taille et rate limiting
- * pour protéger contre les abus (200 requêtes/minute, max 100KB de texte).
+ * Handles real-time conversion with size validation and rate limiting
+ * to protect against abuse (200 requests/minute, max 100KB of text).
+ *
+ * User-facing strings (error messages) are intentionally kept in French
+ * because the target audience is French-speaking (SPIP CMS users).
  */
 #[Layout('layouts.app')]
 class MarkdownToSpipPage extends Component
 {
     public const MAX_LENGTH = 100000; // 100KB
 
-    public const MAX_ATTEMPTS = 200; // Requêtes par minute
+    public const MAX_ATTEMPTS = 200; // Requests per minute
 
     public string $markdown = '';
 
     public string $spip = '';
 
     /**
-     * Déclenché automatiquement à chaque modification du texte Markdown.
+     * Triggered automatically on every Markdown text change.
      *
-     * Vérifie la taille du texte et le rate limiting avant de convertir.
+     * Checks text size and rate limit before performing the conversion.
      */
     public function updatedMarkdown(): void
     {
-        // Stats : compter la session (une seule fois par session)
+        // Stats: count the session once per session
         if (! session()->has('stats_counted')) {
             $this->incrementStat('sessions');
             session()->put('stats_counted', true);
         }
 
-        // Validation taille
+        // Size validation
         if (mb_strlen($this->markdown) > self::MAX_LENGTH) {
             $this->spip = 'Texte trop long (maximum '.number_format(self::MAX_LENGTH, 0, ',', ' ').' caractères).';
 
             return;
         }
 
-        // Rate limiting: MAX_ATTEMPTS conversions per minute per IP (avec debounce 50ms côté front)
+        // Rate limiting: MAX_ATTEMPTS conversions per minute per IP (with 50ms front-end debounce)
         $key = 'markdown-convert:'.request()->ip();
 
         if (RateLimiter::tooManyAttempts($key, self::MAX_ATTEMPTS)) {
@@ -55,15 +58,15 @@ class MarkdownToSpipPage extends Component
             return;
         }
 
-        // Incrémenter le compteur RateLimiter (expire après 60 secondes)
+        // Increment RateLimiter counter (expires after 60 seconds)
         RateLimiter::hit($key, 60);
 
         $this->spip = MarkdownToSpipConverter::convert($this->markdown);
     }
 
     /**
-     * Appelé lors du clic sur le bouton copier.
-     * Comptabilise les stats de copie.
+     * Called when the user clicks the Copy button.
+     * Records copy stats.
      */
     public function countCopy(): void
     {
@@ -72,7 +75,7 @@ class MarkdownToSpipPage extends Component
     }
 
     /**
-     * Appelé une seule fois côté client (via localStorage) à la première saisie.
+     * Called once from the client side (via localStorage) on the first keystroke.
      */
     public function trackConversion(): void
     {
@@ -80,8 +83,8 @@ class MarkdownToSpipPage extends Component
     }
 
     /**
-     * Incrémente une statistique dans le fichier JSON sous verrou exclusif
-     * pour éviter les écritures concurrentes.
+     * Increment a statistic in the JSON file under an exclusive lock
+     * to prevent concurrent writes.
      */
     private function incrementStat(string $key, int $value = 1): void
     {
@@ -117,9 +120,9 @@ class MarkdownToSpipPage extends Component
     }
 
     /**
-     * Rend la vue du composant Livewire.
+     * Render the Livewire component view.
      *
-     * @return View Vue Livewire de la page de conversion
+     * @return View Livewire view of the conversion page
      */
     public function render(): View
     {

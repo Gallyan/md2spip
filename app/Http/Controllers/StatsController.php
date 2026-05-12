@@ -8,7 +8,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * Affiche le tableau de bord public des statistiques d'usage.
+ * Renders the public usage statistics dashboard.
  */
 final class StatsController extends Controller
 {

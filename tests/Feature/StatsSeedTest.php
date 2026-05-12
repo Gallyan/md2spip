@@ -71,6 +71,6 @@ class StatsSeedTest extends TestCase
         $exitCode = Artisan::call('stats:seed');
 
         $this->assertSame(1, $exitCode);
-        $this->assertStringContainsString('Refusé en production.', Artisan::output());
+        $this->assertStringContainsString('Refused in production.', Artisan::output());
     }
 }

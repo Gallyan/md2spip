@@ -9,8 +9,8 @@ use Tests\TestCase;
 class PagesTest extends TestCase
 {
     /**
-     * Vérifie que la page d'accueil se charge correctement
-     * et affiche les éléments principaux de l'interface.
+     * Verifies that the home page loads successfully
+     * and displays the main interface elements.
      */
     public function test_home_page_loads_successfully(): void
     {
@@ -23,8 +23,8 @@ class PagesTest extends TestCase
     }
 
     /**
-     * Vérifie que la page mentions légales se charge correctement
-     * et affiche les informations de l'éditeur et de l'hébergeur.
+     * Verifies that the legal notice page loads successfully
+     * and displays editor and hosting information.
      */
     public function test_mentions_legales_page_loads_successfully(): void
     {
@@ -54,8 +54,8 @@ class PagesTest extends TestCase
     }
 
     /**
-     * Vérifie que la page mentions légales contient la balise meta noindex
-     * pour empêcher l'indexation par les moteurs de recherche.
+     * Verifies that the legal notice page contains the noindex meta tag
+     * to prevent indexing by search engines.
      */
     public function test_mentions_legales_has_noindex(): void
     {
@@ -65,9 +65,9 @@ class PagesTest extends TestCase
     }
 
     /**
-     * Vérifie que les headers de sécurité principaux sont présents
+     * Verifies that the main security headers are present
      * (X-Frame-Options, X-Content-Type-Options, Referrer-Policy).
-     * Note: HSTS est géré par Apache en production.
+     * Note: HSTS is handled by Apache in production.
      */
     public function test_security_headers_are_present(): void
     {
@@ -76,12 +76,12 @@ class PagesTest extends TestCase
         $response->assertHeader('X-Frame-Options', 'SAMEORIGIN');
         $response->assertHeader('X-Content-Type-Options', 'nosniff');
         $response->assertHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-        $response->assertHeaderMissing('Strict-Transport-Security'); // HSTS géré par Apache
+        $response->assertHeaderMissing('Strict-Transport-Security');
     }
 
     /**
-     * Vérifie que le Content-Security-Policy est configuré
-     * avec des directives de base (default-src et frame-ancestors).
+     * Verifies that Content-Security-Policy is set
+     * with baseline directives (default-src and frame-ancestors).
      */
     public function test_content_security_policy_is_set(): void
     {
@@ -96,7 +96,7 @@ class PagesTest extends TestCase
     }
 
     /**
-     * Vérifie que le Permissions-Policy désactive les APIs sensibles
+     * Verifies that Permissions-Policy disables sensitive APIs
      * (geolocation, camera, microphone, etc.).
      */
     public function test_permissions_policy_is_set(): void
@@ -112,8 +112,8 @@ class PagesTest extends TestCase
     }
 
     /**
-     * Vérifie que la route /contact redirige correctement
-     * vers mailto: avec l'email configuré dans .env
+     * Verifies that the /contact route redirects to mailto:
+     * with the email configured in .env.
      */
     public function test_contact_redirects_to_mailto(): void
     {
@@ -125,8 +125,8 @@ class PagesTest extends TestCase
     }
 
     /**
-     * Vérifie que la route /contact contient tous les headers anti-cache
-     * pour empêcher l'indexation et la mise en cache par les navigateurs/robots.
+     * Verifies that the /contact route returns anti-cache headers
+     * to prevent indexing and caching by browsers and bots.
      */
     public function test_contact_has_anti_cache_headers(): void
     {

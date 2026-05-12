@@ -1,17 +1,16 @@
-# CI / CD - Tests, qualité de code, puis déploiement
+# CI / CD - Tests, code quality, then deployment.
 #
-# - build  : compile les assets Vite une seule fois et les partage via artifact
-# - tests / phpstan / pint : contrôles qualité en parallèle
-# - deploy : si tout est vert sur main (push), envoie les assets buildés sur le
-#            serveur via SSH et met à jour le projet
+# - build  : compiles Vite assets once and shares them via artifact
+# - tests / phpstan / pint : quality checks running in parallel
+# - deploy : on a green main push, ships the built assets to the server
+#            via SSH and updates the project
 #
-# Secrets GitHub requis (Settings > Secrets and variables > Actions) :
-#   - SSH_HOST : adresse IP ou domaine du serveur
-#   - SSH_USER : utilisateur SSH (ex: deploy)
-#   - SSH_KEY  : clé privée SSH ed25519
-#   - SSH_PORT : port SSH (si différent de 22)
-#   - SSH_PATH : chemin du projet sur le serveur
-#                (ex: /srv/d_sajama/www/markdown2spip.orsal.fr)
+# Required GitHub secrets (Settings > Secrets and variables > Actions):
+#   - SSH_HOST : server IP or domain
+#   - SSH_USER : SSH user (e.g. deploy)
+#   - SSH_KEY  : SSH ed25519 private key
+#   - SSH_PORT : SSH port (if different from 22)
+#   - SSH_PATH : project path on the server
 
 name: CI / CD
 
