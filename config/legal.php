@@ -20,6 +20,5 @@ return [
         'name' => env('LEGAL_HOSTING_NAME'),
         'address' => env('LEGAL_HOSTING_ADDRESS'),
         'phone' => env('LEGAL_HOSTING_PHONE'),
-        'siret' => env('LEGAL_HOSTING_SIRET'),
     ],
 ];

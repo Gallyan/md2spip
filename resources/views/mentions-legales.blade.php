@@ -92,10 +92,7 @@
                             {{ config('legal.hosting.address') }}<br>
                         @endif
                         @if (config('legal.hosting.phone'))
-                            Tél : {{ config('legal.hosting.phone') }}<br>
-                        @endif
-                        @if (config('legal.hosting.siret'))
-                            SIRET : {{ config('legal.hosting.siret') }}
+                            Tél : {{ config('legal.hosting.phone') }}
                         @endif
                     </p>
                 </section>

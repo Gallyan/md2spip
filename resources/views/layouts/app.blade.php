@@ -28,37 +28,87 @@
     {{-- Theme color --}}
     <meta name="theme-color" content="#1e293b">
 
-    {{-- Schema.org JSON-LD --}}
+    {{-- Schema.org JSON-LD @graph --}}
     <script type="application/ld+json">
     {
         "@@context": "https://schema.org",
-        "@@type": "WebApplication",
-        "name": "Markdown to SPIP",
-        "alternateName": "markdown2spip",
-        "description": "Convertisseur en ligne gratuit pour transformer du Markdown en syntaxe SPIP. Instantané, sans inscription, respectueux de la vie privée.",
-        "url": "{{ url('/') }}",
-        "applicationCategory": "UtilitiesApplication",
-        "operatingSystem": "Any",
-        "browserRequirements": "Requires JavaScript",
-        "permissions": "none",
-        "offers": {
-            "@@type": "Offer",
-            "price": "0",
-            "priceCurrency": "EUR"
-        },
-        "author": {
-            "@@type": "Person",
-            "name": "Guillaume Orsal",
-            "url": "https://www.orsal.fr"
-        },
-        "publisher": {
-            "@@type": "Person",
-            "name": "Guillaume Orsal",
-            "url": "https://www.orsal.fr"
-        },
-        "inLanguage": "fr",
-        "isAccessibleForFree": true,
-        "license": "https://github.com/Gallyan/md2spip/blob/main/LICENSE"
+        "@@graph": [
+            {
+                "@@type": "WebSite",
+                "@@id": "{{ url('/') }}/#website",
+                "name": "{{ config('app.name') }}",
+                "url": "{{ url('/') }}",
+                "description": "Convertisseur en ligne Markdown vers syntaxe SPIP, en temps réel.",
+                "inLanguage": "fr",
+                "publisher": { "@@id": "{{ url('/') }}/#person" }
+            },
+            {
+                "@@type": "Organization",
+                "@@id": "{{ url('/') }}/#organization",
+                "name": "{{ config('legal.organization_name') }}",
+                "url": "{{ url('/') }}",
+                "logo": {
+                    "@@type": "ImageObject",
+                    "url": "{{ asset('favicon.svg') }}"
+                },
+                "description": "Projet open source dédié à la conversion de Markdown vers la syntaxe SPIP. Gratuit, sans inscription, sans tracking.",
+                "foundingDate": "2026"@if(config('legal.contact_email')),
+                "email": "{{ config('legal.contact_email') }}",
+                "contactPoint": {
+                    "@@type": "ContactPoint",
+                    "contactType": "customer service",
+                    "email": "{{ config('legal.contact_email') }}"
+                }@endif,
+                "knowsAbout": ["Markdown", "SPIP CMS", "content conversion", "text formatting"],
+                "founder": { "@@id": "{{ url('/') }}/#person" },
+                @if(collect(config('legal.social'))->filter()->isNotEmpty())
+                "sameAs": {!! json_encode(collect(config('legal.social'))->filter()->values()) !!},
+                @endif
+                "owns": { "@@id": "{{ url('/') }}/#application" }
+            },
+            {
+                "@@type": "Person",
+                "@@id": "{{ url('/') }}/#person",
+                "name": "{{ config('legal.editor_name') }}",
+                "url": "{{ config('legal.social.website', 'https://www.orsal.fr') }}",
+                "jobTitle": "Software Engineer",
+                "knowsAbout": ["Laravel development", "web development", "open source", "Markdown", "SPIP CMS"],
+                @if(collect(config('legal.social'))->filter()->isNotEmpty())
+                "sameAs": {!! json_encode(collect(config('legal.social'))->filter()->values()) !!},
+                @endif
+                "worksFor": { "@@id": "{{ url('/') }}/#organization" }
+            },
+            {
+                "@@type": ["WebApplication", "SoftwareApplication"],
+                "@@id": "{{ url('/') }}/#application",
+                "name": "{{ config('app.name') }}",
+                "alternateName": "markdown2spip",
+                "description": "Convertisseur en ligne gratuit pour transformer du Markdown en syntaxe SPIP. Instantané, sans inscription, respectueux de la vie privée.",
+                "url": "{{ url('/') }}",
+                "applicationCategory": "UtilitiesApplication",
+                "operatingSystem": "Any",
+                "browserRequirements": "Requires JavaScript",
+                "inLanguage": "fr",
+                "image": "{{ asset('favicon.svg') }}",
+                "isAccessibleForFree": true,
+                "license": "https://www.gnu.org/licenses/gpl-3.0",
+                "offers": {
+                    "@@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "EUR"
+                },
+                "featureList": [
+                    "Conversion en temps réel",
+                    "Interface split-view Markdown / SPIP",
+                    "Mode sombre",
+                    "Aucune donnée personnelle collectée",
+                    "Open source GPL-3.0"
+                ],
+                "author": { "@@id": "{{ url('/') }}/#person" },
+                "creator": { "@@id": "{{ url('/') }}/#person" },
+                "publisher": { "@@id": "{{ url('/') }}/#organization" }
+            }
+        ]
     }
     </script>
 
