@@ -1,0 +1,14 @@
+#!/bin/sh
+set -e
+
+FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep '\.php$' || true)
+
+if [ -z "$FILES" ]; then
+    exit 0
+fi
+
+echo "→ Pint sur les fichiers PHP stagés..."
+./vendor/bin/pint --test $FILES
+
+echo "→ PHPStan..."
+./vendor/bin/phpstan analyse --memory-limit=2G --no-progress
