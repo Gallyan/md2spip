@@ -1,79 +1,104 @@
 # Markdown to SPIP
 
-> Convertisseur en ligne Markdown vers syntaxe SPIP, en temps réel
+> Convertisseur en ligne Markdown vers syntaxe SPIP, en temps réel. Gratuit, open source (GPL-3.0), sans inscription, sans tracking.
 
 ## Purpose
 
 This web application converts Markdown syntax to SPIP syntax in real-time. It's designed for SPIP CMS users who want to write in Markdown and convert it to SPIP's native format.
+
+SPIP (Système de Publication pour Internet Partagé) is a French open source CMS using its own markup syntax, distinct from Markdown.
 
 ## Key Features
 
 - Real-time conversion (no submit button required)
 - Split-view interface: Markdown input on left, SPIP output on right
 - One-click copy to clipboard
-- No data storage (RGPD-compliant)
-- No tracking, no analytics
+- Persistent local text storage (browser localStorage, never sent to server beyond conversion)
+- Dark mode by default
+- No data storage on server (RGPD-compliant)
+- No tracking, no analytics, no cookies beyond Laravel session for CSRF
 - Fully responsive (mobile/desktop)
+- Public usage statistics page (transparency)
+- Max 100,000 characters per conversion
 
 ## Supported Conversions
 
-- Headings: `# Title` → `{{{Title}}}`
-- Bold: `**text**` → `{{text}}`
-- Italic: `*text*` → `{text}`
+- Headings (h1): `# Title` → `{{{Title}}}`
+- Subheadings (h2-h6): `## Title` → `{{Title}}`
+- Bold: `**text**` or `__text__` → `{{text}}`
+- Italic: `*text*` or `_text_` → `{text}`
+- Bold + italic: `***text***` or `___text___` → `{{ { text } }}`
+- Strikethrough: `~~text~~` → `<del>text</del>`
+- Inline code: `` `code` `` → `<code>code</code>`
+- Code blocks: ` ```code``` ` or ` ```lang code``` ` → `<code>code</code>`
 - Links: `[text](url)` → `[text->url]`
-- Lists: `- item` → `-* item`
+- Bullet lists: `- item` → `-* item`
 - Blockquotes: `> quote` → `<quote>quote</quote>`
+- Footnotes: `text[^1]` + `[^1]: note` → `text[[note]]`
+
+## Pages
+
+- `/` — main converter (indexable)
+- `/stats` — public usage statistics dashboard (noindex)
+- `/mentions-legales` — legal notice (noindex)
+- `/sitemap.xml` — sitemap with XSL styling
+- `/robots.txt`
 
 ## Technical Stack
 
-- Backend: Laravel 12
-- Frontend: Livewire 3 (real-time interactivity)
-- Styling: TailwindCSS
-- JS: Alpine.js (minimal)
-- Language: PHP 8.3
-- Build: Vite
+- Backend: Laravel 13 (PHP 8.4)
+- Frontend: Livewire 4 (real-time server-driven UI)
+- Styling: TailwindCSS 4
+- JS: Alpine.js (minimal interactivity)
+- Build: Vite 8
+- Testing: PHPUnit 13 with `laravel/pao` for agent-optimized output
+- Static analysis: Larastan/PHPStan level 8
+- Code style: Laravel Pint
 
 ## Architecture
 
-- Single-page application using Livewire
-- Stateless converter (no database)
-- All conversion logic in `App\Support\MarkdownToSpipConverter`
-- Real-time updates via Livewire wire:model.live
+- Conversion logic isolated in `App\Support\MarkdownToSpipConverter` (pure, stateless, fully unit-tested)
+- Real-time updates via Livewire `wire:model.live.debounce.50ms`
 - Text is transmitted to server for conversion but never stored
+- Rate limited (200 requests/minute per IP)
+- Public usage stats stored in `storage/stats/stats.json` via `Storage::disk('stats')` with `flock` concurrency protection
 
 ## Installation
 
 ```bash
-git clone https://github.com/your-user/md2spip.git
-composer install
-npm install
-cp .env.example .env
-php artisan key:generate
-npm run build
+git clone https://github.com/Gallyan/md2spip.git
+cd md2spip
+composer run setup
 php artisan serve
 ```
 
 ## Testing
 
-25 automated tests covering:
-- Unit tests for conversion logic
-- Feature tests for Livewire component
-- Integration tests for pages
+62 automated tests covering:
+- Unit tests for the conversion engine (`MarkdownToSpipConverter`)
+- Feature tests for the Livewire component, stats dashboard, pages routing, stats seeder
 
-Run with: `php artisan test`
+```bash
+php artisan test
+```
 
-## Privacy
+## Privacy & GDPR
 
-- No user tracking
-- No analytics
-- No data storage
-- Online version: text sent to server for conversion but not stored
-- Local version: everything stays on your machine
+- No user tracking, no analytics, no advertising cookies
+- Only functional cookies: Laravel session (CSRF protection), localStorage for user's draft text
+- Online version: text sent to server for conversion, NOT stored
+- Local version: everything stays on user's machine
+- Public statistics (`/stats`) aggregate anonymous counters: visits, conversions (first character typed), copies, total copied characters
 
 ## License
 
-Proprietary - All rights reserved - Guillaume Orsal
+GNU GPL-3.0 — free software, source available, can be modified and redistributed under the same license.
 
-## Contact
+## Source
 
-GitHub: [repository URL to be added]
+- Repository: https://github.com/Gallyan/md2spip
+- Issues: https://github.com/Gallyan/md2spip/issues
+
+## Author
+
+Guillaume Orsal — https://www.orsal.fr
