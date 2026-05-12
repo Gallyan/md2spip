@@ -16,11 +16,17 @@
     <meta property="og:description" content="Convertissez instantanément votre Markdown en syntaxe SPIP. Gratuit et respectueux de votre vie privée.">
     <meta property="og:url" content="{{ url('/') }}">
     <meta property="og:locale" content="fr_FR">
+    <meta property="og:image" content="{{ asset('og-image.png') }}">
+    <meta property="og:image:width" content="1320">
+    <meta property="og:image:height" content="755">
+    <meta property="og:image:alt" content="Capture de l'interface du convertisseur Markdown vers SPIP">
 
     {{-- Twitter Card --}}
-    <meta name="twitter:card" content="summary">
+    <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Markdown to SPIP">
     <meta name="twitter:description" content="Convertisseur Markdown vers SPIP en ligne, gratuit et sans tracking.">
+    <meta name="twitter:image" content="{{ asset('og-image.png') }}">
+    <meta name="twitter:image:alt" content="Capture de l'interface du convertisseur Markdown vers SPIP">
 
     {{-- Favicon --}}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -64,7 +70,14 @@
                 "operatingSystem": "Any",
                 "browserRequirements": "Requires JavaScript",
                 "inLanguage": "fr",
-                "image": "{{ asset('favicon.svg') }}",
+                "image": "{{ asset('og-image.png') }}",
+                "screenshot": {
+                    "@@type": "ImageObject",
+                    "url": "{{ asset('og-image.png') }}",
+                    "width": 1320,
+                    "height": 755,
+                    "caption": "Capture de l'interface du convertisseur Markdown vers SPIP"
+                },
                 "keywords": "markdown, spip, convertisseur, conversion, syntaxe SPIP, mise en forme",
                 "dateCreated": "2026-01-01",
                 "datePublished": "2026-01-15",
@@ -99,6 +112,87 @@
                 "author": { "@@id": "{{ url('/') }}/#person" },
                 "creator": { "@@id": "{{ url('/') }}/#person" },
                 "publisher": { "@@id": "{{ url('/') }}/#person" }
+            },
+            {
+                "@@type": "FAQPage",
+                "@@id": "{{ url('/') }}/#faq",
+                "mainEntity": [
+                    {
+                        "@@type": "Question",
+                        "name": "Mes textes sont-ils stockés sur le serveur ?",
+                        "acceptedAnswer": {
+                            "@@type": "Answer",
+                            "text": "Non. Le texte est transmis au serveur uniquement pour effectuer la conversion en temps réel, mais il n'est jamais stocké. Aucune trace des conversions n'est conservée."
+                        }
+                    },
+                    {
+                        "@@type": "Question",
+                        "name": "L'outil est-il gratuit ?",
+                        "acceptedAnswer": {
+                            "@@type": "Answer",
+                            "text": "Oui. Markdown to SPIP est totalement gratuit, sans inscription et sans publicité. Le projet est open source sous licence GNU GPL-3.0."
+                        }
+                    },
+                    {
+                        "@@type": "Question",
+                        "name": "Quelle est la longueur maximale d'un texte à convertir ?",
+                        "acceptedAnswer": {
+                            "@@type": "Answer",
+                            "text": "100 000 caractères par conversion, soit l'équivalent d'environ 15 000 mots ou 30 pages."
+                        }
+                    },
+                    {
+                        "@@type": "Question",
+                        "name": "Quelles syntaxes Markdown sont supportées ?",
+                        "acceptedAnswer": {
+                            "@@type": "Answer",
+                            "text": "Titres, gras, italique, gras+italique, texte barré, code inline et blocs de code, liens, listes à puces, citations et notes de bas de page. La conversion produit la syntaxe SPIP équivalente."
+                        }
+                    },
+                    {
+                        "@@type": "Question",
+                        "name": "Puis-je utiliser Markdown to SPIP hors ligne ?",
+                        "acceptedAnswer": {
+                            "@@type": "Answer",
+                            "text": "Oui. Le projet étant open source, vous pouvez l'installer localement sur votre machine. Le code source est disponible sur GitHub."
+                        }
+                    },
+                    {
+                        "@@type": "Question",
+                        "name": "Qu'est-ce que SPIP ?",
+                        "acceptedAnswer": {
+                            "@@type": "Answer",
+                            "text": "SPIP (Système de Publication pour Internet Partagé) est un CMS libre français utilisé par de nombreux sites institutionnels et associatifs. Il utilise une syntaxe de mise en forme spécifique, différente de celle de Markdown."
+                        }
+                    }
+                ]
+            },
+            {
+                "@@type": "HowTo",
+                "@@id": "{{ url('/') }}/#howto",
+                "name": "Comment convertir du Markdown vers SPIP",
+                "description": "Convertissez instantanément votre texte Markdown vers la syntaxe SPIP en quelques étapes.",
+                "totalTime": "PT10S",
+                "step": [
+                    {
+                        "@@type": "HowToStep",
+                        "position": 1,
+                        "name": "Coller le Markdown",
+                        "text": "Collez ou tapez votre texte Markdown dans la zone de gauche."
+                    },
+                    {
+                        "@@type": "HowToStep",
+                        "position": 2,
+                        "name": "Voir le résultat SPIP",
+                        "text": "La conversion en syntaxe SPIP s'affiche automatiquement et en temps réel à droite."
+                    },
+                    {
+                        "@@type": "HowToStep",
+                        "position": 3,
+                        "name": "Copier le résultat",
+                        "text": "Cliquez sur le bouton « Copier » pour récupérer le texte SPIP dans votre presse-papier."
+                    }
+                ]
             }
         ]
     }

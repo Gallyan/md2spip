@@ -9,7 +9,7 @@ Convertisseur en ligne Markdown vers syntaxe SPIP, en temps réel.
 
 **[Démo en ligne](https://markdown2spip.orsal.fr)**
 
-![Interface desktop du convertisseur Markdown vers SPIP](.github/assets/markdown-spip-converter-desktop-interface.png)
+![Interface desktop du convertisseur Markdown vers SPIP](public/og-image.png)
 
 ## Fonctionnalités
 
