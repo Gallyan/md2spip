@@ -12,4 +12,4 @@ Route::get('/mentions-legales', fn () => view('mentions-legales'));
 Route::get('/stats', StatsController::class);
 
 // Redirection email obfusquée (protection anti-spam)
-Route::get('/contact-email', ContactRedirectController::class);
+Route::get('/contact', ContactRedirectController::class);

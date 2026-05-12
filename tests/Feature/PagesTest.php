@@ -112,25 +112,25 @@ class PagesTest extends TestCase
     }
 
     /**
-     * Vérifie que la route /contact-email redirige correctement
+     * Vérifie que la route /contact redirige correctement
      * vers mailto: avec l'email configuré dans .env
      */
-    public function test_contact_email_redirects_to_mailto(): void
+    public function test_contact_redirects_to_mailto(): void
     {
         config(['legal.contact_email' => 'test@example.com']);
 
-        $response = $this->get('/contact-email');
+        $response = $this->get('/contact');
 
         $response->assertRedirect('mailto:test@example.com?subject=Contact');
     }
 
     /**
-     * Vérifie que la route /contact-email contient tous les headers anti-cache
+     * Vérifie que la route /contact contient tous les headers anti-cache
      * pour empêcher l'indexation et la mise en cache par les navigateurs/robots.
      */
-    public function test_contact_email_has_anti_cache_headers(): void
+    public function test_contact_has_anti_cache_headers(): void
     {
-        $response = $this->get('/contact-email');
+        $response = $this->get('/contact');
 
         $response->assertHeader('Cache-Control');
         $cacheControl = $response->headers->get('Cache-Control');
