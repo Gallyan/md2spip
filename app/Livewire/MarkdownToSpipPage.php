@@ -66,6 +66,11 @@ class MarkdownToSpipPage extends Component
      */
     public function countCopy(): void
     {
+        if (! session()->has('converted')) {
+            $this->incrementStat('conversions');
+            session()->put('converted', true);
+        }
+
         $this->incrementStat('copies');
         $this->incrementStat('total_chars', mb_strlen($this->markdown));
     }
