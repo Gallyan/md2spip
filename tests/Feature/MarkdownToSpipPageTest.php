@@ -218,31 +218,59 @@ class MarkdownToSpipPageTest extends TestCase
     }
 
     /**
-     * Vérifie que le premier clic sur Copier incrémente la stat "conversions"
-     * en plus de "copies" et "total_chars".
+     * Vérifie qu'une conversion est comptée dès le premier caractère saisi.
      */
-    public function test_count_copy_increments_conversion_on_first_call(): void
+    public function test_first_keystroke_counts_one_conversion(): void
     {
         Livewire::test(MarkdownToSpipPage::class)
-            ->set('markdown', 'bonjour')
-            ->call('countCopy');
+            ->set('markdown', 'b');
 
         $stats = json_decode((string) Storage::disk('stats')->get('stats.json'), true);
         $today = date('Y-m-d');
 
         $this->assertSame(1, $stats[$today]['conversions']);
-        $this->assertSame(1, $stats[$today]['copies']);
-        $this->assertSame(mb_strlen('bonjour'), $stats[$today]['total_chars']);
     }
 
     /**
-     * Vérifie qu'un deuxième clic sur Copier dans la même session
-     * n'incrémente plus "conversions" mais continue à incrémenter "copies".
+     * Vérifie que plusieurs frappes consécutives sur la même page
+     * ne comptent qu'une seule conversion.
      */
-    public function test_count_copy_does_not_increment_conversion_twice_in_same_session(): void
+    public function test_multiple_keystrokes_count_only_one_conversion(): void
+    {
+        Livewire::test(MarkdownToSpipPage::class)
+            ->set('markdown', 'a')
+            ->set('markdown', 'ab')
+            ->set('markdown', 'abc');
+
+        $stats = json_decode((string) Storage::disk('stats')->get('stats.json'), true);
+        $today = date('Y-m-d');
+
+        $this->assertSame(1, $stats[$today]['conversions']);
+    }
+
+    /**
+     * Vérifie que clear puis re-saisie ne re-compte pas une conversion.
+     */
+    public function test_clearing_and_retyping_does_not_recount_conversion(): void
+    {
+        Livewire::test(MarkdownToSpipPage::class)
+            ->set('markdown', 'hello')
+            ->set('markdown', '')
+            ->set('markdown', 'hello again');
+
+        $stats = json_decode((string) Storage::disk('stats')->get('stats.json'), true);
+        $today = date('Y-m-d');
+
+        $this->assertSame(1, $stats[$today]['conversions']);
+    }
+
+    /**
+     * Vérifie que countCopy incrémente copies et total_chars (pas conversions).
+     */
+    public function test_count_copy_increments_copies_and_chars(): void
     {
         $component = Livewire::test(MarkdownToSpipPage::class)
-            ->set('markdown', 'salut');
+            ->set('markdown', 'bonjour');
 
         $component->call('countCopy');
         $component->call('countCopy');
@@ -250,7 +278,7 @@ class MarkdownToSpipPageTest extends TestCase
         $stats = json_decode((string) Storage::disk('stats')->get('stats.json'), true);
         $today = date('Y-m-d');
 
-        $this->assertSame(1, $stats[$today]['conversions']);
         $this->assertSame(2, $stats[$today]['copies']);
+        $this->assertSame(mb_strlen('bonjour') * 2, $stats[$today]['total_chars']);
     }
 }

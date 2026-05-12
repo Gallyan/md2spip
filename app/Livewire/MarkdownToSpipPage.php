@@ -26,6 +26,8 @@ class MarkdownToSpipPage extends Component
 
     public string $spip = '';
 
+    public bool $conversionCounted = false;
+
     /**
      * Déclenché automatiquement à chaque modification du texte Markdown.
      *
@@ -37,6 +39,12 @@ class MarkdownToSpipPage extends Component
         if (! session()->has('stats_counted')) {
             $this->incrementStat('sessions');
             session()->put('stats_counted', true);
+        }
+
+        // Stats : compter une conversion dès le 1er caractère saisi sur cette page
+        if (! $this->conversionCounted && $this->markdown !== '') {
+            $this->incrementStat('conversions');
+            $this->conversionCounted = true;
         }
 
         // Validation taille
@@ -67,11 +75,6 @@ class MarkdownToSpipPage extends Component
      */
     public function countCopy(): void
     {
-        if (! session()->has('converted')) {
-            $this->incrementStat('conversions');
-            session()->put('converted', true);
-        }
-
         $this->incrementStat('copies');
         $this->incrementStat('total_chars', mb_strlen($this->markdown));
     }
