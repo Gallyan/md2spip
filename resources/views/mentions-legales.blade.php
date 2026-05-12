@@ -1,5 +1,7 @@
 @php
     $locale = app()->getLocale();
+    $isEn = $locale === 'en';
+    $altLocaleUrl = $isEn ? '/mentions-legales' : '/en/legal';
 @endphp
 <!DOCTYPE html>
 <html lang="{{ $locale }}" class="dark">
@@ -53,6 +55,9 @@
                     <span class="text-sm font-medium">{{ __('messages.legal.back') }}</span>
                 </a>
 
+                <div class="flex items-center gap-3">
+                <a href="{{ $altLocaleUrl }}" class="text-xs font-semibold uppercase tracking-wide px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-300 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900" aria-label="{{ __('messages.switcher.aria') }}" hreflang="{{ $isEn ? 'fr' : 'en' }}">{{ $isEn ? 'FR' : 'EN' }}</a>
+
                 <button
                     @click="toggleTheme()"
                     class="cursor-pointer w-6 h-6 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-300 flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
@@ -62,6 +67,7 @@
                     <x-icon.sun x-show="darkMode" style="display: none;" />
                     <x-icon.moon x-show="!darkMode" style="display: none;" />
                 </button>
+                </div>
             </div>
             <h1 class="text-5xl font-bold text-gray-900 dark:text-white">{{ __('messages.legal.h1') }}</h1>
         </header>

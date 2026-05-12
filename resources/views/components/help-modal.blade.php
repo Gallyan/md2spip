@@ -1,3 +1,28 @@
+@php
+    $isEn = app()->getLocale() === 'en';
+    $titleWord = $isEn ? 'Title' : 'Titre';
+    $subtitleWord = $isEn ? 'Subtitle' : 'Sous-titre';
+    $boldWord = $isEn ? 'bold' : 'gras';
+    $italicWord = $isEn ? 'italic' : 'italique';
+    $linkWord = $isEn ? 'link' : 'lien';
+    $itemWord = $isEn ? 'item' : 'item';
+    $codeWord = $isEn ? 'code' : 'code';
+    $quoteWord = $isEn ? 'quote' : 'citation';
+    $textWord = $isEn ? 'Text' : 'Texte';
+    $noteWord = $isEn ? 'note' : 'note';
+
+    $conversions = [
+        ['md' => '# '.$titleWord, 'spip' => '{{{'.$titleWord.'}}}'],
+        ['md' => '## '.$subtitleWord, 'spip' => '{{'.$subtitleWord.'}}'],
+        ['md' => '**'.$boldWord.'**', 'spip' => '{{'.$boldWord.'}}'],
+        ['md' => '*'.$italicWord.'*', 'spip' => '{'.$italicWord.'}'],
+        ['md' => '['.$linkWord.'](url)', 'spip' => '['.$linkWord.'->url]'],
+        ['md' => '- '.$itemWord, 'spip' => '-* '.$itemWord],
+        ['md' => '`'.$codeWord.'`', 'spip' => '<code>'.$codeWord.'</code>'],
+        ['md' => '> '.$quoteWord, 'spip' => '<quote>'.$quoteWord.'</quote>'],
+        ['md' => $textWord.'[^1]', 'spip' => $textWord.'[['.$noteWord.']]'],
+    ];
+@endphp
 {{-- Help button with modal --}}
 <div x-data="{ open: false }">
     <button
@@ -53,59 +78,17 @@
             </div>
 
             <div class="space-y-2 text-gray-700 dark:text-slate-200">
-            @verbatim
-            <div class="flex justify-between">
-                <code class="text-xs bg-gray-200 dark:bg-slate-800 px-2 py-1 rounded"># Titre</code>
-                <span class="text-gray-500 dark:text-slate-300">→</span>
-                <code class="text-xs bg-slate-800 px-2 py-1 rounded text-emerald-400">{{{Titre}}}</code>
-            </div>
-            <div class="flex justify-between">
-                <code class="text-xs bg-gray-200 dark:bg-slate-800 px-2 py-1 rounded">## Sous-titre</code>
-                <span class="text-gray-500 dark:text-slate-300">→</span>
-                <code class="text-xs bg-slate-800 px-2 py-1 rounded text-emerald-400">{{Sous-titre}}</code>
-            </div>
-            <div class="flex justify-between">
-                <code class="text-xs bg-gray-200 dark:bg-slate-800 px-2 py-1 rounded">**gras**</code>
-                <span class="text-gray-500 dark:text-slate-300">→</span>
-                <code class="text-xs bg-slate-800 px-2 py-1 rounded text-emerald-400">{{gras}}</code>
-            </div>
-            <div class="flex justify-between">
-                <code class="text-xs bg-gray-200 dark:bg-slate-800 px-2 py-1 rounded">*italique*</code>
-                <span class="text-gray-500 dark:text-slate-300">→</span>
-                <code class="text-xs bg-slate-800 px-2 py-1 rounded text-emerald-400">{italique}</code>
-            </div>
-            @endverbatim
-            <div class="flex justify-between text-xs">
-                <code class="text-xs bg-gray-200 dark:bg-slate-800 px-2 py-1 rounded">[lien](url)</code>
-                <span class="text-gray-500 dark:text-slate-300">→</span>
-                <code class="text-xs bg-slate-800 px-2 py-1 rounded text-emerald-400">[lien->url]</code>
-            </div>
-            <div class="flex justify-between text-xs">
-                <code class="text-xs bg-gray-200 dark:bg-slate-800 px-2 py-1 rounded">- item</code>
-                <span class="text-gray-500 dark:text-slate-300">→</span>
-                <code class="text-xs bg-slate-800 px-2 py-1 rounded text-emerald-400">-* item</code>
-            </div>
-            @verbatim
-            <div class="flex justify-between text-xs">
-                <code class="text-xs bg-gray-200 dark:bg-slate-800 px-2 py-1 rounded">`code`</code>
-                <span class="text-gray-500 dark:text-slate-300">→</span>
-                <code class="text-xs bg-slate-800 px-2 py-1 rounded text-emerald-400"><code>code</code></code>
-            </div>
-            <div class="flex justify-between text-xs">
-                <code class="text-xs bg-gray-200 dark:bg-slate-800 px-2 py-1 rounded">> citation</code>
-                <span class="text-gray-500 dark:text-slate-300">→</span>
-                <code class="text-xs bg-slate-800 px-2 py-1 rounded text-emerald-400"><quote>citation</quote></code>
-            </div>
-            <div class="flex justify-between text-xs">
-                <code class="text-xs bg-gray-200 dark:bg-slate-800 px-2 py-1 rounded">Texte[^1]</code>
-                <span class="text-gray-500 dark:text-slate-300">→</span>
-                <code class="text-xs bg-slate-800 px-2 py-1 rounded text-emerald-400">Texte[[note]]</code>
-            </div>
-            @endverbatim
+                @foreach ($conversions as $row)
+                    <div class="flex justify-between text-xs">
+                        <code class="text-xs bg-gray-200 dark:bg-slate-800 px-2 py-1 rounded">{{ $row['md'] }}</code>
+                        <span class="text-gray-500 dark:text-slate-300">→</span>
+                        <code class="text-xs bg-slate-800 px-2 py-1 rounded text-emerald-400">{{ $row['spip'] }}</code>
+                    </div>
+                @endforeach
             </div>
 
             <div class="mt-4 pt-3 border-t border-gray-300 dark:border-slate-600 text-xs text-gray-600 dark:text-slate-300">
-                <p><strong class="text-gray-900 dark:text-white">{{ __('messages.help.limit_label') }}</strong> {{ __('messages.help.limit_value', ['count' => number_format(\App\Livewire\MarkdownToSpipPage::MAX_LENGTH, 0, app()->getLocale() === 'en' ? '.' : ',', app()->getLocale() === 'en' ? ',' : ' ')]) }}</p>
+                <p><strong class="text-gray-900 dark:text-white">{{ __('messages.help.limit_label') }}</strong> {{ __('messages.help.limit_value', ['count' => number_format(\App\Livewire\MarkdownToSpipPage::MAX_LENGTH, 0, $isEn ? '.' : ',', $isEn ? ',' : ' ')]) }}</p>
             </div>
         </div>
     </div>
