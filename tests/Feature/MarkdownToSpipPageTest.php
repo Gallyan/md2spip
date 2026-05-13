@@ -202,18 +202,41 @@ class MarkdownToSpipPageTest extends TestCase
     }
 
     /**
-     * Verifies that trackConversion increments the "conversions" stat.
+     * Verifies that trackConversion increments the "conversions" stat when markdown is non-empty.
      * The real trigger happens client-side via localStorage (Alpine).
      */
     public function test_track_conversion_increments_conversions(): void
     {
         Livewire::test(MarkdownToSpipPage::class)
+            ->set('markdown', 'hello')
             ->call('trackConversion');
 
         $stats = json_decode((string) Storage::disk('stats')->get('stats.json'), true);
         $today = date('Y-m-d');
 
         $this->assertSame(1, $stats[$today]['conversions']);
+    }
+
+    /**
+     * Verifies that trackConversion is a no-op when markdown is empty.
+     */
+    public function test_track_conversion_ignored_when_markdown_empty(): void
+    {
+        Livewire::test(MarkdownToSpipPage::class)
+            ->call('trackConversion');
+
+        $this->assertFalse(Storage::disk('stats')->exists('stats.json'));
+    }
+
+    /**
+     * Verifies that countCopy is a no-op when markdown or spip is empty.
+     */
+    public function test_count_copy_ignored_when_empty(): void
+    {
+        Livewire::test(MarkdownToSpipPage::class)
+            ->call('countCopy');
+
+        $this->assertFalse(Storage::disk('stats')->exists('stats.json'));
     }
 
     /**

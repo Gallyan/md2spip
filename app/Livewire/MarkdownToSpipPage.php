@@ -72,6 +72,16 @@ class MarkdownToSpipPage extends Component
      */
     public function countCopy(): void
     {
+        if ($this->markdown === '' || $this->spip === '') {
+            return;
+        }
+
+        $key = 'count-copy:'.request()->ip();
+        if (RateLimiter::tooManyAttempts($key, 60)) {
+            return;
+        }
+        RateLimiter::hit($key, 60);
+
         $this->incrementStat('copies');
         $this->incrementStat('total_chars', mb_strlen($this->markdown));
     }
@@ -81,6 +91,16 @@ class MarkdownToSpipPage extends Component
      */
     public function trackConversion(): void
     {
+        if ($this->markdown === '') {
+            return;
+        }
+
+        $key = 'track-conv:'.request()->ip();
+        if (RateLimiter::tooManyAttempts($key, 20)) {
+            return;
+        }
+        RateLimiter::hit($key, 60);
+
         $this->incrementStat('conversions');
     }
 
