@@ -1,20 +1,9 @@
 @props(['urlFr', 'urlEn'])
 @php
     $isEn = app()->getLocale() === 'en';
-    $active = 'bg-emerald-500 text-white shadow-sm';
-    $inactive = 'text-gray-600 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white';
+    $altUrl = $isEn ? $urlFr : $urlEn;
 @endphp
-<div role="group" aria-label="{{ __('messages.switcher.aria') }}" class="inline-flex items-center bg-gray-200 dark:bg-slate-700 rounded-full p-0.5 text-xs font-semibold">
-    <a href="{{ $urlFr }}"
-       class="px-2.5 py-1 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 {{ $isEn ? $inactive : $active }}"
-       @if (! $isEn) aria-current="page" @endif
-       hreflang="fr"
-       lang="fr"
-       title="Français">FR</a>
-    <a href="{{ $urlEn }}"
-       class="px-2.5 py-1 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 {{ $isEn ? $active : $inactive }}"
-       @if ($isEn) aria-current="page" @endif
-       hreflang="en"
-       lang="en"
-       title="English">EN</a>
-</div>
+<a href="{{ $altUrl }}"
+   class="text-xs font-semibold uppercase tracking-wide px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-300 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800"
+   aria-label="{{ __('messages.switcher.aria') }}"
+   hreflang="{{ $isEn ? 'fr' : 'en' }}">{{ $isEn ? 'FR' : 'EN' }}</a>
