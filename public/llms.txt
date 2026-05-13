@@ -74,7 +74,7 @@ php artisan serve
 
 ## Testing
 
-62 automated tests covering:
+70 automated tests covering:
 - Unit tests for the conversion engine (`MarkdownToSpipConverter`)
 - Feature tests for the Livewire component, stats dashboard, pages routing, stats seeder
 
