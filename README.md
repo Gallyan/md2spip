@@ -20,7 +20,7 @@ Real-time online converter from Markdown to SPIP syntax.
 - **Live character counter**
 - **Contextual help**
 - **Responsive** (mobile/desktop)
-- **Dark mode** by default
+- **Theme**: light, dark or system (follows OS preference)
 
 ## Supported conversions
 
