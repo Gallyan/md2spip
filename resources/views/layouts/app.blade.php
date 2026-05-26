@@ -243,9 +243,7 @@
         <div class="bg-amber-50 dark:bg-amber-900/90 border-b border-amber-200 dark:border-amber-700 px-4 py-3 shadow-lg">
             <div class="max-w-4xl mx-auto flex items-center justify-between gap-4">
                 <div class="flex items-center gap-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
-                    </svg>
+                    <x-icon.exclamation-circle class="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0" />
                     <p class="text-sm text-amber-800 dark:text-amber-100">
                         <strong>{{ __('messages.session.expired_strong') }}</strong> — {{ __('messages.session.expired_text') }}
                     </p>

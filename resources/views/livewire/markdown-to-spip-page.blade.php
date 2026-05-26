@@ -43,12 +43,7 @@
         <div class="flex items-center gap-3">
             <div class="flex flex-col">
                 <div class="flex items-center gap-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="w-10 h-10">
-                        <rect width="32" height="32" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-                        <text x="4" y="20" font-family="monospace" font-size="11" font-weight="bold" fill="#94a3b8">#</text>
-                        <path d="M13 16 L19 16 M17 13 L20 16 L17 19" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                        <text x="21" y="20" font-family="monospace" font-size="10" font-weight="bold" fill="#10b981">{</text>
-                    </svg>
+                    <x-logo />
                     <div>
                         <h1 class="text-gray-900 dark:text-white font-semibold text-lg leading-tight">Markdown to SPIP</h1>
                         <h2 class="hidden md:block text-gray-600 dark:text-slate-300 text-xs font-normal">{{ __('messages.home.subtitle') }}</h2>
