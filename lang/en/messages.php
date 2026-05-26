@@ -16,6 +16,34 @@ return [
         'organization_description' => 'Open source project dedicated to converting Markdown to SPIP syntax. Free, no signup, no tracking.',
     ],
 
+    'seo' => [
+        'app_description' => 'Free online converter that turns Markdown into SPIP syntax. Instant, no signup, privacy-friendly.',
+        'app_keywords' => 'markdown, spip, converter, conversion, SPIP syntax, formatting',
+        'how_to_name' => 'How to convert Markdown to SPIP',
+        'how_to_description' => 'Convert your Markdown text to SPIP syntax instantly in a few steps.',
+        'features' => [
+            'Real-time Markdown to SPIP conversion',
+            'Split-view interface (input / output)',
+            'Local text persistence (localStorage)',
+            'Dark mode by default',
+            'No personal data collected',
+            'Open source GPL-3.0',
+        ],
+        'faqs' => [
+            ['q' => 'Is my text stored on the server?', 'a' => 'No. The text is sent to the server only to perform the real-time conversion, but it is never stored. No trace of conversions is kept.'],
+            ['q' => 'Is the tool free?', 'a' => 'Yes. Markdown to SPIP is completely free, no signup, no advertising. The project is open source under the GNU GPL-3.0 license.'],
+            ['q' => 'What is the maximum length of text to convert?', 'a' => '100,000 characters per conversion, roughly 15,000 words or 30 pages.'],
+            ['q' => 'Which Markdown syntaxes are supported?', 'a' => 'Headings, bold, italic, bold+italic, strikethrough, inline code and code blocks, links, bullet lists, blockquotes and footnotes. The conversion produces the equivalent SPIP syntax.'],
+            ['q' => 'Can I use Markdown to SPIP offline?', 'a' => 'Yes. As the project is open source, you can install it locally on your machine. The source code is available on GitHub.'],
+            ['q' => 'What is SPIP?', 'a' => 'SPIP (Système de Publication pour Internet Partagé) is a free French CMS used by many institutional and non-profit websites. It uses its own markup syntax, distinct from Markdown.'],
+        ],
+        'how_to_steps' => [
+            ['name' => 'Paste the Markdown', 'text' => 'Paste or type your Markdown text in the left-hand pane.'],
+            ['name' => 'See the SPIP result', 'text' => 'The SPIP conversion appears automatically and in real time on the right.'],
+            ['name' => 'Copy the result', 'text' => 'Click the "Copy" button to grab the SPIP text into your clipboard.'],
+        ],
+    ],
+
     'skip_to_content' => 'Skip to main content',
 
     'session' => [

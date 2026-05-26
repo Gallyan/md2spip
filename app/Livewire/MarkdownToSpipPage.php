@@ -18,7 +18,7 @@ use Livewire\Component;
  * User-facing strings (error messages) are intentionally kept in French
  * because the target audience is French-speaking (SPIP CMS users).
  */
-#[Layout('layouts.app')]
+#[Layout('components.layouts.app')]
 class MarkdownToSpipPage extends Component
 {
     public const MAX_LENGTH = 100000; // 100KB

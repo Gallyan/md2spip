@@ -1,29 +1,14 @@
 @php
-    $locale = app()->getLocale();
-    $isEn = $locale === 'en';
+    $isEn = \App\Support\LocaleUrls::isEnglish();
     $statsUrl = $isEn ? '/en/stats' : '/stats';
     $legalUrl = $isEn ? '/en/legal' : '/mentions-legales';
 @endphp
 <div class="flex flex-col h-screen"
     x-data="{
-        darkMode: localStorage.getItem('md2spip-theme') !== 'light',
         init() {
             const saved = localStorage.getItem('md2spip-markdown');
             if (saved && saved !== '') {
                 $wire.markdown = saved;
-            }
-            this.updateTheme();
-        },
-        toggleTheme() {
-            this.darkMode = !this.darkMode;
-            this.updateTheme();
-        },
-        updateTheme() {
-            localStorage.setItem('md2spip-theme', this.darkMode ? 'dark' : 'light');
-            if (this.darkMode) {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
             }
         }
     }"
@@ -38,6 +23,42 @@
             localStorage.removeItem('md2spip-converted');
         }
     ">
+    <a href="#markdown-input" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-emerald-500 focus:text-white focus:rounded">{{ __('messages.skip_to_content') }}</a>
+
+    {{-- Session expired banner --}}
+    <div
+        x-data="{ show: false }"
+        x-init="window.addEventListener('session-expired', () => show = true)"
+        x-show="show"
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 -translate-y-full"
+        x-transition:enter-end="opacity-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100 translate-y-0"
+        x-transition:leave-end="opacity-0 -translate-y-full"
+        x-cloak
+        class="fixed top-0 inset-x-0 z-50"
+        role="alert"
+        aria-live="assertive"
+    >
+        <div class="bg-amber-50 dark:bg-amber-900/90 border-b border-amber-200 dark:border-amber-700 px-4 py-3 shadow-lg">
+            <div class="max-w-4xl mx-auto flex items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <x-icon.exclamation-circle class="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0" />
+                    <p class="text-sm text-amber-800 dark:text-amber-100">
+                        <strong>{{ __('messages.session.expired_strong') }}</strong> — {{ __('messages.session.expired_text') }}
+                    </p>
+                </div>
+                <button
+                    @click="window.location.reload()"
+                    class="shrink-0 px-3 py-1.5 text-sm font-medium text-white bg-amber-600 hover:bg-amber-700 dark:bg-amber-500 dark:hover:bg-amber-600 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 dark:focus:ring-offset-amber-900"
+                >
+                    {{ __('messages.session.reload') }}
+                </button>
+            </div>
+        </div>
+    </div>
+
     {{-- Header --}}
     <header class="bg-gray-100 dark:bg-slate-800 border-b border-gray-300 dark:border-slate-700 px-6 py-3 flex items-center justify-between transition-colors">
         <div class="flex items-center gap-3">
@@ -55,18 +76,8 @@
         </div>
 
         <div class="flex items-center gap-3">
-            <x-language-switcher url-fr="/" url-en="/en" />
-
-            {{-- Theme toggle button --}}
-            <button
-                @click="toggleTheme()"
-                class="cursor-pointer w-6 h-6 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-300 flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800"
-                :title="darkMode ? @js(__('messages.theme.switch_to_light_title')) : @js(__('messages.theme.switch_to_dark_title'))"
-                :aria-label="darkMode ? @js(__('messages.theme.switch_to_light_aria')) : @js(__('messages.theme.switch_to_dark_aria'))"
-            >
-                <x-icon.sun x-show="darkMode" />
-                <x-icon.moon x-show="!darkMode" />
-            </button>
+            <x-language-switcher />
+            <x-theme-toggle />
         </div>
     </header>
 

@@ -16,6 +16,34 @@ return [
         'organization_description' => 'Projet open source dédié à la conversion de Markdown vers la syntaxe SPIP. Gratuit, sans inscription, sans tracking.',
     ],
 
+    'seo' => [
+        'app_description' => 'Convertisseur en ligne gratuit pour transformer du Markdown en syntaxe SPIP. Instantané, sans inscription, respectueux de la vie privée.',
+        'app_keywords' => 'markdown, spip, convertisseur, conversion, syntaxe SPIP, mise en forme',
+        'how_to_name' => 'Comment convertir du Markdown vers SPIP',
+        'how_to_description' => 'Convertissez instantanément votre texte Markdown vers la syntaxe SPIP en quelques étapes.',
+        'features' => [
+            'Conversion Markdown vers SPIP en temps réel',
+            'Interface split-view (saisie / résultat)',
+            'Persistance locale du texte (localStorage)',
+            'Mode sombre par défaut',
+            'Aucune donnée personnelle collectée',
+            'Open source GPL-3.0',
+        ],
+        'faqs' => [
+            ['q' => 'Mes textes sont-ils stockés sur le serveur ?', 'a' => "Non. Le texte est transmis au serveur uniquement pour effectuer la conversion en temps réel, mais il n'est jamais stocké. Aucune trace des conversions n'est conservée."],
+            ['q' => "L'outil est-il gratuit ?", 'a' => 'Oui. Markdown to SPIP est totalement gratuit, sans inscription et sans publicité. Le projet est open source sous licence GNU GPL-3.0.'],
+            ['q' => "Quelle est la longueur maximale d'un texte à convertir ?", 'a' => "100 000 caractères par conversion, soit l'équivalent d'environ 15 000 mots ou 30 pages."],
+            ['q' => 'Quelles syntaxes Markdown sont supportées ?', 'a' => 'Titres, gras, italique, gras+italique, texte barré, code inline et blocs de code, liens, listes à puces, citations et notes de bas de page. La conversion produit la syntaxe SPIP équivalente.'],
+            ['q' => 'Puis-je utiliser Markdown to SPIP hors ligne ?', 'a' => "Oui. Le projet étant open source, vous pouvez l'installer localement sur votre machine. Le code source est disponible sur GitHub."],
+            ['q' => "Qu'est-ce que SPIP ?", 'a' => 'SPIP (Système de Publication pour Internet Partagé) est un CMS libre français utilisé par de nombreux sites institutionnels et associatifs. Il utilise une syntaxe de mise en forme spécifique, différente de celle de Markdown.'],
+        ],
+        'how_to_steps' => [
+            ['name' => 'Coller le Markdown', 'text' => 'Collez ou tapez votre texte Markdown dans la zone de gauche.'],
+            ['name' => 'Voir le résultat SPIP', 'text' => "La conversion en syntaxe SPIP s'affiche automatiquement et en temps réel à droite."],
+            ['name' => 'Copier le résultat', 'text' => 'Cliquez sur le bouton « Copier » pour récupérer le texte SPIP dans votre presse-papier.'],
+        ],
+    ],
+
     'skip_to_content' => 'Aller au contenu principal',
 
     'session' => [
