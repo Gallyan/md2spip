@@ -25,7 +25,7 @@ return [
             'Real-time Markdown to SPIP conversion',
             'Split-view interface (input / output)',
             'Local text persistence (localStorage)',
-            'Dark mode by default',
+            'Light, dark or system theme',
             'No personal data collected',
             'Open source GPL-3.0',
         ],
@@ -53,10 +53,11 @@ return [
     ],
 
     'theme' => [
-        'switch_to_light_title' => 'Switch to light mode',
-        'switch_to_dark_title' => 'Switch to dark mode',
-        'switch_to_light_aria' => 'Enable light mode',
-        'switch_to_dark_aria' => 'Enable dark mode',
+        'cycle_aria' => 'Switch theme',
+        'title_prefix' => 'Theme:',
+        'system' => 'system',
+        'dark' => 'dark',
+        'light' => 'light',
     ],
 
     'home' => [

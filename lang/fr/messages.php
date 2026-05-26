@@ -25,7 +25,7 @@ return [
             'Conversion Markdown vers SPIP en temps réel',
             'Interface split-view (saisie / résultat)',
             'Persistance locale du texte (localStorage)',
-            'Mode sombre par défaut',
+            'Thème clair, sombre ou système',
             'Aucune donnée personnelle collectée',
             'Open source GPL-3.0',
         ],
@@ -53,10 +53,11 @@ return [
     ],
 
     'theme' => [
-        'switch_to_light_title' => 'Passer en mode clair',
-        'switch_to_dark_title' => 'Passer en mode sombre',
-        'switch_to_light_aria' => 'Activer le mode clair',
-        'switch_to_dark_aria' => 'Activer le mode sombre',
+        'cycle_aria' => 'Changer de thème',
+        'title_prefix' => 'Thème :',
+        'system' => 'système',
+        'dark' => 'sombre',
+        'light' => 'clair',
     ],
 
     'home' => [

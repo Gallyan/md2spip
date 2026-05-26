@@ -10,9 +10,11 @@
 <html lang="{{ $locale }}" class="dark">
 <head>
     <script>
-        if (localStorage.getItem('md2spip-theme') === 'light') {
-            document.documentElement.classList.remove('dark');
-        }
+        (function () {
+            const t = localStorage.getItem('md2spip-theme') || 'system';
+            const dark = t === 'dark' || (t === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            document.documentElement.classList.toggle('dark', dark);
+        })();
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,15 +35,25 @@
 </head>
 <body class="bg-gray-50 dark:bg-slate-900 min-h-screen flex flex-col text-gray-900 dark:text-slate-100 transition-colors"
     x-data="{
-        darkMode: localStorage.getItem('md2spip-theme') !== 'light',
-        init() { this.updateTheme(); },
-        toggleTheme() {
-            this.darkMode = !this.darkMode;
-            this.updateTheme();
+        theme: localStorage.getItem('md2spip-theme') || 'system',
+        init() {
+            this.apply();
+            window.matchMedia('(prefers-color-scheme: dark)')
+                .addEventListener('change', () => { if (this.theme === 'system') this.apply(); });
         },
-        updateTheme() {
-            localStorage.setItem('md2spip-theme', this.darkMode ? 'dark' : 'light');
-            document.documentElement.classList.toggle('dark', this.darkMode);
+        cycleTheme() {
+            this.theme = this.theme === 'system' ? 'dark' : this.theme === 'dark' ? 'light' : 'system';
+            if (this.theme === 'system') {
+                localStorage.removeItem('md2spip-theme');
+            } else {
+                localStorage.setItem('md2spip-theme', this.theme);
+            }
+            this.apply();
+        },
+        apply() {
+            const dark = this.theme === 'dark'
+                || (this.theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            document.documentElement.classList.toggle('dark', dark);
         }
     }">
     {{ $slot }}
