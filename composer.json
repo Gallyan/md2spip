@@ -1,10 +1,10 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
+    "name": "gallyan/md2spip",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
-    "license": "MIT",
+    "description": "Conversion de Markdown vers le format SPIP.",
+    "keywords": ["markdown", "spip", "laravel"],
+    "license": "GPL-3.0-only",
     "require": {
         "php": "^8.4",
         "laravel/framework": "^13.0",
@@ -79,7 +79,6 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
-            "pestphp/pest-plugin": true,
             "php-http/discovery": true
         }
     },
