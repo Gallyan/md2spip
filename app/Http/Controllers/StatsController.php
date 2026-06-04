@@ -32,9 +32,10 @@ final class StatsController extends Controller
             $totals['total_chars'] += $day['total_chars'] ?? 0;
         }
 
-        $recentDates = array_slice(array_keys($raw), -30);
         $daily = [];
-        foreach ($recentDates as $date) {
+        $start = now()->subDays(29)->startOfDay();
+        for ($i = 0; $i < 30; $i++) {
+            $date = $start->copy()->addDays($i)->format('Y-m-d');
             $daily[] = [
                 'date' => $date,
                 'sessions' => $raw[$date]['sessions'] ?? 0,
