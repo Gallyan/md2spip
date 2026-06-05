@@ -33,15 +33,18 @@ final class StatsController extends Controller
         }
 
         $daily = [];
-        $start = now()->subDays(29)->startOfDay();
-        for ($i = 0; $i < 30; $i++) {
-            $date = $start->copy()->addDays($i)->format('Y-m-d');
-            $daily[] = [
-                'date' => $date,
-                'sessions' => $raw[$date]['sessions'] ?? 0,
-                'conversions' => $raw[$date]['conversions'] ?? 0,
-                'copies' => $raw[$date]['copies'] ?? 0,
-            ];
+
+        if ($raw !== []) {
+            $start = now()->subDays(29)->startOfDay();
+            for ($i = 0; $i < 30; $i++) {
+                $date = $start->copy()->addDays($i)->format('Y-m-d');
+                $daily[] = [
+                    'date' => $date,
+                    'sessions' => $raw[$date]['sessions'] ?? 0,
+                    'conversions' => $raw[$date]['conversions'] ?? 0,
+                    'copies' => $raw[$date]['copies'] ?? 0,
+                ];
+            }
         }
 
         return view('stats', [
