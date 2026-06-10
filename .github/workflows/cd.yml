@@ -9,6 +9,13 @@
 #   - SSH_KEY  : clé privée SSH ed25519
 #   - SSH_PORT : port SSH (si différent de 22)
 #   - SSH_PATH : chemin du projet sur le serveur
+#
+# Prérequis serveur :
+#   - /usr/local/bin/restart-php-fpm : script root-owned (chmod 755) qui restarte
+#     tous les pools php*-fpm pour purger l'OPcache après déploiement (le reload
+#     ne le vide pas). Ne touche NI Apache NI MySQL.
+#   - sudoers : deploy autorisé à `/usr/local/bin/restart-php-fpm` sans mot de passe
+#     (sinon workers FPM en erreur 503 après déploiement)
 
 name: CD
 run-name: "CD — ${{ github.event_name == 'workflow_dispatch' && 'manual' || format('{0}: {1}', github.event.workflow_run.head_branch, github.event.workflow_run.head_commit.message) }}"
@@ -84,5 +91,7 @@ jobs:
             composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
 
             php artisan optimize:clear
+
+            sudo /usr/local/bin/restart-php-fpm
 
             php artisan up
