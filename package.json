@@ -7,7 +7,7 @@
         "dev": "vite"
     },
     "devDependencies": {
-        "@tailwindcss/vite": "^4.1.18",
+        "@tailwindcss/vite": "^4.3.3",
         "alpinejs": "^3.15.3",
         "axios": "^1.16.1",
         "concurrently": "^10.0.3",
