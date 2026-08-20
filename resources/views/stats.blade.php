@@ -1,7 +1,6 @@
+@use('Illuminate\Support\Number')
 @php
     $isEn = \App\Support\LocaleUrls::isEnglish();
-    $thousands = $isEn ? ',' : ' ';
-    $decimal = $isEn ? '.' : ',';
     $dateFormat = $isEn ? 'm/d' : 'd/m';
 @endphp
 <x-layouts.app :title="__('messages.stats.page_title')" robots="noindex, nofollow">
@@ -11,8 +10,8 @@
         {{-- KPI cards --}}
         <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12" aria-label="{{ __('messages.stats.chart_kpi_aria') }}">
             @php
-                $humanize = function (int $value) use ($decimal): string {
-                    $format = fn (float $v, string $unit): string => rtrim(rtrim(number_format($v, 1, $decimal, ''), '0'), $decimal).$unit;
+                $humanize = function (int $value): string {
+                    $format = fn (float $v, string $unit): string => Number::format($v, maxPrecision: 1).$unit;
                     if ($value < 1000) {
                         return (string) $value;
                     }
@@ -26,9 +25,9 @@
                     return $format($value / 1_000_000_000, 'G');
                 };
                 $kpis = [
-                    ['value' => number_format($totals['sessions'], 0, $decimal, $thousands), 'sub' => __('messages.stats.kpi_visits')],
-                    ['value' => number_format($totals['conversions'], 0, $decimal, $thousands), 'sub' => __('messages.stats.kpi_conversions')],
-                    ['value' => number_format($totals['copies'], 0, $decimal, $thousands), 'sub' => __('messages.stats.kpi_copies')],
+                    ['value' => Number::format($totals['sessions']), 'sub' => __('messages.stats.kpi_visits')],
+                    ['value' => Number::format($totals['conversions']), 'sub' => __('messages.stats.kpi_conversions')],
+                    ['value' => Number::format($totals['copies']), 'sub' => __('messages.stats.kpi_copies')],
                     ['value' => $humanize($totals['total_chars']), 'sub' => __('messages.stats.kpi_chars')],
                 ];
             @endphp
@@ -103,7 +102,7 @@
                             $y = $chartHeight - ($t / $tickCount) * ($chartHeight - $padTop);
                         @endphp
                         <line x1="{{ $padLeft }}" y1="{{ round($y, 2) }}" x2="{{ $chartWidth }}" y2="{{ round($y, 2) }}" stroke="currentColor" stroke-opacity="{{ $t === 0 ? '0.2' : '0.08' }}" stroke-width="1" />
-                        <text x="{{ $padLeft - 8 }}" y="{{ round($y + 4, 2) }}" text-anchor="end" class="fill-gray-600 dark:fill-slate-300" font-size="12">{{ number_format($value, 0, $decimal, $thousands) }}</text>
+                        <text x="{{ $padLeft - 8 }}" y="{{ round($y + 4, 2) }}" text-anchor="end" class="fill-gray-600 dark:fill-slate-300" font-size="12">{{ Number::format($value) }}</text>
                     @endfor
 
                     @foreach ($series as $serie)

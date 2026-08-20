@@ -6,6 +6,7 @@ use App\Support\MarkdownToSpipConverter;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Number;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -44,9 +45,9 @@ class MarkdownToSpipPage extends Component
 
         // Size validation
         if (mb_strlen($this->markdown) > self::MAX_LENGTH) {
-            $isEn = app()->getLocale() === 'en';
-            $formatted = number_format(self::MAX_LENGTH, 0, $isEn ? '.' : ',', $isEn ? ',' : ' ');
-            $this->spip = __('messages.errors.too_long', ['max' => $formatted]);
+            $this->spip = __('messages.errors.too_long', [
+                'max' => (string) Number::format(self::MAX_LENGTH),
+            ]);
 
             return;
         }

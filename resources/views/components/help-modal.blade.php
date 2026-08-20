@@ -1,3 +1,5 @@
+@use('Illuminate\Support\Number')
+@use('App\Livewire\MarkdownToSpipPage')
 @php
     $isEn = app()->getLocale() === 'en';
     $titleWord = $isEn ? 'Title' : 'Titre';
@@ -88,7 +90,7 @@
             </div>
 
             <div class="mt-4 pt-3 border-t border-gray-300 dark:border-slate-600 text-xs text-gray-600 dark:text-slate-300">
-                <p><strong class="text-gray-900 dark:text-white">{{ __('messages.help.limit_label') }}</strong> {{ __('messages.help.limit_value', ['count' => number_format(\App\Livewire\MarkdownToSpipPage::MAX_LENGTH, 0, $isEn ? '.' : ',', $isEn ? ',' : ' ')]) }}</p>
+                <p><strong class="text-gray-900 dark:text-white">{{ __('messages.help.limit_label') }}</strong> {{ __('messages.help.limit_value', ['count' => Number::format(MarkdownToSpipPage::MAX_LENGTH)]) }}</p>
             </div>
         </div>
     </div>
