@@ -3,9 +3,9 @@
 namespace App\Livewire;
 
 use App\Support\MarkdownToSpipConverter;
+use App\Support\Stats;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Number;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -39,7 +39,7 @@ class MarkdownToSpipPage extends Component
     {
         // Stats: count the session once per session
         if (! session()->has('stats_counted')) {
-            $this->incrementStat('sessions');
+            Stats::increment('sessions');
             session()->put('stats_counted', true);
         }
 
@@ -83,8 +83,8 @@ class MarkdownToSpipPage extends Component
         }
         RateLimiter::hit($key, 60);
 
-        $this->incrementStat('copies');
-        $this->incrementStat('total_chars', mb_strlen($this->markdown));
+        Stats::increment('copies');
+        Stats::increment('total_chars', mb_strlen($this->markdown));
     }
 
     /**
@@ -102,44 +102,7 @@ class MarkdownToSpipPage extends Component
         }
         RateLimiter::hit($key, 60);
 
-        $this->incrementStat('conversions');
-    }
-
-    /**
-     * Increment a statistic in the JSON file under an exclusive lock
-     * to prevent concurrent writes.
-     */
-    private function incrementStat(string $key, int $value = 1): void
-    {
-        $disk = Storage::disk('stats');
-        $root = $disk->path('');
-        if (! is_dir($root)) {
-            mkdir($root, 0755, true);
-        }
-
-        $handle = fopen($disk->path('stats.json'), 'c+');
-        if ($handle === false) {
-            return;
-        }
-
-        try {
-            if (! flock($handle, LOCK_EX)) {
-                return;
-            }
-
-            $content = stream_get_contents($handle);
-            $stats = $content ? json_decode($content, true) : [];
-            $today = date('Y-m-d');
-            $stats[$today][$key] = ($stats[$today][$key] ?? 0) + $value;
-
-            ftruncate($handle, 0);
-            rewind($handle);
-            fwrite($handle, json_encode($stats, JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR));
-            fflush($handle);
-            flock($handle, LOCK_UN);
-        } finally {
-            fclose($handle);
-        }
+        Stats::increment('conversions');
     }
 
     /**

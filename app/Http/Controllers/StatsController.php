@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Support\Stats;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Storage;
 
 /**
  * Renders the public usage statistics dashboard.
@@ -14,12 +14,7 @@ final class StatsController extends Controller
 {
     public function __invoke(): View
     {
-        $disk = Storage::disk('stats');
-
-        /** @var array<string, array{sessions?: int, conversions?: int, copies?: int, total_chars?: int}> $raw */
-        $raw = $disk->exists('stats.json')
-            ? (json_decode((string) $disk->get('stats.json'), true) ?: [])
-            : [];
+        $raw = Stats::read();
 
         ksort($raw);
 

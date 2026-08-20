@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Livewire\MarkdownToSpipPage;
+use App\Support\Stats;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
@@ -211,7 +212,7 @@ class MarkdownToSpipPageTest extends TestCase
             ->set('markdown', 'hello')
             ->call('trackConversion');
 
-        $stats = json_decode((string) Storage::disk('stats')->get('stats.json'), true);
+        $stats = Stats::read();
         $today = date('Y-m-d');
 
         $this->assertSame(1, $stats[$today]['conversions']);
@@ -250,7 +251,7 @@ class MarkdownToSpipPageTest extends TestCase
         $component->call('countCopy');
         $component->call('countCopy');
 
-        $stats = json_decode((string) Storage::disk('stats')->get('stats.json'), true);
+        $stats = Stats::read();
         $today = date('Y-m-d');
 
         $this->assertSame(2, $stats[$today]['copies']);

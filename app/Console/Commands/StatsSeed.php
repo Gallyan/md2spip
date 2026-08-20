@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Support\Stats;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Storage;
 
 #[Signature('stats:seed {--days=30 : Number of days to generate} {--fresh : Overwrite the existing file}')]
 #[Description('Generates fake usage statistics for the /stats dashboard.')]
@@ -25,15 +25,9 @@ final class StatsSeed extends Command
         $days = (int) $this->option('days');
         $fresh = (bool) $this->option('fresh');
 
-        $disk = Storage::disk('stats');
-        $root = $disk->path('');
-        if (! is_dir($root)) {
-            mkdir($root, 0755, true);
-        }
-
-        $stats = $fresh || ! $disk->exists('stats.json')
+        $stats = $fresh || ! Stats::exists()
             ? []
-            : (json_decode((string) $disk->get('stats.json'), true) ?: []);
+            : Stats::read();
 
         for ($i = $days - 1; $i >= 0; $i--) {
             $ts = strtotime("-{$i} days") ?: time();
@@ -55,9 +49,9 @@ final class StatsSeed extends Command
         }
 
         ksort($stats);
-        $disk->put('stats.json', json_encode($stats, JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR));
+        Stats::write($stats);
 
-        $this->info("Stats generated for {$days} day(s) → {$disk->path('stats.json')}");
+        $this->info("Stats generated for {$days} day(s) → ".Stats::path());
 
         return self::SUCCESS;
     }

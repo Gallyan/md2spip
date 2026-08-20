@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
+use App\Support\Stats;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -23,7 +24,7 @@ class StatsSeedTest extends TestCase
 
         $this->assertSame(0, $exitCode);
 
-        $stats = json_decode((string) Storage::disk('stats')->get('stats.json'), true);
+        $stats = Stats::read();
 
         $this->assertCount(3, $stats);
         foreach ($stats as $day) {
@@ -43,7 +44,7 @@ class StatsSeedTest extends TestCase
         $exitCode = Artisan::call('stats:seed', ['--fresh' => true, '--days' => 2]);
         $this->assertSame(0, $exitCode);
 
-        $stats = json_decode((string) Storage::disk('stats')->get('stats.json'), true);
+        $stats = Stats::read();
 
         $this->assertArrayNotHasKey('2020-01-01', $stats);
         $this->assertCount(2, $stats);
@@ -58,7 +59,7 @@ class StatsSeedTest extends TestCase
         $exitCode = Artisan::call('stats:seed', ['--days' => 2]);
         $this->assertSame(0, $exitCode);
 
-        $stats = json_decode((string) Storage::disk('stats')->get('stats.json'), true);
+        $stats = Stats::read();
 
         $this->assertArrayHasKey('2020-01-01', $stats);
         $this->assertSame(999, $stats['2020-01-01']['sessions']);

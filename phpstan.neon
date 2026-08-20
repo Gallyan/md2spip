@@ -11,7 +11,7 @@ parameters:
         - resources/
         - config/
 
-    level: 8
+    level: 9
 
 #    ignoreErrors:
 #        - '#PHPDoc tag @var#'
