@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.2.0] - 2026-08-20
+
+### Added
+
+- System theme option following the OS preference, now the default (light and dark remain selectable)
+- Favicon
+
+### Changed
+
+- CI/CD split into two workflows: `ci.yml` runs the test suite, `cd.yml` deploys after a green run on `main`
+- Numbers are formatted by `Number::format()` following the application locale, replacing hand-written
+  separators; French thousands now use a narrow no-break space (U+202F)
+- Stats reading and writing extracted into `App\Support\Stats`, giving a single typed access point and
+  removing the decoding logic duplicated across the controller, the command and the Livewire component
+- Static analysis raised from PHPStan level 8 to level 10
+- CI now tests against both PHP 8.4 and 8.5
+- `.env.production` renamed to `.env.production.example`
+- Stack updated to Laravel 13.26, Livewire 4.4, Guzzle 8, PHPUnit 13.3, Vite 8.2, TailwindCSS 4.3
+- `actions/checkout` and `actions/setup-node` bumped to v7
+
+### Removed
+
+- Dependabot configuration and its open pull requests; dependencies are updated manually
+
+### Fixed
+
+- White flash when navigating between pages
+- Blank values no longer break the statistics aggregation
+- The 30-day grid is only drawn once data exists
+- All PHP-FPM pools are restarted after deployment, so OPcache no longer serves stale code
+- Outdated claims in `README.md` and `public/llms.txt`: the deployment workflow name, the default theme,
+  the PHPStan level, and the privacy wording, which stated that no data was stored server-side while
+  anonymous aggregate counters are
+
 ## [1.1.0] - 2026-05-13
 
 ### Added
@@ -90,3 +124,7 @@ First stable release of the Markdown to SPIP converter.
 ### Privacy
 
 - No data stored server-side
+
+[1.2.0]: https://github.com/Gallyan/md2spip/compare/v1.1.0...v1.2.0
+[1.1.0]: https://github.com/Gallyan/md2spip/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/Gallyan/md2spip/releases/tag/v1.0.0

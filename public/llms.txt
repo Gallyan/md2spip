@@ -14,8 +14,8 @@ SPIP (Système de Publication pour Internet Partagé) is a French open source CM
 - Split-view interface: Markdown input on left, SPIP output on right
 - One-click copy to clipboard
 - Persistent local text storage (browser localStorage, never sent to server beyond conversion)
-- Dark mode by default
-- No data storage on server (RGPD-compliant)
+- Theme: light, dark or system (follows OS preference, default)
+- No personal data stored on server, only anonymous aggregate counters (GDPR-compliant)
 - No tracking, no analytics, no cookies beyond Laravel session for CSRF
 - Fully responsive (mobile/desktop)
 - Public usage statistics page (transparency)
@@ -52,7 +52,7 @@ SPIP (Système de Publication pour Internet Partagé) is a French open source CM
 - JS: Alpine.js (minimal interactivity)
 - Build: Vite 8
 - Testing: PHPUnit 13 with `laravel/pao` for agent-optimized output
-- Static analysis: Larastan/PHPStan level 8
+- Static analysis: Larastan/PHPStan level 10
 - Code style: Laravel Pint
 
 ## Architecture
