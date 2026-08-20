@@ -13,6 +13,28 @@ namespace App\Support;
 class MarkdownToSpipConverter
 {
     /**
+     * Stateless transformations, applied in order. The order is significant:
+     * combined emphasis is matched before bold, and bold before italic, so that
+     * the longest marker wins.
+     *
+     * @var array<string, string>
+     */
+    private const RULES = [
+        '/^#\s+(.+)$/m' => '{{{$1}}}',
+        '/^#{2,6}\s+(.+)$/m' => '{{$1}}',
+        '/~~(.+?)~~/s' => '<del>$1</del>',
+        '/\*\*\*(.+?)\*\*\*/s' => '{{ { $1 } }}',
+        '/___(.+?)___/s' => '{{ { $1 } }}',
+        '/\*\*(.+?)\*\*/s' => '{{$1}}',
+        '/__(.+?)__/s' => '{{$1}}',
+        '/\*(.+?)\*/s' => '{$1}',
+        '/_(.+?)_/s' => '{$1}',
+        '/\[([^\]]+)\]\(([^)]+)\)/' => '[$1->$2]',
+        '/^-\s+/m' => '-* ',
+        '/^>\s*(.+)$/m' => '<quote>$1</quote>',
+    ];
+
+    /**
      * Convert Markdown text to SPIP syntax.
      *
      * @param  string  $markdown  The Markdown-formatted text to convert
@@ -20,88 +42,74 @@ class MarkdownToSpipConverter
      */
     public static function convert(string $markdown): string
     {
-        $spip = $markdown;
-        $codeBlocks = [];
-        $codeIndex = 0;
+        ['text' => $spip, 'code' => $codeBlocks] = self::protectCode($markdown);
 
-        // Extract and protect code blocks with placeholders
-        // Strip the optional language name (```js, ```php, etc.)
-        $spip = preg_replace_callback('/```(?:\w+)?\n?(.+?)```/s', function ($matches) use (&$codeBlocks, &$codeIndex) {
-            $placeholder = "\x00CODEBLOCK{$codeIndex}\x00";
-            $content = $matches[1];
-            // Add line breaks only if content is multi-line
-            if (str_contains($content, "\n")) {
-                $codeBlocks[$placeholder] = '<code>'."\n".trim($content)."\n".'</code>';
-            } else {
-                $codeBlocks[$placeholder] = '<code>'.$content.'</code>';
-            }
-            $codeIndex++;
+        $spip = self::resolveFootnotes($spip);
 
-            return $placeholder;
-        }, $spip) ?? $spip;
-
-        // Extract and protect inline code with placeholders
-        $spip = preg_replace_callback('/`(.+?)`/', function ($matches) use (&$codeBlocks, &$codeIndex) {
-            $placeholder = "\x00CODEBLOCK{$codeIndex}\x00";
-            $codeBlocks[$placeholder] = '<code>'.$matches[1].'</code>';
-            $codeIndex++;
-
-            return $placeholder;
-        }, $spip) ?? $spip;
-
-        // Footnotes: extract definitions [^id]: text
-        $footnotes = [];
-        $spip = preg_replace_callback('/^\[\^([^\]]+)\]:\s*(.+)$/m', function ($matches) use (&$footnotes) {
-            $footnotes[$matches[1]] = trim($matches[2]);
-
-            return ''; // Remove the definition line
-        }, $spip) ?? $spip;
-
-        // Replace references [^id] with [[text]]
-        $spip = preg_replace_callback('/\[\^([^\]]+)\]/', function ($matches) use ($footnotes) {
-            $id = $matches[1];
-            if (isset($footnotes[$id])) {
-                return '[['.$footnotes[$id].']]';
-            }
-
-            return $matches[0]; // Keep as-is if no definition found
-        }, $spip) ?? $spip;
-
-        // Level 1 headings: # Title → {{{Title}}}
-        $spip = preg_replace('/^#\s+(.+)$/m', '{{{$1}}}', $spip) ?? $spip;
-
-        // Level 2+ headings: ## to ###### → {{Title}} (bold)
-        $spip = preg_replace('/^#{2,6}\s+(.+)$/m', '{{$1}}', $spip) ?? $spip;
-
-        // Strikethrough ~~text~~ → <del>text</del>
-        $spip = preg_replace('/~~(.+?)~~/s', '<del>$1</del>', $spip) ?? $spip;
-
-        // Combined bold+italic ***text*** or ___text___ → {{ { text } }}
-        $spip = preg_replace('/\*\*\*(.+?)\*\*\*/s', '{{ { $1 } }}', $spip) ?? $spip;
-        $spip = preg_replace('/___(.+?)___/s', '{{ { $1 } }}', $spip) ?? $spip;
-
-        // Bold **text** or __text__ → {{text}}
-        $spip = preg_replace('/\*\*(.+?)\*\*/s', '{{$1}}', $spip) ?? $spip;
-        $spip = preg_replace('/__(.+?)__/s', '{{$1}}', $spip) ?? $spip;
-
-        // Italic *text* or _text_ → {text}
-        $spip = preg_replace('/\*(.+?)\*/s', '{$1}', $spip) ?? $spip;
-        $spip = preg_replace('/_(.+?)_/s', '{$1}', $spip) ?? $spip;
-
-        // Links [text](url) → [text->url]
-        $spip = preg_replace('/\[([^\]]+)\]\(([^)]+)\)/', '[$1->$2]', $spip) ?? $spip;
-
-        // Lists - item → -* item
-        $spip = preg_replace('/^-\s+/m', '-* ', $spip) ?? $spip;
-
-        // Blockquotes > text → <quote>text</quote>
-        $spip = preg_replace('/^>\s*(.+)$/m', '<quote>$1</quote>', $spip) ?? $spip;
-
-        // Restore code blocks
-        foreach ($codeBlocks as $placeholder => $code) {
-            $spip = str_replace($placeholder, $code, $spip);
+        foreach (self::RULES as $pattern => $replacement) {
+            $spip = preg_replace($pattern, $replacement, $spip) ?? $spip;
         }
 
-        return $spip;
+        return strtr($spip, $codeBlocks);
+    }
+
+    /**
+     * Swap code blocks and inline code for placeholders, so the rules below
+     * never rewrite their contents.
+     *
+     * @return array{
+     *     text: string,
+     *     code: array<string, string>
+     * }
+     */
+    private static function protectCode(string $markdown): array
+    {
+        $codeBlocks = [];
+        $index = 0;
+
+        // Fenced blocks, dropping the optional language name (```js, ```php, etc.)
+        $text = preg_replace_callback('/```(?:\w+)?\n?(.+?)```/s', function (array $matches) use (&$codeBlocks, &$index): string {
+            $placeholder = "\x00CODEBLOCK{$index}\x00";
+            $content = $matches[1];
+
+            $codeBlocks[$placeholder] = str_contains($content, "\n")
+                ? '<code>'."\n".trim($content)."\n".'</code>'
+                : '<code>'.$content.'</code>';
+
+            $index++;
+
+            return $placeholder;
+        }, $markdown) ?? $markdown;
+
+        $text = preg_replace_callback('/`(.+?)`/', function (array $matches) use (&$codeBlocks, &$index): string {
+            $placeholder = "\x00CODEBLOCK{$index}\x00";
+            $codeBlocks[$placeholder] = '<code>'.$matches[1].'</code>';
+            $index++;
+
+            return $placeholder;
+        }, $text) ?? $text;
+
+        return ['text' => $text, 'code' => $codeBlocks];
+    }
+
+    /**
+     * Move each footnote definition into the place where it is referenced.
+     * References without a definition are left untouched.
+     */
+    private static function resolveFootnotes(string $text): string
+    {
+        $footnotes = [];
+
+        $text = preg_replace_callback('/^\[\^([^\]]+)\]:\s*(.+)$/m', function (array $matches) use (&$footnotes): string {
+            $footnotes[$matches[1]] = trim($matches[2]);
+
+            return '';
+        }, $text) ?? $text;
+
+        return preg_replace_callback('/\[\^([^\]]+)\]/', function (array $matches) use (&$footnotes): string {
+            $id = $matches[1];
+
+            return isset($footnotes[$id]) ? '[['.$footnotes[$id].']]' : $matches[0];
+        }, $text) ?? $text;
     }
 }
