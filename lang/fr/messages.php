@@ -32,7 +32,7 @@ return [
         'faqs' => [
             ['q' => 'Mes textes sont-ils stockés sur le serveur ?', 'a' => "Non. Le texte est transmis au serveur uniquement pour effectuer la conversion en temps réel, mais il n'est jamais stocké. Aucune trace des conversions n'est conservée."],
             ['q' => "L'outil est-il gratuit ?", 'a' => 'Oui. Markdown to SPIP est totalement gratuit, sans inscription et sans publicité. Le projet est open source sous licence GNU GPL-3.0.'],
-            ['q' => "Quelle est la longueur maximale d'un texte à convertir ?", 'a' => "100 000 caractères par conversion, soit l'équivalent d'environ 15 000 mots ou 30 pages."],
+            ['q' => "Quelle est la longueur maximale d'un texte à convertir ?", 'a' => "100\u{202F}000 caractères par conversion, soit l'équivalent d'environ 15\u{202F}000 mots ou 30 pages."],
             ['q' => 'Quelles syntaxes Markdown sont supportées ?', 'a' => 'Titres, gras, italique, gras+italique, texte barré, code inline et blocs de code, liens, listes à puces, citations et notes de bas de page. La conversion produit la syntaxe SPIP équivalente.'],
             ['q' => 'Puis-je utiliser Markdown to SPIP hors ligne ?', 'a' => "Oui. Le projet étant open source, vous pouvez l'installer localement sur votre machine. Le code source est disponible sur GitHub."],
             ['q' => "Qu'est-ce que SPIP ?", 'a' => 'SPIP (Système de Publication pour Internet Partagé) est un CMS libre français utilisé par de nombreux sites institutionnels et associatifs. Il utilise une syntaxe de mise en forme spécifique, différente de celle de Markdown.'],
