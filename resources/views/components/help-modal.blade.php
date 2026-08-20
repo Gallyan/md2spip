@@ -1,28 +1,18 @@
 @use('Illuminate\Support\Number')
 @use('App\Livewire\MarkdownToSpipPage')
 @php
-    $isEn = app()->getLocale() === 'en';
-    $titleWord = $isEn ? 'Title' : 'Titre';
-    $subtitleWord = $isEn ? 'Subtitle' : 'Sous-titre';
-    $boldWord = $isEn ? 'bold' : 'gras';
-    $italicWord = $isEn ? 'italic' : 'italique';
-    $linkWord = $isEn ? 'link' : 'lien';
-    $itemWord = $isEn ? 'item' : 'item';
-    $codeWord = $isEn ? 'code' : 'code';
-    $quoteWord = $isEn ? 'quote' : 'citation';
-    $textWord = $isEn ? 'Text' : 'Texte';
-    $noteWord = $isEn ? 'note' : 'note';
+    $words = trans('messages.help.words');
 
     $conversions = [
-        ['md' => '# '.$titleWord, 'spip' => '{{{'.$titleWord.'}}}'],
-        ['md' => '## '.$subtitleWord, 'spip' => '{{'.$subtitleWord.'}}'],
-        ['md' => '**'.$boldWord.'**', 'spip' => '{{'.$boldWord.'}}'],
-        ['md' => '*'.$italicWord.'*', 'spip' => '{'.$italicWord.'}'],
-        ['md' => '['.$linkWord.'](url)', 'spip' => '['.$linkWord.'->url]'],
-        ['md' => '- '.$itemWord, 'spip' => '-* '.$itemWord],
-        ['md' => '`'.$codeWord.'`', 'spip' => '<code>'.$codeWord.'</code>'],
-        ['md' => '> '.$quoteWord, 'spip' => '<quote>'.$quoteWord.'</quote>'],
-        ['md' => $textWord.'[^1]', 'spip' => $textWord.'[['.$noteWord.']]'],
+        ['md' => '# '.$words['title'], 'spip' => '{{{'.$words['title'].'}}}'],
+        ['md' => '## '.$words['subtitle'], 'spip' => '{{'.$words['subtitle'].'}}'],
+        ['md' => '**'.$words['bold'].'**', 'spip' => '{{'.$words['bold'].'}}'],
+        ['md' => '*'.$words['italic'].'*', 'spip' => '{'.$words['italic'].'}'],
+        ['md' => '['.$words['link'].'](url)', 'spip' => '['.$words['link'].'->url]'],
+        ['md' => '- '.$words['item'], 'spip' => '-* '.$words['item']],
+        ['md' => '`'.$words['code'].'`', 'spip' => '<code>'.$words['code'].'</code>'],
+        ['md' => '> '.$words['quote'], 'spip' => '<quote>'.$words['quote'].'</quote>'],
+        ['md' => $words['text'].'[^1]', 'spip' => $words['text'].'[['.$words['note'].']]'],
     ];
 @endphp
 {{-- Help button with modal --}}

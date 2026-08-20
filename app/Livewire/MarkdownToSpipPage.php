@@ -52,17 +52,11 @@ class MarkdownToSpipPage extends Component
             return;
         }
 
-        // Rate limiting: MAX_ATTEMPTS conversions per minute per IP (with 50ms front-end debounce)
-        $key = 'markdown-convert:'.request()->ip();
-
-        if (RateLimiter::tooManyAttempts($key, self::MAX_ATTEMPTS)) {
+        if (! $this->allow('markdown-convert', self::MAX_ATTEMPTS)) {
             $this->spip = __('messages.errors.rate_limit', ['max' => self::MAX_ATTEMPTS]);
 
             return;
         }
-
-        // Increment RateLimiter counter (expires after 60 seconds)
-        RateLimiter::hit($key, 60);
 
         $this->spip = MarkdownToSpipConverter::convert($this->markdown);
     }
@@ -77,11 +71,9 @@ class MarkdownToSpipPage extends Component
             return;
         }
 
-        $key = 'count-copy:'.request()->ip();
-        if (RateLimiter::tooManyAttempts($key, 60)) {
+        if (! $this->allow('count-copy', 60)) {
             return;
         }
-        RateLimiter::hit($key, 60);
 
         Stats::increment('copies');
         Stats::increment('total_chars', mb_strlen($this->markdown));
@@ -96,13 +88,28 @@ class MarkdownToSpipPage extends Component
             return;
         }
 
-        $key = 'track-conv:'.request()->ip();
-        if (RateLimiter::tooManyAttempts($key, 20)) {
+        if (! $this->allow('track-conv', 20)) {
             return;
         }
-        RateLimiter::hit($key, 60);
 
         Stats::increment('conversions');
+    }
+
+    /**
+     * Record one attempt for the caller's IP and tell whether it stays under the
+     * given per-minute quota.
+     */
+    private function allow(string $action, int $maxAttempts): bool
+    {
+        $key = $action.':'.request()->ip();
+
+        if (RateLimiter::tooManyAttempts($key, $maxAttempts)) {
+            return false;
+        }
+
+        RateLimiter::hit($key, 60);
+
+        return true;
     }
 
     /**

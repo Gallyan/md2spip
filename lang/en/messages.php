@@ -92,6 +92,18 @@ return [
         'close_aria' => 'Close the help dialog',
         'limit_label' => 'Limit:',
         'limit_value' => ':count characters',
+        'words' => [
+            'title' => 'Title',
+            'subtitle' => 'Subtitle',
+            'bold' => 'bold',
+            'italic' => 'italic',
+            'link' => 'link',
+            'item' => 'item',
+            'code' => 'code',
+            'quote' => 'quote',
+            'text' => 'Text',
+            'note' => 'note',
+        ],
     ],
 
     'legal' => [

@@ -92,6 +92,18 @@ return [
         'close_aria' => 'Fermer la fenêtre d\'aide',
         'limit_label' => 'Limite :',
         'limit_value' => ':count caractères',
+        'words' => [
+            'title' => 'Titre',
+            'subtitle' => 'Sous-titre',
+            'bold' => 'gras',
+            'italic' => 'italique',
+            'link' => 'lien',
+            'item' => 'item',
+            'code' => 'code',
+            'quote' => 'citation',
+            'text' => 'Texte',
+            'note' => 'note',
+        ],
     ],
 
     'legal' => [
