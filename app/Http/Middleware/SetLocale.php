@@ -15,6 +15,11 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final class SetLocale
 {
+    /**
+     * Handle an incoming request.
+     *
+     * @param  Closure(Request): (Response)  $next
+     */
     public function handle(Request $request, Closure $next, ?string $locale = null): Response
     {
         if ($locale !== null && in_array($locale, ['fr', 'en'], true)) {
