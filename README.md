@@ -57,7 +57,7 @@ Customize the `LEGAL_*` variables in `.env` (editor, hosting, contact). See `.en
 
 ## Production deployment
 
-The `.github/workflows/pipeline.yml` workflow auto-deploys to the server after a successful test run on `main`. Required secrets are listed in the file's comments.
+The `.github/workflows/ci.yml` workflow runs the test suite on every push. On `main`, a green run triggers `cd.yml`, which builds the assets and ships them to the server over SSH. Required secrets and server prerequisites are documented in the comments at the top of `cd.yml`.
 
 First-time server setup:
 
@@ -87,4 +87,9 @@ See the [CHANGELOG](CHANGELOG.md) for project history.
 
 ## Privacy
 
-No user data is stored server-side. Everything stays in your browser.
+Your text is sent to the server to be converted, but it is never stored nor logged: it only lives in memory
+for the duration of the request. Your browser keeps a copy in localStorage so you don't lose it on navigation.
+
+The server stores anonymous aggregate counters only, with no IP address and no content: visits, conversions,
+copies and a character total, grouped by day. They are public on the `/stats` page. IP addresses are used as
+short-lived rate-limiting keys in the cache, and are never written to disk.
