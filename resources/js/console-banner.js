@@ -38,7 +38,7 @@ for (let row = 0; row < lines.length; row++) {
     banner += '\n';
 }
 
-banner += '\n%cConvertisseur Markdown → SPIP\n%cpar Guillaume Orsal\n%chttps://www.orsal.fr';
+banner += '\n%cConvertisseur Markdown → SPIP\n%cpar Guillaume Orsal · %chttps://www.orsal.fr';
 styles.push('color:#94a3b8;font-size:11px');
 styles.push('color:#10b981;font-size:11px;font-weight:bold');
 styles.push('color:#10b981;font-size:11px;text-decoration:underline');
