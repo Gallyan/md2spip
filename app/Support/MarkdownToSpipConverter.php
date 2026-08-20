@@ -20,17 +20,29 @@ class MarkdownToSpipConverter
      * @var array<string, string>
      */
     private const RULES = [
+        // # Title → {{{Title}}}
         '/^#\s+(.+)$/m' => '{{{$1}}}',
+        // ## to ###### Subtitle → {{Subtitle}} (bold)
         '/^#{2,6}\s+(.+)$/m' => '{{$1}}',
+        // ~~text~~ → <del>text</del>
         '/~~(.+?)~~/s' => '<del>$1</del>',
+        // ***text*** → {{ { text } }}
         '/\*\*\*(.+?)\*\*\*/s' => '{{ { $1 } }}',
+        // ___text___ → {{ { text } }}
         '/___(.+?)___/s' => '{{ { $1 } }}',
+        // **text** → {{text}}
         '/\*\*(.+?)\*\*/s' => '{{$1}}',
+        // __text__ → {{text}}
         '/__(.+?)__/s' => '{{$1}}',
+        // *text* → {text}
         '/\*(.+?)\*/s' => '{$1}',
+        // _text_ → {text}
         '/_(.+?)_/s' => '{$1}',
+        // [text](url) → [text->url]
         '/\[([^\]]+)\]\(([^)]+)\)/' => '[$1->$2]',
+        // - item → -* item
         '/^-\s+/m' => '-* ',
+        // > text → <quote>text</quote>
         '/^>\s*(.+)$/m' => '<quote>$1</quote>',
     ];
 
@@ -68,26 +80,34 @@ class MarkdownToSpipConverter
         $index = 0;
 
         // Fenced blocks, dropping the optional language name (```js, ```php, etc.)
-        $text = preg_replace_callback('/```(?:\w+)?\n?(.+?)```/s', function (array $matches) use (&$codeBlocks, &$index): string {
-            $placeholder = "\x00CODEBLOCK{$index}\x00";
-            $content = $matches[1];
+        $text = preg_replace_callback(
+            '/```(?:\w+)?\n?(.+?)```/s',
+            function (array $matches) use (&$codeBlocks, &$index): string {
+                $placeholder = "\x00CODEBLOCK{$index}\x00";
+                $content = $matches[1];
 
-            $codeBlocks[$placeholder] = str_contains($content, "\n")
-                ? '<code>'."\n".trim($content)."\n".'</code>'
-                : '<code>'.$content.'</code>';
+                $codeBlocks[$placeholder] = str_contains($content, "\n")
+                    ? '<code>'."\n".trim($content)."\n".'</code>'
+                    : '<code>'.$content.'</code>';
 
-            $index++;
+                $index++;
 
-            return $placeholder;
-        }, $markdown) ?? $markdown;
+                return $placeholder;
+            },
+            $markdown
+        ) ?? $markdown;
 
-        $text = preg_replace_callback('/`(.+?)`/', function (array $matches) use (&$codeBlocks, &$index): string {
-            $placeholder = "\x00CODEBLOCK{$index}\x00";
-            $codeBlocks[$placeholder] = '<code>'.$matches[1].'</code>';
-            $index++;
+        $text = preg_replace_callback(
+            '/`(.+?)`/',
+            function (array $matches) use (&$codeBlocks, &$index): string {
+                $placeholder = "\x00CODEBLOCK{$index}\x00";
+                $codeBlocks[$placeholder] = '<code>'.$matches[1].'</code>';
+                $index++;
 
-            return $placeholder;
-        }, $text) ?? $text;
+                return $placeholder;
+            },
+            $text
+        ) ?? $text;
 
         return ['text' => $text, 'code' => $codeBlocks];
     }
@@ -100,16 +120,24 @@ class MarkdownToSpipConverter
     {
         $footnotes = [];
 
-        $text = preg_replace_callback('/^\[\^([^\]]+)\]:\s*(.+)$/m', function (array $matches) use (&$footnotes): string {
-            $footnotes[$matches[1]] = trim($matches[2]);
+        $text = preg_replace_callback(
+            '/^\[\^([^\]]+)\]:\s*(.+)$/m',
+            function (array $matches) use (&$footnotes): string {
+                $footnotes[$matches[1]] = trim($matches[2]);
 
-            return '';
-        }, $text) ?? $text;
+                return '';
+            },
+            $text
+        ) ?? $text;
 
-        return preg_replace_callback('/\[\^([^\]]+)\]/', function (array $matches) use (&$footnotes): string {
-            $id = $matches[1];
+        return preg_replace_callback(
+            '/\[\^([^\]]+)\]/',
+            function (array $matches) use (&$footnotes): string {
+                $id = $matches[1];
 
-            return isset($footnotes[$id]) ? '[['.$footnotes[$id].']]' : $matches[0];
-        }, $text) ?? $text;
+                return isset($footnotes[$id]) ? '[['.$footnotes[$id].']]' : $matches[0];
+            },
+            $text
+        ) ?? $text;
     }
 }
