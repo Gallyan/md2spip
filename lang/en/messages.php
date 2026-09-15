@@ -27,11 +27,11 @@ return [
             'Local text persistence (localStorage)',
             'Light, dark or system theme',
             'No personal data collected',
-            'Open source GPL-3.0',
+            'Open source AGPL-3.0',
         ],
         'faqs' => [
             ['q' => 'Is my text stored on the server?', 'a' => 'No. The text is sent to the server only to perform the real-time conversion, but it is never stored. No trace of conversions is kept.'],
-            ['q' => 'Is the tool free?', 'a' => 'Yes. Markdown to SPIP is completely free, no signup, no advertising. The project is open source under the GNU GPL-3.0 license.'],
+            ['q' => 'Is the tool free?', 'a' => 'Yes. Markdown to SPIP is completely free, no signup, no advertising. The project is open source under the GNU AGPL-3.0 license.'],
             ['q' => 'What is the maximum length of text to convert?', 'a' => '100,000 characters per conversion, roughly 15,000 words or 30 pages.'],
             ['q' => 'Which Markdown syntaxes are supported?', 'a' => 'Headings, bold, italic, bold+italic, strikethrough, inline code and code blocks, links, bullet lists, blockquotes and footnotes. The conversion produces the equivalent SPIP syntax.'],
             ['q' => 'Can I use Markdown to SPIP offline?', 'a' => 'Yes. As the project is open source, you can install it locally on your machine. The source code is available on GitHub.'],

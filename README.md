@@ -1,6 +1,6 @@
 # Markdown to SPIP
 
-[![License: GPL-3.0](https://img.shields.io/badge/License-GPL%203.0-blue.svg)](LICENSE)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](LICENSE)
 [![PHP Version](https://img.shields.io/badge/PHP-8.4-777BB4?logo=php&logoColor=white)](https://www.php.net/)
 [![Laravel Version](https://img.shields.io/badge/Laravel-13-FF2D20?logo=laravel&logoColor=white)](https://laravel.com/)
 [![Livewire](https://img.shields.io/badge/Livewire-4-FB70A9?logo=livewire&logoColor=white)](https://livewire.laravel.com/)
@@ -93,3 +93,7 @@ for the duration of the request. Your browser keeps a copy in localStorage so yo
 The server stores anonymous aggregate counters only, with no IP address and no content: visits, conversions,
 copies and a character total, grouped by day. They are public on the `/stats` page. IP addresses are used as
 short-lived rate-limiting keys in the cache, and are never written to disk.
+
+## License
+
+AGPL-3.0 — see [LICENSE](LICENSE)

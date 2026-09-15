@@ -52,12 +52,12 @@
             "dateCreated": "2026-01-01",
             "datePublished": "2026-01-15",
             "isAccessibleForFree": true,
-            "license": "https://www.gnu.org/licenses/gpl-3.0",
+            "license": "https://www.gnu.org/licenses/agpl-3.0",
             "isBasedOn": {
                 "@@type": "SoftwareSourceCode",
                 "codeRepository": "https://github.com/Gallyan/md2spip",
                 "programmingLanguage": ["PHP", "JavaScript"],
-                "license": "https://www.gnu.org/licenses/gpl-3.0"
+                "license": "https://www.gnu.org/licenses/agpl-3.0"
             },
             "offers": {
                 "@@type": "Offer",

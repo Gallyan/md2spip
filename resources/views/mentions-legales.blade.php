@@ -57,7 +57,7 @@
 
             <section class="bg-white dark:bg-slate-800/50 rounded-xl p-8 border border-gray-200 dark:border-slate-700 transition-colors">
                 <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-5">{{ __('messages.legal.free_software') }}</h2>
-                <p class="text-gray-700 dark:text-slate-200 text-lg">{{ __('messages.legal.free_software_intro') }} <strong class="text-gray-900 dark:text-white">GNU GPL-3.0</strong>.</p>
+                <p class="text-gray-700 dark:text-slate-200 text-lg">{{ __('messages.legal.free_software_intro') }} <strong class="text-gray-900 dark:text-white">GNU AGPL-3.0</strong>.</p>
                 <p class="mt-4 text-gray-700 dark:text-slate-200 text-lg">
                     {{ __('messages.legal.free_software_freedom') }}<br>
                     {{ __('messages.legal.free_software_source') }} <a href="https://github.com/Gallyan/md2spip" target="_blank" rel="noopener" class="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 underline">github.com/Gallyan/md2spip</a>

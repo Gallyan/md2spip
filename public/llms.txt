@@ -1,6 +1,6 @@
 # Markdown to SPIP
 
-> Convertisseur en ligne Markdown vers syntaxe SPIP, en temps réel. Gratuit, open source (GPL-3.0), sans inscription, sans tracking.
+> Convertisseur en ligne Markdown vers syntaxe SPIP, en temps réel. Gratuit, open source (AGPL-3.0), sans inscription, sans tracking.
 
 ## Purpose
 
@@ -92,7 +92,7 @@ php artisan test
 
 ## License
 
-GNU GPL-3.0 — free software, source available, can be modified and redistributed under the same license.
+GNU AGPL-3.0 — free software, source available, can be modified and redistributed under the same license; modified versions offered as a network service must also publish their source.
 
 ## Source
 
