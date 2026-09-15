@@ -2,18 +2,31 @@
     $isEn = \App\Support\LocaleUrls::isEnglish();
     $statsUrl = $isEn ? '/en/stats' : '/stats';
     $legalUrl = $isEn ? '/en/legal' : '/mentions-legales';
+    $retentionMs = \App\Livewire\MarkdownToSpipPage::STORAGE_RETENTION_DAYS * 86400 * 1000;
 @endphp
 <div class="flex flex-col h-screen"
     x-data="{
         init() {
             const saved = localStorage.getItem('md2spip-markdown');
-            if (saved && saved !== '') {
-                $wire.markdown = saved;
+            const savedAt = Number(localStorage.getItem('md2spip-saved-at'));
+
+            if (Date.now() - savedAt > {{ $retentionMs }}) {
+                localStorage.removeItem('md2spip-markdown');
+                localStorage.removeItem('md2spip-saved-at');
+                localStorage.removeItem('md2spip-converted');
+                return;
+            }
+
+            if (saved) {
+                $wire.$set('markdown', saved);
             }
         }
     }"
     x-effect="
-        localStorage.setItem('md2spip-markdown', $wire.markdown || '');
+        if (localStorage.getItem('md2spip-markdown') !== ($wire.markdown || '')) {
+            localStorage.setItem('md2spip-markdown', $wire.markdown || '');
+            localStorage.setItem('md2spip-saved-at', String(Date.now()));
+        }
         if ($wire.markdown) {
             if (!localStorage.getItem('md2spip-converted')) {
                 localStorage.setItem('md2spip-converted', '1');

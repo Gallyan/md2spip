@@ -26,6 +26,8 @@ class MarkdownToSpipPage extends Component
 
     public const MAX_ATTEMPTS = 200; // Requests per minute
 
+    public const STORAGE_RETENTION_DAYS = 7; // Draft kept in the browser after the last edit
+
     public string $markdown = '';
 
     public string $spip = '';

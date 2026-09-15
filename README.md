@@ -16,7 +16,7 @@ Real-time online converter from Markdown to SPIP syntax.
 - **Real-time conversion** (no "Convert" button)
 - **Split-view interface**: Markdown on the left, SPIP on the right
 - **One-click copy** to clipboard with visual feedback
-- **Local persistence**: text saved to browser localStorage (no loss on navigation)
+- **Local persistence**: text saved to browser localStorage (no loss on navigation), kept 7 days after the last edit
 - **Live character counter**
 - **Contextual help**
 - **Responsive** (mobile/desktop)
@@ -88,7 +88,7 @@ See the [CHANGELOG](CHANGELOG.md) for project history.
 ## Privacy
 
 Your text is sent to the server to be converted, but it is never stored nor logged: it only lives in memory
-for the duration of the request. Your browser keeps a copy in localStorage so you don't lose it on navigation.
+for the duration of the request. Your browser keeps a copy in localStorage so you don't lose it on navigation, and drops it 7 days after the last edit.
 
 The server stores anonymous aggregate counters only, with no IP address and no content: visits, conversions,
 copies and a character total, grouped by day. They are public on the `/stats` page. IP addresses are used as
