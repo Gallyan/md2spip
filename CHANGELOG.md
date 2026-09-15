@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.0] - 2026-09-15
+
+### Added
+
+- Console banner with a link to the author's site
+- The draft kept in the browser is dropped 7 days after the last edit
+
+### Changed
+
+- The draft restored from localStorage is converted immediately, instead of waiting for the next keystroke
+- Conversion rules declared in a single table, each preceded by a comment showing the Markdown input and the SPIP output
+- Rate-limit checks factored into a single helper in the Livewire component; the help modal example words now come from the translation files
+- Stack updated to Laravel 13.31, Livewire 4.4.5, PHPUnit 13.3.3, Vite 8.3, TailwindCSS 4.3
+- `humans.txt` points to the current domain and lists the current stack
+
+### Removed
+
+- `axios` and `alpinejs` npm packages, never imported by the front-end (Alpine ships with Livewire); the JavaScript bundle drops from 52 KB to 2 KB
+- Sample application key in `.env.example`
+
 ## [1.2.0] - 2026-08-20
 
 ### Added

@@ -13,7 +13,7 @@ SPIP (Système de Publication pour Internet Partagé) is a French open source CM
 - Real-time conversion (no submit button required)
 - Split-view interface: Markdown input on left, SPIP output on right
 - One-click copy to clipboard
-- Persistent local text storage (browser localStorage, never sent to server beyond conversion)
+- Persistent local text storage (browser localStorage, kept 7 days after the last edit, never sent to server beyond conversion)
 - Theme: light, dark or system (follows OS preference, default)
 - No personal data stored on server, only anonymous aggregate counters (GDPR-compliant)
 - No tracking, no analytics, no cookies beyond Laravel session for CSRF
