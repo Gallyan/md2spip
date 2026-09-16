@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.1] - 2026-09-16
+
+### Changed
+
+- License changed from GPL-3.0-only to AGPL-3.0-or-later
+- Laravel 13.31 required as a minimum, for its security fixes
+- Stack updated to Laravel 13.32, PHPUnit 13.3.4, Symfony 8.1.7
+
 ## [1.3.0] - 2026-09-15
 
 ### Added
@@ -145,6 +153,8 @@ First stable release of the Markdown to SPIP converter.
 
 - No data stored server-side
 
+[1.3.1]: https://github.com/Gallyan/md2spip/compare/v1.3.0...v1.3.1
+[1.3.0]: https://github.com/Gallyan/md2spip/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/Gallyan/md2spip/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/Gallyan/md2spip/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/Gallyan/md2spip/releases/tag/v1.0.0

@@ -9,7 +9,7 @@ Livewire Team
 TailwindCSS Team
 
 /* SITE */
-Last update: 2026/09/15
+Last update: 2026/09/16
 Language: Français
 Standards: HTML5, CSS3
 Components: Laravel 13, Livewire 4, TailwindCSS 4, Alpine.js
