@@ -1,0 +1,52 @@
+# Fusion automatique des PR Dependabot
+#
+# - Se déclenche après un succès du workflow CI sur une PR ouverte par Dependabot.
+# - Tourne depuis la branche main et ne récupère jamais le code de la PR.
+# - La fusion passe par l'auto-merge natif : elle attend les checks requis sur main.
+# - Une fusion faite avec GITHUB_TOKEN ne déclenche ni CI ni CD : la mise à jour part
+#   en production au prochain push sur main, ou via un CD lancé à la main.
+
+name: Dependabot auto-merge
+run-name: "Dependabot auto-merge — ${{ github.event.workflow_run.head_branch }}"
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  merge:
+    name: Merge Dependabot PR
+    runs-on: ubuntu-latest
+    # head_repository : une PR venant d'un fork pourrait nommer sa branche dependabot/...
+    if: >
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.actor.login == 'dependabot[bot]' &&
+      github.event.workflow_run.head_repository.full_name == github.repository &&
+      startsWith(github.event.workflow_run.head_branch, 'dependabot/')
+
+    steps:
+      - name: Merge the pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: ${{ github.event.workflow_run.head_branch }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          # workflow_run.pull_requests revient vide dans certains cas : la PR est
+          # retrouvée par sa branche.
+          pr=$(gh pr list --repo "$GITHUB_REPOSITORY" --head "$BRANCH" --state open \
+            --json number --jq '.[0].number // empty')
+
+          if [ -z "$pr" ]; then
+            echo "Aucune PR ouverte sur $BRANCH." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          gh pr merge "$pr" --repo "$GITHUB_REPOSITORY" --auto --squash --delete-branch \
+            --match-head-commit "$HEAD_SHA"
+          echo "PR #$pr : fusion demandée." | tee -a "$GITHUB_STEP_SUMMARY"
