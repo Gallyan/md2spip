@@ -118,6 +118,7 @@ jobs:
           umask 002
 
           php artisan down --retry=60 || true
+          trap 'php artisan up' EXIT
 
           git checkout -- .
           git pull --ff-only origin main
@@ -130,8 +131,6 @@ jobs:
           php artisan optimize:clear
 
           sudo /usr/local/bin/restart-php-fpm
-
-          php artisan up
           EOF
           )
 
