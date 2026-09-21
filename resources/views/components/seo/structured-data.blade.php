@@ -4,6 +4,7 @@
     $faqs = (array) __('messages.seo.faqs');
     $howToSteps = (array) __('messages.seo.how_to_steps');
     $features = (array) __('messages.seo.features');
+    $jsonFlags = JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_THROW_ON_ERROR;
 @endphp
 <script type="application/ld+json">
 {
@@ -25,7 +26,7 @@
             "url": "{{ config('legal.social.website', 'https://www.orsal.fr') }}",
             "jobTitle": "Software Engineer",
             "knowsAbout": ["Laravel development", "web development", "open source", "Markdown", "SPIP CMS"]@if(collect(config('legal.social'))->filter()->isNotEmpty())
-            ,"sameAs": {!! json_encode(collect(config('legal.social'))->filter()->values()) !!}
+            ,"sameAs": {!! json_encode(collect(config('legal.social'))->filter()->values(), $jsonFlags) !!}
             @endif
         },
         {
@@ -64,7 +65,7 @@
                 "price": "0",
                 "priceCurrency": "EUR"
             },
-            "featureList": {!! json_encode($features, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR) !!},
+            "featureList": {!! json_encode($features, $jsonFlags) !!},
             "potentialAction": {
                 "@@type": "CreateAction",
                 "target": {
@@ -88,10 +89,10 @@
                 @foreach ($faqs as $faq)
                 {
                     "@@type": "Question",
-                    "name": {!! json_encode($faq['q'], JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR) !!},
+                    "name": {!! json_encode($faq['q'], $jsonFlags) !!},
                     "acceptedAnswer": {
                         "@@type": "Answer",
-                        "text": {!! json_encode($faq['a'], JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR) !!}
+                        "text": {!! json_encode($faq['a'], $jsonFlags) !!}
                     }
                 }@if(! $loop->last),@endif
                 @endforeach
@@ -101,16 +102,16 @@
             "@@type": "HowTo",
             "@@id": "{{ url('/') }}/#howto",
             "inLanguage": "{{ $locale }}",
-            "name": {!! json_encode(__('messages.seo.how_to_name'), JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR) !!},
-            "description": {!! json_encode(__('messages.seo.how_to_description'), JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR) !!},
+            "name": {!! json_encode(__('messages.seo.how_to_name'), $jsonFlags) !!},
+            "description": {!! json_encode(__('messages.seo.how_to_description'), $jsonFlags) !!},
             "totalTime": "PT10S",
             "step": [
                 @foreach ($howToSteps as $i => $step)
                 {
                     "@@type": "HowToStep",
                     "position": {{ $i + 1 }},
-                    "name": {!! json_encode($step['name'], JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR) !!},
-                    "text": {!! json_encode($step['text'], JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR) !!}
+                    "name": {!! json_encode($step['name'], $jsonFlags) !!},
+                    "text": {!! json_encode($step['text'], $jsonFlags) !!}
                 }@if(! $loop->last),@endif
                 @endforeach
             ]

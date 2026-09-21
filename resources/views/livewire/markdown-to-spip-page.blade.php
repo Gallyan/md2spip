@@ -10,7 +10,7 @@
             const saved = localStorage.getItem('md2spip-markdown');
             const savedAt = Number(localStorage.getItem('md2spip-saved-at'));
 
-            if (Date.now() - savedAt > {{ $retentionMs }}) {
+            if (!Number.isFinite(savedAt) || Date.now() - savedAt > {{ $retentionMs }}) {
                 localStorage.removeItem('md2spip-markdown');
                 localStorage.removeItem('md2spip-saved-at');
                 localStorage.removeItem('md2spip-converted');

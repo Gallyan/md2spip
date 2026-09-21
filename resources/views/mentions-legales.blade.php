@@ -15,6 +15,7 @@
             ? explode('@', $email, 2)
             : [null, null];
         $website = (string) (config('legal.social.website') ?? '');
+        $website = preg_match('#^https?://#i', $website) ? $website : '';
     @endphp
     <div class="max-w-4xl mx-auto px-6 py-16">
         <x-page-header :back="__('messages.legal.back')" :title="__('messages.legal.h1')" margin="mb-16" />

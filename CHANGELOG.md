@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Security
+
+- Usage counters count one copy and one conversion per conversion the server actually performed, for the length it converted; the Livewire actions no longer trust values sent by the browser
+- Requests for a host other than the one in `APP_URL` are refused in production, so the sitemap, `robots.txt`, canonical and Open Graph URLs can no longer carry a foreign host
+- Deployment only runs after a push to this repository's `main`, or manually; a fork pull request can no longer trigger it
+- Both workflows run with a read-only `GITHUB_TOKEN`, and the deploy job runs in a `production` environment
+- JSON-LD values are encoded with the `JSON_HEX_*` flags, so no value can close the script block
+- `.gitignore` covers every `.env.*` file and key material (`*.key`, `*.pem`, `*.p12`)
+
+### Changed
+
+- New assets are uploaded to `public/build.new` and swapped in once the site is in maintenance: the live site no longer runs without a Vite manifest during a deploy
+- The stats file is written to a temporary file then renamed, under a separate lock: `/stats` no longer reads a truncated file, and an interrupted write no longer erases the history
+- The session is counted after the size and rate-limit checks
+- `Permissions-Policy` restricts fullscreen to the site itself
+- The cache store defaults to `file`, and the unused local disk no longer registers the `/storage/{path}` routes
+
+### Fixed
+
+- The browser draft is also dropped when its timestamp is unreadable
+- The legal page only links the social website when it is an http(s) URL
+- The pre-commit hook handles file names containing spaces
+
 ## [1.3.1] - 2026-09-16
 
 ### Changed

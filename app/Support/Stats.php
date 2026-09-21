@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Support;
 
+use Closure;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -12,10 +13,16 @@ use Illuminate\Support\Facades\Storage;
  * Counters are grouped by day: ['2026-08-20' => ['sessions' => 12, ...]].
  * Decoding rejects anything that does not fit that shape, so callers can
  * rely on the returned structure without re-checking it.
+ *
+ * Writers serialize on a separate lock file and replace stats.json with an
+ * atomic rename, so a reader never sees a truncated file and an interrupted
+ * write never destroys the stored history.
  */
 final class Stats
 {
     private const FILE = 'stats.json';
+
+    private const LOCK = 'stats.lock';
 
     /**
      * @return array<string, array<string, int>>
@@ -36,9 +43,7 @@ final class Stats
      */
     public static function write(array $stats): void
     {
-        self::ensureDirectoryExists();
-
-        Storage::disk('stats')->put(self::FILE, self::encode($stats));
+        self::withLock(fn () => self::replace($stats));
     }
 
     public static function exists(): bool
@@ -52,13 +57,27 @@ final class Stats
     }
 
     /**
-     * Increment today's counter under an exclusive lock to prevent concurrent writes.
+     * Increment today's counter; concurrent writers wait for the lock.
      */
     public static function increment(string $key, int $value = 1): void
     {
+        self::withLock(function () use ($key, $value): void {
+            $stats = self::read();
+            $today = date('Y-m-d');
+            $stats[$today][$key] = ($stats[$today][$key] ?? 0) + $value;
+
+            self::replace($stats);
+        });
+    }
+
+    /**
+     * @param  Closure(): void  $callback
+     */
+    private static function withLock(Closure $callback): void
+    {
         self::ensureDirectoryExists();
 
-        $handle = fopen(self::path(), 'c+');
+        $handle = fopen(Storage::disk('stats')->path(self::LOCK), 'c');
 
         if ($handle === false) {
             return;
@@ -69,19 +88,31 @@ final class Stats
                 return;
             }
 
-            $content = stream_get_contents($handle);
-            $stats = $content === false ? [] : self::decode($content);
-            $today = date('Y-m-d');
-            $stats[$today][$key] = ($stats[$today][$key] ?? 0) + $value;
-
-            ftruncate($handle, 0);
-            rewind($handle);
-            fwrite($handle, self::encode($stats));
-            fflush($handle);
-            flock($handle, LOCK_UN);
+            $callback();
         } finally {
             fclose($handle);
         }
+    }
+
+    /**
+     * Write the counters to a sibling file, then rename it over stats.json.
+     * Must run under the lock, which makes the temporary name unique.
+     *
+     * @param  array<string, array<string, int>>  $stats
+     */
+    private static function replace(array $stats): void
+    {
+        $path = self::path();
+        $temporary = "{$path}.tmp";
+        $json = self::encode($stats);
+
+        if (file_put_contents($temporary, $json) !== strlen($json)) {
+            @unlink($temporary);
+
+            return;
+        }
+
+        rename($temporary, $path);
     }
 
     /**

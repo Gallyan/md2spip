@@ -4,10 +4,19 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
+use Illuminate\Http\Request;
 use Tests\TestCase;
 
 class PagesTest extends TestCase
 {
+    protected function tearDown(): void
+    {
+        // Trusted hosts live in a static on the Symfony request class
+        Request::setTrustedHosts([]);
+
+        parent::tearDown();
+    }
+
     /**
      * Verifies that the home page loads successfully
      * and displays the main interface elements.
@@ -227,5 +236,55 @@ class PagesTest extends TestCase
         $response->assertSee(url('/en').'</loc>', false);
         $response->assertSee('hreflang="fr"', false);
         $response->assertSee('hreflang="en"', false);
+    }
+
+    /**
+     * Verifies that outside local and tests, a Host other than APP_URL's is refused
+     * instead of being echoed into the published absolute URLs.
+     */
+    public function test_foreign_host_is_refused_in_production(): void
+    {
+        $this->app->detectEnvironment(fn () => 'production');
+        config(['app.url' => 'https://md2spip.test']);
+
+        $this->get('https://evil.example.net/sitemap.xml')->assertStatus(400);
+
+        $response = $this->get('https://md2spip.test/sitemap.xml');
+
+        $response->assertStatus(200);
+        $response->assertSee('<loc>https://md2spip.test</loc>', false);
+    }
+
+    /**
+     * Verifies that the JSON-LD block stays valid JSON and cannot be closed early,
+     * even when a configured value carries a closing script tag.
+     */
+    public function test_structured_data_is_valid_json(): void
+    {
+        config(['legal.social.github' => 'https://example.test/</script><script>alert(1)</script>']);
+
+        $response = $this->get('/');
+
+        $response->assertDontSee('</script><script>alert(1)', false);
+
+        $matched = preg_match('#<script type="application/ld\+json">(.*?)</script>#s', (string) $response->getContent(), $matches);
+        $this->assertSame(1, $matched);
+
+        $graph = json_decode($matches[1], true, flags: JSON_THROW_ON_ERROR);
+        $this->assertIsArray($graph);
+        $this->assertArrayHasKey('@graph', $graph);
+    }
+
+    /**
+     * Verifies that the social website link is only rendered for an http(s) URL.
+     */
+    public function test_legal_page_drops_a_non_http_website_link(): void
+    {
+        config(['legal.social.website' => 'javascript:alert(1)']);
+
+        $response = $this->get('/mentions-legales');
+
+        $response->assertStatus(200);
+        $response->assertDontSee('javascript:alert(1)', false);
     }
 }

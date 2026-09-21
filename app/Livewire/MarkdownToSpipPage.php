@@ -39,12 +39,6 @@ class MarkdownToSpipPage extends Component
      */
     public function updatedMarkdown(): void
     {
-        // Stats: count the session once per session
-        if (! session()->has('stats_counted')) {
-            Stats::increment('sessions');
-            session()->put('stats_counted', true);
-        }
-
         // Size validation
         if (mb_strlen($this->markdown) > self::MAX_LENGTH) {
             $this->spip = __('messages.errors.too_long', [
@@ -60,16 +54,22 @@ class MarkdownToSpipPage extends Component
             return;
         }
 
+        $this->countSession();
+
         $this->spip = MarkdownToSpipConverter::convert($this->markdown);
+
+        $this->rememberConversion();
     }
 
     /**
      * Called when the user clicks the Copy button.
-     * Records copy stats.
+     * Records one copy per conversion, for the length the server converted.
      */
     public function countCopy(): void
     {
-        if ($this->markdown === '' || $this->spip === '') {
+        $chars = session()->get('pending_copy_chars');
+
+        if (! is_int($chars)) {
             return;
         }
 
@@ -77,16 +77,19 @@ class MarkdownToSpipPage extends Component
             return;
         }
 
+        session()->forget('pending_copy_chars');
+
         Stats::increment('copies');
-        Stats::increment('total_chars', mb_strlen($this->markdown));
+        Stats::increment('total_chars', $chars);
     }
 
     /**
      * Called once from the client side (via localStorage) on the first keystroke.
+     * Only a conversion the server actually performed can be counted.
      */
     public function trackConversion(): void
     {
-        if ($this->markdown === '') {
+        if (! session()->has('pending_conversion')) {
             return;
         }
 
@@ -94,7 +97,38 @@ class MarkdownToSpipPage extends Component
             return;
         }
 
+        session()->forget('pending_conversion');
+
         Stats::increment('conversions');
+    }
+
+    /**
+     * Count the session once, after the size and rate-limit gates.
+     */
+    private function countSession(): void
+    {
+        if (session()->has('stats_counted')) {
+            return;
+        }
+
+        Stats::increment('sessions');
+        session()->put('stats_counted', true);
+    }
+
+    /**
+     * Keep what the server converted, so the stats actions account for real
+     * conversions rather than for values the client sends.
+     */
+    private function rememberConversion(): void
+    {
+        if ($this->markdown === '') {
+            session()->forget(['pending_copy_chars', 'pending_conversion']);
+
+            return;
+        }
+
+        session()->put('pending_copy_chars', mb_strlen($this->markdown));
+        session()->put('pending_conversion', true);
     }
 
     /**

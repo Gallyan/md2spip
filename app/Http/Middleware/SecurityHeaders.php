@@ -47,7 +47,7 @@ class SecurityHeaders
 
         // Permissions Policy — disable sensitive browser APIs
         if (! $response->headers->has('Permissions-Policy')) {
-            $response->headers->set('Permissions-Policy', 'geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), fullscreen=*');
+            $response->headers->set('Permissions-Policy', 'geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), fullscreen=(self)');
         }
 
         return $response;

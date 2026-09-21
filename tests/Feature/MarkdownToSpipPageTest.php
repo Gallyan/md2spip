@@ -241,20 +241,99 @@ class MarkdownToSpipPageTest extends TestCase
     }
 
     /**
-     * Verifies that countCopy increments copies and total_chars.
+     * Verifies that countCopy increments copies and total_chars once per conversion,
+     * for the length the server converted.
      */
-    public function test_count_copy_increments_copies_and_chars(): void
+    public function test_count_copy_counts_once_per_conversion(): void
     {
         $component = Livewire::test(MarkdownToSpipPage::class)
             ->set('markdown', 'bonjour');
 
-        $component->call('countCopy');
-        $component->call('countCopy');
+        for ($i = 0; $i < 70; $i++) {
+            $component->call('countCopy');
+        }
+
+        $stats = Stats::read();
+        $today = date('Y-m-d');
+
+        $this->assertSame(1, $stats[$today]['copies']);
+        $this->assertSame(mb_strlen('bonjour'), $stats[$today]['total_chars']);
+    }
+
+    /**
+     * Verifies that a new conversion makes the next copy count again.
+     */
+    public function test_count_copy_counts_again_after_a_new_conversion(): void
+    {
+        Livewire::test(MarkdownToSpipPage::class)
+            ->set('markdown', 'bonjour')
+            ->call('countCopy')
+            ->set('markdown', 'bonsoir !')
+            ->call('countCopy');
 
         $stats = Stats::read();
         $today = date('Y-m-d');
 
         $this->assertSame(2, $stats[$today]['copies']);
-        $this->assertSame(mb_strlen('bonjour') * 2, $stats[$today]['total_chars']);
+        $this->assertSame(mb_strlen('bonjour') + mb_strlen('bonsoir !'), $stats[$today]['total_chars']);
+    }
+
+    /**
+     * Verifies that a client-supplied output, with no conversion behind it, is not counted.
+     */
+    public function test_count_copy_ignores_output_set_by_the_client(): void
+    {
+        Livewire::test(MarkdownToSpipPage::class)
+            ->set('spip', 'x')
+            ->call('countCopy');
+
+        $this->assertFalse(Storage::disk('stats')->exists('stats.json'));
+    }
+
+    /**
+     * Verifies that repeated trackConversion calls count a single conversion.
+     */
+    public function test_track_conversion_counts_once_per_conversion(): void
+    {
+        $component = Livewire::test(MarkdownToSpipPage::class)
+            ->set('markdown', 'hello');
+
+        for ($i = 0; $i < 30; $i++) {
+            $component->call('trackConversion');
+        }
+
+        $stats = Stats::read();
+        $today = date('Y-m-d');
+
+        $this->assertSame(1, $stats[$today]['conversions']);
+    }
+
+    /**
+     * Verifies that clearing the text drops the pending copy and conversion.
+     */
+    public function test_clearing_the_text_drops_pending_stats(): void
+    {
+        Livewire::test(MarkdownToSpipPage::class)
+            ->set('markdown', 'bonjour')
+            ->set('markdown', '')
+            ->call('countCopy')
+            ->call('trackConversion');
+
+        $stats = Stats::read();
+        $today = date('Y-m-d');
+
+        $this->assertArrayNotHasKey('copies', $stats[$today]);
+        $this->assertArrayNotHasKey('conversions', $stats[$today]);
+    }
+
+    /**
+     * Verifies that a rejected text does not reach the shared stats file.
+     */
+    public function test_rejected_text_is_not_counted(): void
+    {
+        Livewire::test(MarkdownToSpipPage::class)
+            ->set('markdown', str_repeat('a', MarkdownToSpipPage::MAX_LENGTH + 1));
+
+        $this->assertFalse(Storage::disk('stats')->exists('stats.json'));
     }
 }
