@@ -6,7 +6,7 @@
     "keywords": ["markdown", "spip", "laravel"],
     "license": "AGPL-3.0-or-later",
     "require": {
-        "php": "^8.4",
+        "php": "^8.5",
         "laravel/framework": "^13.31",
         "livewire/livewire": "^4.0"
     },

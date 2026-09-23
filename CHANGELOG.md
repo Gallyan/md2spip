@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Deployment only runs after a push to this repository's `main`, or manually; a fork pull request can no longer trigger it
 - Both workflows run with a read-only `GITHUB_TOKEN`, and the deploy job runs in a `production` environment
 - JSON-LD values are encoded with the `JSON_HEX_*` flags, so no value can close the script block
+- Requests for a Livewire JS or CSS component module return a 404 instead of logging a stack trace on each call
 - `.gitignore` covers every `.env.*` file and key material (`*.key`, `*.pem`, `*.p12`)
 
 ### Changed
@@ -23,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - The session is counted after the size and rate-limit checks
 - `Permissions-Policy` restricts fullscreen to the site itself
 - The cache store defaults to `file`, and the unused local disk no longer registers the `/storage/{path}` routes
+- PHP 8.5 is now the minimum version; CI runs Pint and PHPStan in a single job and no longer tests against PHP 8.4
 
 ### Fixed
 

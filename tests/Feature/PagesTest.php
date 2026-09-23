@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use Illuminate\Http\Request;
+use Livewire\Mechanisms\HandleRequests\EndpointResolver;
 use Tests\TestCase;
 
 class PagesTest extends TestCase
@@ -286,5 +287,24 @@ class PagesTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertDontSee('javascript:alert(1)', false);
+    }
+
+    /**
+     * Verifies that a request for a Livewire JS or CSS module, which no component
+     * ships, is a 404 and does not write an error to the log.
+     */
+    public function test_livewire_module_requests_are_not_found_and_not_reported(): void
+    {
+        $log = storage_path('logs/livewire-modules-test.log');
+        @unlink($log);
+        config(['logging.default' => 'single', 'logging.channels.single.path' => $log]);
+
+        $prefix = EndpointResolver::prefix();
+
+        $this->get("{$prefix}/js/markdown-to-spip-page.js")->assertNotFound();
+        $this->get("{$prefix}/css/does-not-exist.css")->assertNotFound();
+        $this->get("{$prefix}/css/markdown-to-spip-page.global.css")->assertNotFound();
+
+        $this->assertFileDoesNotExist($log);
     }
 }
