@@ -17,7 +17,7 @@
         $website = (string) (config('legal.social.website') ?? '');
         $website = preg_match('#^https?://#i', $website) ? $website : '';
     @endphp
-    <div class="max-w-4xl mx-auto px-6 py-16">
+    <main class="max-w-4xl mx-auto px-6 py-16">
         <x-page-header :back="__('messages.legal.back')" :title="__('messages.legal.h1')" margin="mb-16" />
 
         <div class="space-y-12 leading-relaxed">
@@ -32,10 +32,10 @@
                         {{ __('messages.legal.editor_phone_label') }} {{ config('legal.editor_phone') }}<br>
                     @endif
                     @if ($emailUser && $emailDomain)
-                        {{ __('messages.legal.editor_email_label') }} <a href="{{ $locale === 'en' ? '/en/contact' : '/contact' }}" class="hover:text-emerald-600 dark:hover:text-emerald-300 transition-colors"><span class="protected-email text-emerald-600 dark:text-emerald-400" data-email-user="{{ $emailUser }}" data-email-domain="{{ $emailDomain }}">[email protected]</span></a><br>
+                        {{ __('messages.legal.editor_email_label') }} <a href="{{ $locale === 'en' ? '/en/contact' : '/contact' }}" class="hover:text-emerald-800 dark:hover:text-emerald-300 transition-colors"><span class="protected-email text-emerald-700 dark:text-emerald-400" data-email-user="{{ $emailUser }}" data-email-domain="{{ $emailDomain }}">[email protected]</span></a><br>
                     @endif
                     @if ($website)
-                        {{ __('messages.legal.editor_website_label') }} <a href="{{ $website }}" target="_blank" rel="noopener" class="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 underline">{{ preg_replace('#^https?://#', '', $website) }}</a>
+                        {{ __('messages.legal.editor_website_label') }} <a href="{{ $website }}" target="_blank" rel="noopener" class="text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 underline">{{ preg_replace('#^https?://#', '', $website) }}</a>
                     @endif
                 </p>
             </section>
@@ -61,7 +61,7 @@
                 <p class="text-gray-700 dark:text-slate-200 text-lg">{{ __('messages.legal.free_software_intro') }} <strong class="text-gray-900 dark:text-white">GNU AGPL-3.0</strong>.</p>
                 <p class="mt-4 text-gray-700 dark:text-slate-200 text-lg">
                     {{ __('messages.legal.free_software_freedom') }}<br>
-                    {{ __('messages.legal.free_software_source') }} <a href="https://github.com/Gallyan/md2spip" target="_blank" rel="noopener" class="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 underline">github.com/Gallyan/md2spip</a>
+                    {{ __('messages.legal.free_software_source') }} <a href="https://github.com/Gallyan/md2spip" target="_blank" rel="noopener" class="text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 underline">github.com/Gallyan/md2spip</a>
                 </p>
             </section>
 
@@ -95,5 +95,5 @@
                 <p>{{ __('messages.legal.last_update') }} {{ $locale === 'en' ? date('Y-m-d') : date('d/m/Y') }}</p>
             </section>
         </div>
-    </div>
+    </main>
 </x-layouts.app>

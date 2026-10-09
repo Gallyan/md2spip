@@ -105,7 +105,7 @@
                     {{-- Character counter --}}
                     <span
                         class="text-xs font-mono"
-                        :class="($wire.markdown || '').length > {{ \App\Livewire\MarkdownToSpipPage::MAX_LENGTH }} ? 'text-red-400' : 'text-slate-400'"
+                        :class="($wire.markdown || '').length > {{ \App\Livewire\MarkdownToSpipPage::MAX_LENGTH }} ? 'text-red-700 dark:text-red-400' : 'text-slate-600 dark:text-slate-400'"
                         aria-live="polite"
                         aria-atomic="true"
                         x-text="[...($wire.markdown || '')].length.toLocaleString({{ $isEn ? "'en-GB'" : "'fr-FR'" }}) + ' {{ __('messages.home.counter_unit') }}'"
@@ -188,7 +188,7 @@
                     </p>
                 </div>
                 {{-- Output --}}
-                <pre id="spip-output" class="font-mono text-sm text-emerald-600 dark:text-emerald-400 whitespace-pre-wrap" x-show="$wire.spip">{{ $spip }}</pre>
+                <pre id="spip-output" class="font-mono text-sm text-emerald-700 dark:text-emerald-400 whitespace-pre-wrap" x-show="$wire.spip">{{ $spip }}</pre>
             </div>
         </div>
     </main>

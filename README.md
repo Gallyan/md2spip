@@ -1,11 +1,13 @@
 # Markdown to SPIP
 
-[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](LICENSE)
-[![PHP Version](https://img.shields.io/badge/PHP-8.5-777BB4?logo=php&logoColor=white)](https://www.php.net/)
+[![CI](https://github.com/Gallyan/md2spip/actions/workflows/ci.yml/badge.svg)](https://github.com/Gallyan/md2spip/actions/workflows/ci.yml)
+[![PHPStan](https://img.shields.io/badge/PHPStan-level_10-brightgreen.svg)](phpstan.neon)
 [![Laravel Version](https://img.shields.io/badge/Laravel-13-FF2D20?logo=laravel&logoColor=white)](https://laravel.com/)
-[![Livewire](https://img.shields.io/badge/Livewire-4-FB70A9?logo=livewire&logoColor=white)](https://livewire.laravel.com/)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](LICENSE)
 
 Real-time online converter from Markdown to SPIP syntax.
+
+Stack: PHP 8.5, Laravel 13, Livewire 4, Tailwind CSS.
 
 **[Live demo](https://markdown2spip.orsal.fr)**
 

@@ -4,7 +4,7 @@
     $dateFormat = $isEn ? 'm/d' : 'd/m';
 @endphp
 <x-layouts.app :title="__('messages.stats.page_title')" robots="noindex, nofollow">
-    <div class="max-w-5xl mx-auto px-6 py-12">
+    <main class="max-w-5xl mx-auto px-6 py-12">
         <x-page-header :back="__('messages.stats.back')" :title="__('messages.stats.h1')" />
 
         {{-- KPI cards --}}
@@ -132,5 +132,5 @@
         <footer class="text-center text-xs text-gray-500 dark:text-slate-400 pt-8 border-t border-gray-300 dark:border-slate-700">
             <p>{{ __('messages.stats.footer_note') }}</p>
         </footer>
-    </div>
+    </main>
 </x-layouts.app>
