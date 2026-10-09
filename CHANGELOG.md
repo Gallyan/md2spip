@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Numbered lists (`1.` → `-#`), `*` and `+` bullets, nested lists (`-**`, `-##`), horizontal rules (`---` → `----`) and tables (header row in bold, separator row removed)
+- Images become a link to the image, and link titles are dropped
+
+### Fixed
+
+- Emphasis no longer spans several lines, underscores inside a word (`snake_case`) and isolated asterisks (`2 * 3`) are no longer read as italics
+- `![alt](url)` no longer produces a broken `![alt->url]`
+
 ### Security
 
 - Usage counters count one copy and one conversion per conversion the server actually performed, for the length it converted; the Livewire actions no longer trust values sent by the browser

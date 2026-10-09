@@ -10,6 +10,8 @@
         ['md' => '*'.$words['italic'].'*', 'spip' => '{'.$words['italic'].'}'],
         ['md' => '['.$words['link'].'](url)', 'spip' => '['.$words['link'].'->url]'],
         ['md' => '- '.$words['item'], 'spip' => '-* '.$words['item']],
+        ['md' => '1. '.$words['item'], 'spip' => '-# '.$words['item']],
+        ['md' => '---', 'spip' => '----'],
         ['md' => '`'.$words['code'].'`', 'spip' => '<code>'.$words['code'].'</code>'],
         ['md' => '> '.$words['quote'], 'spip' => '<quote>'.$words['quote'].'</quote>'],
         ['md' => $words['text'].'[^1]', 'spip' => $words['text'].'[['.$words['note'].']]'],

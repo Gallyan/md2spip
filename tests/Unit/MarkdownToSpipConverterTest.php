@@ -274,4 +274,147 @@ class MarkdownToSpipConverterTest extends TestCase
 
         $this->assertEquals($expected, MarkdownToSpipConverter::convert($markdown));
     }
+
+    /**
+     * Verifies numbered list conversion (1. item → -# item).
+     */
+    public function test_converts_numbered_lists(): void
+    {
+        $markdown = "1. Premier\n2. Deuxième\n10) Dixième";
+        $expected = "-# Premier\n-# Deuxième\n-# Dixième";
+
+        $this->assertEquals($expected, MarkdownToSpipConverter::convert($markdown));
+    }
+
+    /**
+     * Verifies that * and + bullets are converted like - bullets.
+     */
+    public function test_converts_star_and_plus_bullets(): void
+    {
+        $markdown = "* Étoile\n+ Plus";
+        $expected = "-* Étoile\n-* Plus";
+
+        $this->assertEquals($expected, MarkdownToSpipConverter::convert($markdown));
+    }
+
+    /**
+     * Verifies that indented items become nested SPIP items, whatever the
+     * indentation width, and that each level keeps its own list type.
+     */
+    public function test_converts_nested_lists(): void
+    {
+        $markdown = "1. Étape\n   - Détail\n     - Précision\n   - Autre détail\n2. Étape suivante\n\n"
+            ."- Puce\n    1. Sous-étape";
+        $expected = "-# Étape\n-** Détail\n-*** Précision\n-** Autre détail\n-# Étape suivante\n\n"
+            ."-* Puce\n-## Sous-étape";
+
+        $this->assertEquals($expected, MarkdownToSpipConverter::convert($markdown));
+    }
+
+    /**
+     * Verifies that emphasis inside list items is still converted.
+     */
+    public function test_converts_emphasis_inside_list_items(): void
+    {
+        $markdown = "* Un **gras** et un *italique*\n  * Imbriqué";
+        $expected = "-* Un {{gras}} et un {italique}\n-** Imbriqué";
+
+        $this->assertEquals($expected, MarkdownToSpipConverter::convert($markdown));
+    }
+
+    /**
+     * Verifies horizontal rule conversion (---, ***, ___ → ----).
+     */
+    public function test_converts_horizontal_rules(): void
+    {
+        $markdown = "Avant\n\n---\n\n***\n\n_ _ _\n\nAprès";
+        $expected = "Avant\n\n----\n\n----\n\n----\n\nAprès";
+
+        $this->assertEquals($expected, MarkdownToSpipConverter::convert($markdown));
+    }
+
+    /**
+     * Verifies image conversion (![alt](url) → [alt->url]).
+     */
+    public function test_converts_images_to_links(): void
+    {
+        $markdown = '![Logo SPIP](https://www.spip.net/logo.png "Le logo")';
+        $expected = '[Logo SPIP->https://www.spip.net/logo.png]';
+
+        $this->assertEquals($expected, MarkdownToSpipConverter::convert($markdown));
+    }
+
+    /**
+     * Verifies that link titles are dropped ([text](url "title") → [text->url]).
+     */
+    public function test_converts_links_with_title(): void
+    {
+        $markdown = '[SPIP](https://www.spip.net "Site officiel")';
+        $expected = '[SPIP->https://www.spip.net]';
+
+        $this->assertEquals($expected, MarkdownToSpipConverter::convert($markdown));
+    }
+
+    /**
+     * Verifies table conversion: bold header row, separator row removed.
+     */
+    public function test_converts_tables(): void
+    {
+        $markdown = "Avant\n\n| Nom | **Rôle** |\n|:---|---:|\n| Ada | *Code* |\n\nAprès";
+        $expected = "Avant\n\n| {{Nom}} | {{Rôle}} |\n| Ada | {Code} |\n\nAprès";
+
+        $this->assertEquals($expected, MarkdownToSpipConverter::convert($markdown));
+    }
+
+    /**
+     * Verifies table conversion when outer pipes are omitted.
+     */
+    public function test_converts_tables_without_outer_pipes(): void
+    {
+        $markdown = "Nom | Rôle\n--- | ---\nAda | Code";
+        $expected = "| {{Nom}} | {{Rôle}} |\n| Ada | Code |";
+
+        $this->assertEquals($expected, MarkdownToSpipConverter::convert($markdown));
+    }
+
+    /**
+     * Verifies that inline code inside table cells is kept, pipes included.
+     */
+    public function test_converts_tables_with_inline_code(): void
+    {
+        $markdown = "| Markdown | SPIP |\n|---|---|\n| `**a**` | `a|b` |";
+        $expected = "| {{Markdown}} | {{SPIP}} |\n| <code>**a**</code> | <code>a|b</code> |";
+
+        $this->assertEquals($expected, MarkdownToSpipConverter::convert($markdown));
+    }
+
+    /**
+     * Verifies that underscores inside words are not read as italics.
+     */
+    public function test_keeps_underscores_inside_words(): void
+    {
+        $text = 'Le fichier mon_fichier et la variable autre_chose ou été_là';
+
+        $this->assertEquals($text, MarkdownToSpipConverter::convert($text));
+    }
+
+    /**
+     * Verifies that isolated asterisks are not read as italics.
+     */
+    public function test_keeps_isolated_asterisks(): void
+    {
+        $text = 'Calcul : 2 * 3 et 4 * 5';
+
+        $this->assertEquals($text, MarkdownToSpipConverter::convert($text));
+    }
+
+    /**
+     * Verifies that emphasis never spans several lines.
+     */
+    public function test_emphasis_does_not_span_lines(): void
+    {
+        $text = "Un *début\nsans fin* ici";
+
+        $this->assertEquals($text, MarkdownToSpipConverter::convert($text));
+    }
 }

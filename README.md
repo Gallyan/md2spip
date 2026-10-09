@@ -36,15 +36,21 @@ Stack: PHP 8.5, Laravel 13, Livewire 4, Tailwind CSS.
 | `~~strike~~` | `<del>strike</del>` | Strikethrough text |
 | `` `code` `` | `<code>code</code>` | Inline code |
 | ` ```code``` ` or ` ```js code``` ` | `<code>code</code>` | Code blocks (language name stripped) |
-| `[link](url)` | `[link->url]` | Hyperlinks |
-| `- item` | `-* item` | Bullet lists |
+| `[link](url)` | `[link->url]` | Hyperlinks (title dropped) |
+| `![alt](url)` | `[alt->url]` | Images, as a link (SPIP images are attached documents) |
+| `- item`, `* item` or `+ item` | `-* item` | Bullet lists |
+| `1. item` or `1) item` | `-# item` | Numbered lists |
+| indented item | `-** item`, `-## item` | Nested lists, depth taken from the indentation |
+| `---`, `***` or `___` | `----` | Horizontal rule |
+| `\| a \| b \|` + `\|---\|---\|` | `\| {{a}} \| {{b}} \|` | Tables (header row in bold, separator row removed) |
 | `> quote` | `<quote>quote</quote>` | Blockquotes |
 | `Text[^1]` + `[^1]: note` | `Text[[note]]` | Footnotes |
 
 **Notes:**
 - Code block contents are protected and not transformed by other conversion rules.
 - Code blocks may include a language name (```js, ```php, etc.) which is stripped automatically.
-- The underscore `_` works exactly like the asterisk `*` for formatting.
+- The underscore `_` works like the asterisk `*` for formatting, except inside a word: `snake_case` stays as is.
+- Emphasis never spans several lines, and an isolated `*` (as in `2 * 3`) is left untouched.
 
 ## Local installation
 
