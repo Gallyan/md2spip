@@ -307,4 +307,61 @@ class PagesTest extends TestCase
 
         $this->assertFileDoesNotExist($log);
     }
+
+    public function test_guide_page_loads_in_both_locales(): void
+    {
+        $this->get('/guide')
+            ->assertOk()
+            ->assertSee('Convertir du Markdown en syntaxe SPIP')
+            ->assertSee('Questions fréquentes')
+            ->assertSee('<meta name="robots" content="index, follow">', false);
+
+        $this->get('/en/guide')
+            ->assertOk()
+            ->assertSee('Convert Markdown to SPIP syntax')
+            ->assertSee('hreflang="fr" href="'.url('/guide').'"', false);
+    }
+
+    /**
+     * Verifies that the guide example is converted by the real converter.
+     */
+    public function test_guide_example_is_converted(): void
+    {
+        $this->get('/guide')
+            ->assertSee('{{{Compte rendu de la réunion}}}')
+            ->assertSee('-** lancement en {mars}');
+    }
+
+    /**
+     * Verifies that the FAQ structured data is on the guide, where the FAQ is
+     * visible, and no longer on the home page.
+     */
+    public function test_faq_structured_data_is_only_on_the_guide(): void
+    {
+        $guide = $this->get('/guide');
+        $guide->assertSee('"@type": "FAQPage"', false);
+        $guide->assertDontSee('"@type": "HowTo"', false);
+
+        $pattern = '#<script type="application/ld\+json">(.*?)</script>#s';
+        $matched = preg_match($pattern, (string) $guide->getContent(), $matches);
+        $this->assertSame(1, $matched);
+        $this->assertIsArray(json_decode($matches[1], true, flags: JSON_THROW_ON_ERROR));
+
+        $home = $this->get('/');
+        $home->assertDontSee('"@type": "FAQPage"', false);
+        $home->assertSee('"@type": "HowTo"', false);
+    }
+
+    public function test_home_links_to_the_guide(): void
+    {
+        $this->get('/')->assertSee('href="/guide"', false);
+        $this->get('/en')->assertSee('href="/en/guide"', false);
+    }
+
+    public function test_sitemap_includes_the_guide(): void
+    {
+        $this->get('/sitemap.xml')
+            ->assertSee(url('/guide').'</loc>', false)
+            ->assertSee(url('/en/guide').'</loc>', false);
+    }
 }

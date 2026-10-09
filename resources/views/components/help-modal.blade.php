@@ -1,21 +1,8 @@
 @use('Illuminate\Support\Number')
 @use('App\Livewire\MarkdownToSpipPage')
+@use('App\Support\SyntaxReference')
 @php
-    $words = trans('messages.help.words');
-
-    $conversions = [
-        ['md' => '# '.$words['title'], 'spip' => '{{{'.$words['title'].'}}}'],
-        ['md' => '## '.$words['subtitle'], 'spip' => '{{'.$words['subtitle'].'}}'],
-        ['md' => '**'.$words['bold'].'**', 'spip' => '{{'.$words['bold'].'}}'],
-        ['md' => '*'.$words['italic'].'*', 'spip' => '{'.$words['italic'].'}'],
-        ['md' => '['.$words['link'].'](url)', 'spip' => '['.$words['link'].'->url]'],
-        ['md' => '- '.$words['item'], 'spip' => '-* '.$words['item']],
-        ['md' => '1. '.$words['item'], 'spip' => '-# '.$words['item']],
-        ['md' => '---', 'spip' => '----'],
-        ['md' => '`'.$words['code'].'`', 'spip' => '<code>'.$words['code'].'</code>'],
-        ['md' => '> '.$words['quote'], 'spip' => '<quote>'.$words['quote'].'</quote>'],
-        ['md' => $words['text'].'[^1]', 'spip' => $words['text'].'[['.$words['note'].']]'],
-    ];
+    $conversions = SyntaxReference::essentials();
 @endphp
 {{-- Help button with modal --}}
 <div x-data="{ open: false }">
@@ -60,7 +47,7 @@
             class="bg-white dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg shadow-xl p-6 max-w-md w-full max-h-[80vh] overflow-y-auto"
         >
             <div class="flex items-center justify-between mb-4">
-                <h3 id="modal-title" class="text-gray-900 dark:text-white font-semibold text-lg">{{ __('messages.help.title') }}</h3>
+                <h2 id="modal-title" class="text-gray-900 dark:text-white font-semibold text-lg">{{ __('messages.help.title') }}</h2>
                 <button
                     x-ref="closeBtn"
                     @click="open = false; $nextTick(() => $refs.trigger?.focus())"
@@ -83,6 +70,7 @@
 
             <div class="mt-4 pt-3 border-t border-gray-300 dark:border-slate-600 text-xs text-gray-600 dark:text-slate-300">
                 <p><strong class="text-gray-900 dark:text-white">{{ __('messages.help.limit_label') }}</strong> {{ __('messages.help.limit_value', ['count' => Number::format(MarkdownToSpipPage::MAX_LENGTH)]) }}</p>
+                <p class="mt-2"><a href="{{ \App\Support\LocaleUrls::isEnglish() ? '/en/guide' : '/guide' }}" class="text-emerald-700 dark:text-emerald-300 hover:text-emerald-800 dark:hover:text-emerald-200 underline">{{ __('messages.help.guide_link') }} →</a></p>
             </div>
         </div>
     </div>

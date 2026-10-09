@@ -11,6 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 - Numbered lists (`1.` → `-#`), `*` and `+` bullets, nested lists (`-**`, `-##`), horizontal rules (`---` → `----`) and tables (header row in bold, separator row removed)
 - Images become a link to the image, and link titles are dropped
+- Autolinks (`<https://…>` → `[->https://…]`)
+- Guide page (`/guide`, `/en/guide`): use cases, every converted syntax with a worked example, limits, privacy, FAQ; linked from the footer and the help modal, listed in the sitemap
+
+### Changed
+
+- The `FAQPage` structured data moves from the home page to the guide, where the FAQ is visible
+- The help modal title is an `h2`, which keeps the heading order
 
 ### Fixed
 

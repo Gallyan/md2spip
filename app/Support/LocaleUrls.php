@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
  * Resolves locale-aware URLs from the current named route.
  *
  * Routes are duplicated per locale: the French set keeps bare names
- * (home, legal, stats, contact) and the English set shares those names
+ * (home, guide, legal, stats, contact) and the English set shares those names
  * under the "en." prefix. Stripping that prefix yields a base name that
  * rebuilds either side without parsing the request path.
  */
@@ -46,7 +46,7 @@ final class LocaleUrls
      * runs under the internal "livewire.update" route, so anything outside
      * this set falls back to "home" — the only full-page Livewire component.
      */
-    private const PAGE_ROUTES = ['home', 'legal', 'stats', 'contact'];
+    private const PAGE_ROUTES = ['home', 'guide', 'legal', 'stats', 'contact'];
 
     private static function baseRouteName(): string
     {

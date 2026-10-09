@@ -356,6 +356,17 @@ class MarkdownToSpipConverterTest extends TestCase
     }
 
     /**
+     * Verifies autolink conversion (<url> → [->url]).
+     */
+    public function test_converts_autolinks(): void
+    {
+        $markdown = 'Voir <https://www.spip.net> pour la doc';
+        $expected = 'Voir [->https://www.spip.net] pour la doc';
+
+        $this->assertEquals($expected, MarkdownToSpipConverter::convert($markdown));
+    }
+
+    /**
      * Verifies table conversion: bold header row, separator row removed.
      */
     public function test_converts_tables(): void

@@ -1,6 +1,7 @@
 @php
     $locale = \App\Support\LocaleUrls::locale();
     $currentUrl = \App\Support\LocaleUrls::current();
+    $isGuide = request()->routeIs('guide', 'en.guide');
     $faqs = (array) __('messages.seo.faqs');
     $howToSteps = (array) __('messages.seo.how_to_steps');
     $features = (array) __('messages.seo.features');
@@ -29,6 +30,25 @@
             ,"sameAs": {!! json_encode(collect(config('legal.social'))->filter()->values(), $jsonFlags) !!}
             @endif
         },
+        @if ($isGuide)
+        {
+            "@@type": "FAQPage",
+            "@@id": "{{ $currentUrl }}#faq",
+            "inLanguage": "{{ $locale }}",
+            "mainEntity": [
+                @foreach ($faqs as $faq)
+                {
+                    "@@type": "Question",
+                    "name": {!! json_encode($faq['q'], $jsonFlags) !!},
+                    "acceptedAnswer": {
+                        "@@type": "Answer",
+                        "text": {!! json_encode($faq['a'], $jsonFlags) !!}
+                    }
+                }@if(! $loop->last),@endif
+                @endforeach
+            ]
+        }
+        @else
         {
             "@@type": ["WebApplication", "SoftwareApplication"],
             "@@id": "{{ url('/') }}/#application",
@@ -82,23 +102,6 @@
             "publisher": { "@@id": "{{ url('/') }}/#person" }
         },
         {
-            "@@type": "FAQPage",
-            "@@id": "{{ url('/') }}/#faq",
-            "inLanguage": "{{ $locale }}",
-            "mainEntity": [
-                @foreach ($faqs as $faq)
-                {
-                    "@@type": "Question",
-                    "name": {!! json_encode($faq['q'], $jsonFlags) !!},
-                    "acceptedAnswer": {
-                        "@@type": "Answer",
-                        "text": {!! json_encode($faq['a'], $jsonFlags) !!}
-                    }
-                }@if(! $loop->last),@endif
-                @endforeach
-            ]
-        },
-        {
             "@@type": "HowTo",
             "@@id": "{{ url('/') }}/#howto",
             "inLanguage": "{{ $locale }}",
@@ -116,6 +119,7 @@
                 @endforeach
             ]
         }
+        @endif
     ]
 }
 </script>

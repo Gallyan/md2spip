@@ -42,6 +42,8 @@ class MarkdownToSpipConverter
         '/!\[([^\]]*)\]\(([^)\s]+)(?:\s+"[^"]*")?\)/u' => '[$1->$2]',
         // [text](url "title") → [text->url]
         '/\[([^\]]+)\]\(([^)\s]+)(?:\s+"[^"]*")?\)/u' => '[$1->$2]',
+        // <url> → [->url]
+        '/<(https?:\/\/[^>\s]+)>/u' => '[->$1]',
         // > text → <quote>text</quote>
         '/^>\s*(.+)$/mu' => '<quote>$1</quote>',
     ];

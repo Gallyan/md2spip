@@ -1,10 +1,11 @@
 @props([
     'title' => null,
+    'description' => null,
     'robots' => 'index, follow',
 ])
 @php
     $locale = \App\Support\LocaleUrls::locale();
-    $isHome = request()->routeIs('home', 'en.home');
+    $isIndexed = request()->routeIs('home', 'en.home', 'guide', 'en.guide');
 @endphp
 <!DOCTYPE html>
 <html lang="{{ $locale }}" class="dark">
@@ -24,8 +25,8 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <meta name="theme-color" content="#1e293b">
 
-    @if ($isHome)
-        <x-seo.meta />
+    @if ($isIndexed)
+        <x-seo.meta :title="$title" :description="$description" />
         <x-seo.structured-data />
     @endif
 
