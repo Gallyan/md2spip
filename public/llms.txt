@@ -83,7 +83,7 @@ Rules:
 
 - Laravel 13, PHP 8.5, Livewire 4, Alpine.js, Tailwind CSS 4, Vite 8
 - Conversion engine: `App\Support\MarkdownToSpipConverter`, pure and stateless
-- Tests: PHPUnit 13 (114 tests); static analysis: Larastan level 10; code style: Laravel Pint
+- Tests: PHPUnit 13 (115 tests); static analysis: Larastan level 10; code style: Laravel Pint
 
 ## Local installation
 

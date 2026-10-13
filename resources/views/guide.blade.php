@@ -61,7 +61,7 @@
             <div class="min-w-0 lg:col-start-2">
                 <div class="space-y-12 leading-relaxed">
                     <section id="use-cases" class="{{ $section }}">
-                        <h2 class="{{ $h2 }}">{{ __('messages.guide.use_cases_title') }}</h2>
+                        <h2 class="{{ $h2 }}">{{ __('messages.guide.use_cases_heading') }}</h2>
                         <p class="{{ $text }} mb-4">{{ __('messages.guide.use_cases_intro') }}</p>
                         <ul class="list-disc ml-6 space-y-2 {{ $text }}">
                             @foreach ((array) __('messages.guide.use_cases') as $useCase)
@@ -71,7 +71,7 @@
                     </section>
 
                     <section id="syntax" class="{{ $section }}">
-                        <h2 class="{{ $h2 }}">{{ __('messages.guide.syntax_title') }}</h2>
+                        <h2 class="{{ $h2 }}">{{ __('messages.guide.syntax_heading') }}</h2>
                         <div class="overflow-x-auto rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500" tabindex="0" role="region" aria-label="{{ __('messages.guide.syntax_caption') }}">
                             <table class="w-full text-left text-sm">
                                 <caption class="sr-only">{{ __('messages.guide.syntax_caption') }}</caption>
@@ -92,7 +92,7 @@
                             </table>
                         </div>
 
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mt-10 mb-4">{{ __('messages.guide.example_title') }}</h3>
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mt-10 mb-4">{{ __('messages.guide.example_heading') }}</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <figure class="min-w-0">
                                 <figcaption class="text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-slate-300 mb-2">{{ __('messages.home.markdown_label') }}</figcaption>
@@ -106,7 +106,7 @@
                     </section>
 
                     <section id="limits" class="{{ $section }}">
-                        <h2 class="{{ $h2 }}">{{ __('messages.guide.limits_title') }}</h2>
+                        <h2 class="{{ $h2 }}">{{ __('messages.guide.limits_heading') }}</h2>
                         <ul class="space-y-3 {{ $text }}">
                             @foreach ((array) __('messages.guide.limits') as $limit)
                                 <li><strong class="text-gray-900 dark:text-white">{{ $limit['label'] }}.</strong> {{ $limit['text'] }}</li>
@@ -115,7 +115,7 @@
                     </section>
 
                     <section id="privacy" class="{{ $section }}">
-                        <h2 class="{{ $h2 }}">{{ __('messages.guide.privacy_title') }}</h2>
+                        <h2 class="{{ $h2 }}">{{ __('messages.guide.privacy_heading') }}</h2>
                         <p class="{{ $text }}">{{ __('messages.guide.privacy_server') }}</p>
                         <p class="{{ $text }} mt-4">
                             {{ __('messages.guide.privacy_stats') }}
@@ -124,7 +124,7 @@
                     </section>
 
                     <section id="api" class="{{ $section }}">
-                        <h2 class="{{ $h2 }}">{{ __('messages.guide.api_title') }}</h2>
+                        <h2 class="{{ $h2 }}">{{ __('messages.guide.api_heading') }}</h2>
                         <p class="{{ $text }}">{{ __('messages.guide.api_intro') }}</p>
                         <pre class="font-mono text-sm whitespace-pre-wrap break-all bg-gray-100 dark:bg-slate-900/50 border border-gray-300 dark:border-slate-600 rounded-lg p-4 my-4 text-gray-800 dark:text-slate-200">curl --data-binary @article.md {{ url('/api/convert') }}</pre>
                         <p class="{{ $text }}">{{ __('messages.guide.api_limits', ['max' => (string) Number::format(MarkdownToSpipPage::MAX_LENGTH), 'attempts' => ConvertController::MAX_ATTEMPTS]) }}</p>
@@ -136,7 +136,7 @@
                     </section>
 
                     <section id="faq" class="{{ $section }}">
-                        <h2 class="{{ $h2 }}">{{ __('messages.guide.faq_title') }}</h2>
+                        <h2 class="{{ $h2 }}">{{ __('messages.guide.faq_heading') }}</h2>
                         <div class="divide-y divide-gray-200 dark:divide-slate-700">
                             @foreach ((array) __('messages.seo.faqs') as $faq)
                                 <div class="py-6 first:pt-0 last:pb-0">
@@ -155,8 +155,8 @@
                     </section>
 
                     <section id="project" class="{{ $section }}">
-                        <h2 class="{{ $h2 }}">{{ __('messages.guide.project_title') }}</h2>
-                        <p class="{{ $text }}">{{ __('messages.guide.project_text') }}</p>
+                        <h2 class="{{ $h2 }}">{{ __('messages.guide.project_heading') }}</h2>
+                        <p class="{{ $text }}">{!! str_replace(':author', '<a href="https://www.orsal.fr" class="'.$link.'">Guillaume Orsal</a>', e(__('messages.guide.project_text'))) !!}</p>
                         <p class="{{ $text }} mt-4">
                             <a href="https://github.com/Gallyan/md2spip" target="_blank" rel="noopener" class="{{ $link }}">github.com/Gallyan/md2spip</a>
                         </p>

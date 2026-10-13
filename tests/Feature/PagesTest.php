@@ -399,4 +399,13 @@ class PagesTest extends TestCase
         $this->get('/stats')->assertSee('href="/guide#api"', false);
         $this->get('/en/legal')->assertSee('href="/en/guide#api"', false);
     }
+
+    /**
+     * Verifies that the author name in the guide links to the personal site.
+     */
+    public function test_guide_links_the_author_name(): void
+    {
+        $this->get('/guide')->assertSee('développé par <a href="https://www.orsal.fr"', false);
+        $this->get('/en/guide')->assertSee('developed by <a href="https://www.orsal.fr"', false);
+    }
 }
