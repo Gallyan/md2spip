@@ -29,8 +29,9 @@
             <p class="text-xl text-gray-700 dark:text-slate-200 mb-12 leading-relaxed lg:col-start-2 lg:row-start-1">{{ __('messages.guide.lead') }}</p>
 
             <nav
+                id="toc"
                 aria-label="{{ __('messages.guide.toc') }}"
-                class="mb-12 lg:mb-0 lg:col-start-1 lg:row-start-1 lg:row-span-2 lg:sticky lg:top-8 lg:self-start"
+                class="scroll-mt-8 mb-12 lg:mb-0 lg:col-start-1 lg:row-start-1 lg:row-span-2 lg:sticky lg:top-8 lg:self-start"
                 x-data="{ active: '' }"
                 x-init="const observer = new IntersectionObserver((entries) => {
                     entries.forEach((entry) => {
@@ -39,7 +40,13 @@
                         }
                     });
                 }, { rootMargin: '0px 0px -70% 0px' });
-                document.querySelectorAll('main section[id]').forEach((section) => observer.observe(section));"
+                const sections = document.querySelectorAll('main section[id]');
+                sections.forEach((section) => observer.observe(section));
+                window.addEventListener('scroll', () => {
+                    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+                        active = sections[sections.length - 1].id;
+                    }
+                }, { passive: true });"
             >
                 <p class="text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-slate-300 mb-3">{{ __('messages.guide.toc') }}</p>
                 <ul class="border-l border-gray-300 dark:border-slate-600 space-y-1 text-sm">
@@ -164,6 +171,21 @@
                 </div>
             </div>
         </div>
+
+        <a
+            href="#toc"
+            x-data="{ visible: false }"
+            x-init="new IntersectionObserver(([entry]) => {
+                visible = ! entry.isIntersecting && entry.boundingClientRect.top < 0;
+            }).observe(document.getElementById('toc'))"
+            x-show="visible"
+            x-transition.opacity
+            x-cloak
+            class="lg:hidden fixed bottom-4 right-4 z-10 inline-flex items-center gap-1.5 px-4 py-2 rounded-full shadow-lg bg-emerald-700 hover:bg-emerald-800 text-white text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
+        >
+            <x-icon.arrow-up class="w-4 h-4" />
+            {{ __('messages.guide.toc') }}
+        </a>
     </main>
 
     <x-site-footer />
