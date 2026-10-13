@@ -179,11 +179,16 @@
                 visible = ! entry.isIntersecting && entry.boundingClientRect.top < 0;
             }).observe(document.getElementById('toc'))"
             x-show="visible"
-            x-transition.opacity
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 translate-y-4 scale-75"
+            x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+            x-transition:leave-end="opacity-0 translate-y-4 scale-75"
             x-cloak
             title="{{ __('messages.guide.toc') }}"
             aria-label="{{ __('messages.guide.toc') }}"
-            class="lg:hidden fixed bottom-4 right-4 z-10 inline-flex items-center justify-center w-11 h-11 rounded-full bg-emerald-700/60 hover:bg-emerald-700 text-white backdrop-blur-sm transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
+            class="lg:hidden fixed bottom-4 right-4 z-10 inline-flex items-center justify-center w-11 h-11 rounded-full bg-emerald-700/60 hover:bg-emerald-700 text-white backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
         >
             <x-icon.arrow-up class="w-5 h-5" />
         </a>
