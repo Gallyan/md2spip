@@ -129,9 +129,13 @@ jobs:
 
           script=$(cat <<'EOF'
           umask 002
+          # Le code de l'appli ne s'exécute que sous www-data, comme sur le web : deploy
+          # se limite à git et à composer sans scripts, qui ne lisent que du code qu'il
+          # est seul à pouvoir modifier (storage/ et bootstrap/cache/ sont à www-data).
+          artisan() { sudo -n -u www-data /usr/local/bin/www-artisan "$@"; }
 
-          php artisan down --retry=60 || true
-          trap 'php artisan up' EXIT
+          artisan down --retry=60 || true
+          trap 'artisan up' EXIT
 
           rm -rf public/build
           mv public/build.new public/build
@@ -142,9 +146,10 @@ jobs:
           printf '%s\n%s\n' "$(git rev-parse --short HEAD)" "$(git log -1 --format=%cI)" > VERSION
 
           rm -f bootstrap/cache/*.php
-          composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+          composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-scripts
+          artisan package:discover --ansi
 
-          php artisan optimize:clear
+          artisan optimize:clear
 
           sudo /usr/local/bin/restart-php-fpm
           EOF
