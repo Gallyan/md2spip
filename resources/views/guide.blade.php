@@ -1,6 +1,9 @@
+@use('App\Http\Controllers\Api\ConvertController')
+@use('App\Livewire\MarkdownToSpipPage')
 @use('App\Support\LocaleUrls')
 @use('App\Support\MarkdownToSpipConverter')
 @use('App\Support\SyntaxReference')
+@use('Illuminate\Support\Number')
 @php
     $isEn = LocaleUrls::isEnglish();
     $exampleMarkdown = (string) __('messages.guide.example_markdown');
@@ -76,6 +79,18 @@
                 <p class="{{ $text }} mt-4">
                     {{ __('messages.guide.privacy_stats') }}
                     <a href="{{ $isEn ? '/en/stats' : '/stats' }}" class="{{ $link }}">{{ __('messages.guide.privacy_stats_link') }}</a>.
+                </p>
+            </section>
+
+            <section id="api" class="{{ $section }} scroll-mt-8">
+                <h2 class="{{ $h2 }}">{{ __('messages.guide.api_title') }}</h2>
+                <p class="{{ $text }}">{{ __('messages.guide.api_intro') }}</p>
+                <pre class="font-mono text-sm whitespace-pre-wrap break-all bg-gray-100 dark:bg-slate-900/50 border border-gray-300 dark:border-slate-600 rounded-lg p-4 my-4 text-gray-800 dark:text-slate-200">curl --data-binary @article.md {{ url('/api/convert') }}</pre>
+                <p class="{{ $text }}">{{ __('messages.guide.api_limits', ['max' => (string) Number::format(MarkdownToSpipPage::MAX_LENGTH), 'attempts' => ConvertController::MAX_ATTEMPTS]) }}</p>
+                <p class="{{ $text }} mt-4">
+                    {{ __('messages.guide.api_docs') }}
+                    <a href="/openapi.json" class="{{ $link }}">openapi.json</a>,
+                    <a href="/llms.txt" class="{{ $link }}">llms.txt</a>.
                 </p>
             </section>
 

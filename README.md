@@ -52,6 +52,19 @@ Stack: PHP 8.5, Laravel 13, Livewire 4, Tailwind CSS.
 - The underscore `_` works like the asterisk `*` for formatting, except inside a word: `snake_case` stays as is.
 - Emphasis never spans several lines, and an isolated `*` (as in `2 * 3`) is left untouched.
 
+## API
+
+`POST /api/convert` takes the raw Markdown as request body and answers with the SPIP text (`text/plain; charset=UTF-8`).
+No authentication, no session, no cookie. Same 100,000-character limit as the page, 60 requests per minute per IP.
+
+```bash
+curl --data-binary @article.md https://markdown2spip.orsal.fr/api/convert
+```
+
+Errors come back as plain text: `400` invalid UTF-8, `413` text too long, `429` rate limit (with `Retry-After`).
+API conversions are counted apart from the page ones, on `/stats`.
+The OpenAPI 3.1 description is served at `/openapi.json`; the `/guide` page documents the API for visitors.
+
 ## Local installation
 
 ```bash
@@ -99,7 +112,7 @@ Your text is sent to the server to be converted, but it is never stored nor logg
 for the duration of the request. Your browser keeps a copy in localStorage so you don't lose it on navigation, and drops it 7 days after the last edit.
 
 The server stores anonymous aggregate counters only, with no IP address and no content: visits, conversions,
-copies and a character total, grouped by day. They are public on the `/stats` page. IP addresses are used as
+copies, a character total and API conversions, grouped by day. They are public on the `/stats` page. IP addresses are used as
 short-lived rate-limiting keys in the cache, and are never written to disk.
 
 ## License

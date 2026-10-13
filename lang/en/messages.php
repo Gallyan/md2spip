@@ -83,6 +83,7 @@ return [
         'year_suffix' => 'in 2026',
         'github_aria' => 'Source code on GitHub',
         'guide' => 'Guide',
+        'api' => 'API',
         'stats' => 'Stats',
         'legal' => 'Legal notice',
     ],
@@ -159,6 +160,7 @@ return [
         'kpi_conversions' => 'conversions',
         'kpi_copies' => 'copies',
         'kpi_chars' => 'characters copied',
+        'api_conversions' => 'Conversions through the API: :count',
         'chart_title' => 'Last 30 days',
         'chart_legend_visits' => 'Visits',
         'chart_legend_conversions' => 'Conversions',
@@ -172,6 +174,7 @@ return [
 
     'errors' => [
         'too_long' => 'Text too long (maximum :max characters).',
+        'invalid_utf8' => 'The text must be UTF-8 encoded.',
         'rate_limit' => 'Too many requests (:max/min). Please wait a few seconds.',
     ],
 
@@ -208,8 +211,12 @@ return [
         ],
         'privacy_title' => 'What happens to your text',
         'privacy_server' => 'The text is sent to the server for the conversion, then forgotten: nothing is saved. A copy stays in your browser so nothing is lost on reload. It is erased seven days after the last edit, or straight away with the Clear button.',
-        'privacy_stats' => 'The site counts visits, conversions, copies and converted characters, with no data that identifies visitors. These figures are public:',
+        'privacy_stats' => 'The site counts visits, conversions, copies, converted characters and API conversions, with no data that identifies visitors. These figures are public:',
         'privacy_stats_link' => 'Stats page',
+        'api_title' => 'API for scripts and agents',
+        'api_intro' => 'The conversion is also available through an HTTP request: send the raw Markdown, the server answers with the SPIP text. No account, no key.',
+        'api_limits' => ':max characters per request, :attempts requests per minute. The text is not kept; each call is counted in the statistics, apart from the conversions made on the site.',
+        'api_docs' => 'Full description:',
         'faq_title' => 'Frequently asked questions',
         'project_title' => 'The project',
         'project_text' => 'Markdown to SPIP is free software (AGPL-3.0), developed by Guillaume Orsal. The source code is on GitHub, where you can report a problem or install the tool to convert offline.',

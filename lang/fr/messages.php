@@ -83,6 +83,7 @@ return [
         'year_suffix' => 'en 2026',
         'github_aria' => 'Code source sur GitHub',
         'guide' => 'Guide',
+        'api' => 'API',
         'stats' => 'Stats',
         'legal' => 'Mentions légales',
     ],
@@ -159,6 +160,7 @@ return [
         'kpi_conversions' => 'conversions',
         'kpi_copies' => 'copies',
         'kpi_chars' => 'caractères copiés',
+        'api_conversions' => 'Conversions via l\'API : :count',
         'chart_title' => '30 derniers jours',
         'chart_legend_visits' => 'Visites',
         'chart_legend_conversions' => 'Conversions',
@@ -172,6 +174,7 @@ return [
 
     'errors' => [
         'too_long' => 'Texte trop long (maximum :max caractères).',
+        'invalid_utf8' => 'Le texte doit être encodé en UTF-8.',
         'rate_limit' => 'Trop de requêtes (:max/min). Veuillez patienter quelques secondes.',
     ],
 
@@ -208,8 +211,12 @@ return [
         ],
         'privacy_title' => 'Ce que deviennent vos textes',
         'privacy_server' => "Le texte est envoyé au serveur pour la conversion, puis oublié : rien n'est enregistré. Une copie reste dans votre navigateur pour ne rien perdre en cas de rechargement. Elle est effacée sept jours après la dernière modification, ou tout de suite avec le bouton Effacer.",
-        'privacy_stats' => 'Le site compte les visites, les conversions, les copies et le nombre de caractères convertis, sans aucune donnée qui identifie les visiteurs. Ces chiffres sont publics :',
+        'privacy_stats' => 'Le site compte les visites, les conversions, les copies, le nombre de caractères convertis et les conversions via l\'API, sans aucune donnée qui identifie les visiteurs. Ces chiffres sont publics :',
         'privacy_stats_link' => 'page Statistiques',
+        'api_title' => 'API pour les scripts et les agents',
+        'api_intro' => 'La conversion est aussi accessible par une requête HTTP : on envoie le Markdown brut, le serveur répond avec le texte SPIP. Ni compte ni clé.',
+        'api_limits' => ":max caractères par requête, :attempts requêtes par minute. Le texte n'est pas conservé ; chaque appel est compté dans les statistiques, à part des conversions faites sur le site.",
+        'api_docs' => 'Description complète :',
         'faq_title' => 'Questions fréquentes',
         'project_title' => 'Le projet',
         'project_text' => "Markdown to SPIP est un logiciel libre (AGPL-3.0), développé par Guillaume Orsal. Le code source est sur GitHub : on peut y signaler un problème ou installer l'outil pour convertir hors ligne.",

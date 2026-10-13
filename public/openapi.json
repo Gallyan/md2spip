@@ -1,0 +1,93 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Markdown to SPIP",
+        "version": "1.0.0",
+        "summary": "Converts Markdown to SPIP syntax.",
+        "description": "Send the raw Markdown as request body, get the SPIP text back. No authentication. Limits: 100,000 characters per request, 60 requests per minute per IP. The text is converted in memory and never stored.",
+        "license": {
+            "name": "AGPL-3.0-only",
+            "identifier": "AGPL-3.0-only"
+        }
+    },
+    "externalDocs": {
+        "description": "Supported syntaxes",
+        "url": "https://markdown2spip.orsal.fr/llms.txt"
+    },
+    "servers": [
+        {
+            "url": "https://markdown2spip.orsal.fr"
+        }
+    ],
+    "paths": {
+        "/api/convert": {
+            "post": {
+                "operationId": "convertMarkdownToSpip",
+                "summary": "Convert Markdown to SPIP",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "text/plain": {
+                            "schema": {
+                                "type": "string",
+                                "maxLength": 100000
+                            },
+                            "example": "# Title\n\nSome **bold** text and a [link](https://www.spip.net)."
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The text in SPIP syntax.",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "example": "{{{Title}}}\n\nSome {{bold}} text and a [link->https://www.spip.net]."
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Error"
+                    },
+                    "413": {
+                        "$ref": "#/components/responses/Error"
+                    },
+                    "429": {
+                        "description": "Rate limit reached.",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Seconds to wait before the next request.",
+                                "schema": {
+                                    "type": "integer"
+                                }
+                            }
+                        },
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "responses": {
+            "Error": {
+                "description": "Invalid UTF-8 (400) or text over 100,000 characters (413).",
+                "content": {
+                    "text/plain": {
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

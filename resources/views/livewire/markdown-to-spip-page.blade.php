@@ -212,6 +212,8 @@
         <span class="inline-flex items-center gap-1.5 shrink-0">
             <a href="{{ $guideUrl }}" class="hover:text-gray-900 dark:hover:text-slate-300 transition-colors">{{ __('messages.footer.guide') }}</a>
             <span aria-hidden="true">•</span>
+            <a href="{{ $guideUrl }}#api" class="hover:text-gray-900 dark:hover:text-slate-300 transition-colors">{{ __('messages.footer.api') }}</a>
+            <span aria-hidden="true">•</span>
             <a href="{{ $statsUrl }}" class="hover:text-gray-900 dark:hover:text-slate-300 transition-colors">{{ __('messages.footer.stats') }}</a>
             <span aria-hidden="true">•</span>
             <a href="{{ $legalUrl }}" class="hover:text-gray-900 dark:hover:text-slate-300 transition-colors">{{ __('messages.footer.legal') }}</a>

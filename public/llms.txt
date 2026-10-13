@@ -1,69 +1,91 @@
 # Markdown to SPIP
 
-> Convertisseur en ligne Markdown vers syntaxe SPIP, en temps réel. Gratuit, open source (AGPL-3.0), sans inscription, sans tracking.
+> Convertisseur en ligne Markdown vers syntaxe SPIP, en temps réel. Gratuit, open source (AGPL-3.0), sans inscription, sans tracking. Une API HTTP en texte brut permet aux scripts et aux agents d'obtenir la même conversion.
 
 ## Purpose
 
-This web application converts Markdown syntax to SPIP syntax in real-time. It's designed for SPIP CMS users who want to write in Markdown and convert it to SPIP's native format.
+This web application converts Markdown to SPIP syntax. SPIP (Système de Publication pour Internet Partagé) is a French open source CMS with its own markup, distinct from Markdown. Writers draft in Markdown and paste the SPIP result into the CMS.
 
-SPIP (Système de Publication pour Internet Partagé) is a French open source CMS using its own markup syntax, distinct from Markdown.
+The conversion is deterministic: prefer the API below over converting by hand, the edge cases (nested lists, footnotes, combined emphasis, tables) are covered by tests.
 
-## Key Features
+## API
 
-- Real-time conversion (no submit button required)
-- Split-view interface: Markdown input on left, SPIP output on right
-- One-click copy to clipboard
-- Persistent local text storage (browser localStorage, kept 7 days after the last edit, never sent to server beyond conversion)
-- Theme: light, dark or system (follows OS preference, default)
-- No personal data stored on server, only anonymous aggregate counters (GDPR-compliant)
-- No tracking, no analytics, no cookies beyond Laravel session for CSRF
-- Fully responsive (mobile/desktop)
-- Public usage statistics page (transparency)
-- Max 100,000 characters per conversion
+`POST https://markdown2spip.orsal.fr/api/convert`
 
-## Supported Conversions
+- Request body: the raw Markdown text, UTF-8. Any content type is accepted; the body is read as is.
+- Response: `200`, the SPIP text as `text/plain; charset=UTF-8`.
+- No authentication, no session, no CSRF token.
+- Limits: 100,000 characters per request, 60 requests per minute per IP.
+- Errors, as plain text: `400` invalid UTF-8, `413` text too long, `429` rate limit (with `Retry-After`), `405` any method other than POST.
+- The text is converted in memory and never stored. Each non-empty request increments an anonymous daily counter shown on `/stats`.
+- OpenAPI 3.1 description: https://markdown2spip.orsal.fr/openapi.json
+- Human documentation: https://markdown2spip.orsal.fr/guide#api
 
-- Headings (h1): `# Title` → `{{{Title}}}`
-- Subheadings (h2-h6): `## Title` → `{{Title}}`
-- Bold: `**text**` or `__text__` → `{{text}}`
-- Italic: `*text*` or `_text_` → `{text}`
-- Bold + italic: `***text***` or `___text___` → `{{ { text } }}`
-- Strikethrough: `~~text~~` → `<del>text</del>`
-- Inline code: `` `code` `` → `<code>code</code>`
-- Code blocks: ` ```code``` ` or ` ```lang code``` ` → `<code>code</code>`
-- Links: `[text](url)` → `[text->url]`
-- Bullet lists: `- item` → `-* item`
-- Blockquotes: `> quote` → `<quote>quote</quote>`
-- Footnotes: `text[^1]` + `[^1]: note` → `text[[note]]`
+```bash
+curl --data-binary @article.md https://markdown2spip.orsal.fr/api/convert
+```
+
+Use `--data-binary`, not `-d`: `-d` strips the line breaks, which carry the Markdown structure.
+
+## Supported conversions
+
+| Markdown | SPIP |
+|---|---|
+| `# Title` | `{{{Title}}}` (h1 only) |
+| `## Title` to `###### Title` | `{{Title}}` |
+| `**bold**` or `__bold__` | `{{bold}}` |
+| `*italic*` or `_italic_` | `{italic}` |
+| `***both***` or `___both___` | `{{ { both } }}` |
+| `~~strike~~` | `<del>strike</del>` |
+| `` `code` `` | `<code>code</code>` |
+| fenced code block, with or without language | `<code>…</code>` (language dropped, content left untouched) |
+| `[text](url "title")` | `[text->url]` (title dropped) |
+| `<https://url>` | `[->https://url]` |
+| `![alt](url)` | `[alt->url]` (SPIP images are attached documents) |
+| `- item`, `* item`, `+ item` | `-* item` |
+| `1. item` or `1) item` | `-# item` |
+| indented items | `-** item`, `-## item`… (depth from indentation) |
+| `---`, `***` or `___` | `----` |
+| `\| a \| b \|` + `\|---\|---\|` | `\| {{a}} \| {{b}} \|` (header in bold, separator removed) |
+| `> quote` | `<quote>quote</quote>` |
+| `text[^1]` + `[^1]: note` | `text[[note]]` |
+
+Rules:
+- `_` inside a word is not emphasis: `snake_case` stays as is.
+- Emphasis never spans several lines; an isolated `*` (as in `2 * 3`) is kept.
+- A footnote reference without a definition is kept as is.
 
 ## Pages
 
-- `/` — main converter (indexable)
-- `/stats` — public usage statistics dashboard (noindex)
-- `/mentions-legales` — legal notice (noindex)
-- `/sitemap.xml` — sitemap with XSL styling
-- `/robots.txt`
+- `/` and `/en` — converter (French and English)
+- `/guide` and `/en/guide` — syntax reference, worked example, limits, privacy, API, FAQ
+- `/openapi.json` — OpenAPI description of the API
+- `/stats` and `/en/stats` — public usage counters (noindex)
+- `/mentions-legales` and `/en/legal` — legal notice (noindex)
+- `/sitemap.xml`, `/robots.txt`
 
-## Technical Stack
+## Web interface
 
-- Backend: Laravel 13 (PHP 8.4)
-- Frontend: Livewire 4 (real-time server-driven UI)
-- Styling: TailwindCSS 4
-- JS: Alpine.js (minimal interactivity)
-- Build: Vite 8
-- Testing: PHPUnit 13 with `laravel/pao` for agent-optimized output
-- Static analysis: Larastan/PHPStan level 10
-- Code style: Laravel Pint
+- Real-time conversion while typing, split view (Markdown left, SPIP right)
+- One-click copy
+- Draft kept in the browser localStorage, erased 7 days after the last edit
+- Light, dark or system theme
+- Same limits as the API: 100,000 characters per conversion
 
-## Architecture
+## Privacy
 
-- Conversion logic isolated in `App\Support\MarkdownToSpipConverter` (pure, stateless, fully unit-tested)
-- Real-time updates via Livewire `wire:model.live.debounce.50ms`
-- Text is transmitted to server for conversion but never stored
-- Rate limited (200 requests/minute per IP)
-- Public usage stats stored in `storage/stats/stats.json` via `Storage::disk('stats')` with `flock` concurrency protection
+- Text is sent to the server for conversion, never stored nor logged.
+- No tracking, no analytics, no advertising cookies. Only the Laravel session cookie on the web pages (CSRF); the API sets no cookie.
+- The server stores anonymous counters per day: visits, conversions, copies, copied characters, API conversions. They are public on `/stats`.
+- IP addresses are only short-lived rate-limiting keys in the cache.
 
-## Installation
+## Technical stack
+
+- Laravel 13, PHP 8.5, Livewire 4, Alpine.js, Tailwind CSS 4, Vite 8
+- Conversion engine: `App\Support\MarkdownToSpipConverter`, pure and stateless
+- Tests: PHPUnit 13 (112 tests); static analysis: Larastan level 10; code style: Laravel Pint
+
+## Local installation
 
 ```bash
 git clone https://github.com/Gallyan/md2spip.git
@@ -72,33 +94,12 @@ composer run setup
 php artisan serve
 ```
 
-## Testing
-
-70 automated tests covering:
-- Unit tests for the conversion engine (`MarkdownToSpipConverter`)
-- Feature tests for the Livewire component, stats dashboard, pages routing, stats seeder
-
-```bash
-php artisan test
-```
-
-## Privacy & GDPR
-
-- No user tracking, no analytics, no advertising cookies
-- Only functional cookies: Laravel session (CSRF protection), localStorage for user's draft text
-- Online version: text sent to server for conversion, NOT stored
-- Local version: everything stays on user's machine
-- Public statistics (`/stats`) aggregate anonymous counters: visits, conversions (first character typed), copies, total copied characters
-
 ## License
 
-GNU AGPL-3.0 — free software, source available, can be modified and redistributed under the same license; modified versions offered as a network service must also publish their source.
+GNU AGPL-3.0: modified versions offered as a network service must publish their source.
 
 ## Source
 
 - Repository: https://github.com/Gallyan/md2spip
 - Issues: https://github.com/Gallyan/md2spip/issues
-
-## Author
-
-Guillaume Orsal — https://www.orsal.fr
+- Author: Guillaume Orsal — https://www.orsal.fr

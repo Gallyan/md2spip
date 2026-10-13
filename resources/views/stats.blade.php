@@ -37,6 +37,9 @@
                     <p class="text-base text-gray-700 dark:text-slate-300">{{ $kpi['sub'] }}</p>
                 </div>
             @endforeach
+            <p class="col-span-2 md:col-span-4 text-sm text-gray-600 dark:text-slate-300">
+                {{ __('messages.stats.api_conversions', ['count' => Number::format($totals['api_conversions'])]) }}
+            </p>
         </section>
 
         {{-- Line chart --}}

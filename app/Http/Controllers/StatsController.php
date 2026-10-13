@@ -18,13 +18,14 @@ final class StatsController extends Controller
 
         ksort($raw);
 
-        $totals = ['sessions' => 0, 'conversions' => 0, 'copies' => 0, 'total_chars' => 0];
+        $totals = ['sessions' => 0, 'conversions' => 0, 'copies' => 0, 'total_chars' => 0, 'api_conversions' => 0];
 
         foreach ($raw as $day) {
             $totals['sessions'] += $day['sessions'] ?? 0;
             $totals['conversions'] += $day['conversions'] ?? 0;
             $totals['copies'] += $day['copies'] ?? 0;
             $totals['total_chars'] += $day['total_chars'] ?? 0;
+            $totals['api_conversions'] += $day['api_conversions'] ?? 0;
         }
 
         $daily = [];
