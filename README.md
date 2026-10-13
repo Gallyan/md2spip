@@ -4,6 +4,7 @@
 [![PHPStan](https://img.shields.io/badge/PHPStan-level_10-brightgreen.svg)](phpstan.neon)
 [![Laravel Version](https://img.shields.io/badge/Laravel-13-FF2D20?logo=laravel&logoColor=white)](https://laravel.com/)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](LICENSE)
+[![OpenAPI 3.1](https://img.shields.io/badge/OpenAPI-3.1-6BA539?logo=openapiinitiative&logoColor=white)](https://markdown2spip.orsal.fr/openapi.json)
 
 Real-time online converter from Markdown to SPIP syntax.
 

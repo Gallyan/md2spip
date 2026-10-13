@@ -34,9 +34,9 @@ return [
             ['q' => "L'outil est-il gratuit ?", 'a' => 'Oui. Markdown to SPIP est totalement gratuit, sans inscription et sans publicité. Le projet est open source sous licence GNU AGPL-3.0.'],
             ['q' => "Quelle est la longueur maximale d'un texte à convertir ?", 'a' => "100\u{202F}000 caractères par conversion, soit l'équivalent d'environ 15\u{202F}000 mots ou 30 pages."],
             ['q' => 'Comment publier une réponse de ChatGPT dans SPIP ?', 'a' => "Copiez la réponse avec le bouton Copier de l'assistant (ChatGPT, Claude, Mistral…), qui la fournit en Markdown. Collez-la dans la zone de gauche, puis copiez le résultat SPIP dans l'éditeur de l'article."],
-            ['q' => 'Le texte converti fonctionne-t-il avec ma version de SPIP ?', 'a' => "Oui pour les versions actuelles. Le résultat n'utilise que les raccourcis typographiques de SPIP ({{gras}}, {italique}, [lien->url], listes -* et -#, tableaux, <quote>), reconnus par SPIP 3 et les versions suivantes."],
-            ['q' => 'Puis-je utiliser Markdown to SPIP hors ligne ?', 'a' => "Oui. Le projet étant open source, vous pouvez l'installer localement sur votre machine. Le code source est disponible sur GitHub."],
-            ['q' => "Qu'est-ce que SPIP ?", 'a' => 'SPIP (Système de Publication pour Internet Partagé) est un CMS libre français utilisé par de nombreux sites institutionnels et associatifs. Il utilise une syntaxe de mise en forme spécifique, différente de celle de Markdown.'],
+            ['q' => 'Le texte converti fonctionne-t-il avec ma version de SPIP ?', 'a' => "Oui pour les versions actuelles. Le résultat n'utilise que les raccourcis typographiques de SPIP ({{gras}}, {italique}, [lien->url], listes -* et -#, tableaux, <quote>), reconnus par SPIP 3 et les versions suivantes.", 'link' => ['label' => 'Les raccourcis SPIP, sur spip.net', 'url' => 'https://www.spip.net/fr_article1578.html']],
+            ['q' => 'Puis-je utiliser Markdown to SPIP hors ligne ?', 'a' => "Oui. Le projet étant open source, vous pouvez l'installer localement sur votre machine. Le code source est disponible sur GitHub.", 'link' => ['label' => 'Code source sur GitHub', 'url' => 'https://github.com/Gallyan/md2spip']],
+            ['q' => "Qu'est-ce que SPIP ?", 'a' => 'SPIP (Système de Publication pour Internet Partagé) est un CMS libre français utilisé par de nombreux sites institutionnels et associatifs. Il utilise une syntaxe de mise en forme spécifique, différente de celle de Markdown.', 'link' => ['label' => 'spip.net, le site officiel', 'url' => 'https://www.spip.net/fr']],
         ],
         'how_to_steps' => [
             ['name' => 'Coller le Markdown', 'text' => 'Collez ou tapez votre texte Markdown dans la zone de gauche.'],
@@ -179,7 +179,7 @@ return [
     ],
 
     'switcher' => [
-        'aria' => 'Choisir la langue',
+        'label' => 'English version',
         'fr' => 'Français',
         'en' => 'English',
     ],
@@ -190,6 +190,7 @@ return [
         'back' => 'Retour au convertisseur',
         'h1' => 'Convertir du Markdown en syntaxe SPIP',
         'lead' => 'Markdown to SPIP transforme un texte Markdown en syntaxe SPIP, prête à coller dans un article. La conversion se fait pendant la frappe, sans inscription.',
+        'toc' => 'Sommaire',
         'use_cases_title' => "Dans quels cas l'utiliser",
         'use_cases_intro' => "SPIP a sa propre syntaxe de mise en forme : {{gras}}, {italique}, [lien->url]. Markdown en utilise une autre, aujourd'hui la plus répandue. L'outil sert quand un texte existe déjà en Markdown et doit être publié sur un site SPIP :",
         'use_cases' => [

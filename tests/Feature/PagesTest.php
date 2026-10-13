@@ -364,4 +364,39 @@ class PagesTest extends TestCase
             ->assertSee(url('/guide').'</loc>', false)
             ->assertSee(url('/en/guide').'</loc>', false);
     }
+
+    /**
+     * Verifies that the FAQ links are shown on the guide but kept out of the
+     * structured data, whose answers stay plain text.
+     */
+    public function test_faq_links_are_shown_on_the_guide_only(): void
+    {
+        $this->get('/guide')
+            ->assertSee('href="https://www.spip.net/fr_article1578.html"', false)
+            ->assertSee('href="https://www.spip.net/fr"', false);
+
+        $this->get('/en/guide')
+            ->assertSee('href="https://www.spip.net/en_article4917.html"', false)
+            ->assertSee('href="https://www.spip.net/en"', false);
+
+        $this->get('/')->assertDontSee('"link"', false);
+    }
+
+    /**
+     * Verifies that the secondary pages share the site footer and that the
+     * guide has a table of contents pointing at its sections.
+     */
+    public function test_guide_has_a_table_of_contents_and_the_site_footer(): void
+    {
+        $guide = $this->get('/guide');
+
+        foreach (['use-cases', 'syntax', 'limits', 'privacy', 'api', 'faq', 'project'] as $id) {
+            $guide->assertSee('href="#'.$id.'"', false)->assertSee('id="'.$id.'"', false);
+        }
+
+        $guide->assertSee('href="/mentions-legales"', false);
+
+        $this->get('/stats')->assertSee('href="/guide#api"', false);
+        $this->get('/en/legal')->assertSee('href="/en/guide#api"', false);
+    }
 }

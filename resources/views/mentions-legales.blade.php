@@ -17,7 +17,7 @@
         $website = (string) (config('legal.social.website') ?? '');
         $website = preg_match('#^https?://#i', $website) ? $website : '';
     @endphp
-    <main class="max-w-4xl mx-auto px-6 py-16">
+    <main class="flex-1 max-w-4xl mx-auto px-6 py-16">
         <x-page-header :back="__('messages.legal.back')" :title="__('messages.legal.h1')" margin="mb-16" />
 
         <div class="space-y-12 leading-relaxed">
@@ -96,4 +96,6 @@
             </section>
         </div>
     </main>
+
+    <x-site-footer />
 </x-layouts.app>
