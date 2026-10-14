@@ -390,7 +390,7 @@ class PagesTest extends TestCase
     {
         $guide = $this->get('/guide');
 
-        foreach (['use-cases', 'syntax', 'limits', 'privacy', 'api', 'faq', 'project'] as $id) {
+        foreach (['use-cases', 'example', 'syntax', 'limits', 'privacy', 'faq', 'api', 'project'] as $id) {
             $guide->assertSee('href="#'.$id.'"', false)->assertSee('id="'.$id.'"', false);
         }
 

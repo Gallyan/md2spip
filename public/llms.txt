@@ -58,7 +58,7 @@ Rules:
 ## Pages
 
 - `/` and `/en` — converter (French and English)
-- `/guide` and `/en/guide` — syntax reference, worked example, limits, privacy, API, FAQ
+- `/guide` and `/en/guide` — worked example, syntax reference, limits, privacy, FAQ, API
 - `/openapi.json` — OpenAPI description of the API
 - `/stats` and `/en/stats` — public usage counters (noindex)
 - `/mentions-legales` and `/en/legal` — legal notice (noindex)
@@ -101,5 +101,4 @@ GNU AGPL-3.0: modified versions offered as a network service must publish their 
 ## Source
 
 - Repository: https://github.com/Gallyan/md2spip
-- Issues: https://github.com/Gallyan/md2spip/issues
 - Author: Guillaume Orsal — https://www.orsal.fr

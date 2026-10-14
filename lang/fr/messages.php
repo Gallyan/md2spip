@@ -203,6 +203,7 @@ return [
         'syntax_title' => 'Correspondance des syntaxes',
         'syntax_heading' => 'Correspondance entre la syntaxe Markdown et les raccourcis SPIP',
         'syntax_caption' => 'Correspondances entre Markdown et SPIP',
+        'example_title' => 'Exemple de conversion',
         'example_heading' => 'Exemple : un compte rendu converti en SPIP',
         'example_markdown' => "# Compte rendu de la réunion\n\nLa réunion a validé **trois points** :\n\n1. le budget 2027 ;\n2. le calendrier, détaillé sur [le site](https://example.org) ;\n   - lancement en *mars*\n3. la nouvelle charte.\n\n| Poste | Montant |\n|---|---|\n| Impression | 450 € |\n\n> Prochaine réunion le 12 novembre.",
         'limits_title' => 'Limites de la conversion',
@@ -227,6 +228,6 @@ return [
         'faq_heading' => 'Questions fréquentes sur Markdown et SPIP',
         'project_title' => 'Logiciel libre',
         'project_heading' => 'Un convertisseur libre et open source',
-        'project_text' => "Markdown to SPIP est un logiciel libre (AGPL-3.0), développé par :author. Le code source est sur GitHub : vous pouvez y signaler un problème ou installer l'outil pour convertir hors ligne.",
+        'project_text' => "Markdown to SPIP est un logiciel libre (AGPL-3.0), développé par :author. Le code source est sur GitHub : vous pouvez le récupérer, l'installer pour convertir hors ligne, le modifier et le réutiliser.",
     ],
 ];

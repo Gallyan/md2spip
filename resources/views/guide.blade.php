@@ -13,11 +13,12 @@
     $link = 'text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 underline';
     $toc = [
         'use-cases' => __('messages.guide.use_cases_title'),
+        'example' => __('messages.guide.example_title'),
         'syntax' => __('messages.guide.syntax_title'),
         'limits' => __('messages.guide.limits_title'),
         'privacy' => __('messages.guide.privacy_title'),
-        'api' => __('messages.guide.api_title'),
         'faq' => __('messages.guide.faq_title'),
+        'api' => __('messages.guide.api_title'),
         'project' => __('messages.guide.project_title'),
     ];
 @endphp
@@ -77,6 +78,20 @@
                         </ul>
                     </section>
 
+                    <section id="example" class="{{ $section }}">
+                        <h2 class="{{ $h2 }}">{{ __('messages.guide.example_heading') }}</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <figure class="min-w-0">
+                                <figcaption class="text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-slate-300 mb-2">{{ __('messages.home.markdown_label') }}</figcaption>
+                                <pre class="font-mono text-sm whitespace-pre-wrap bg-gray-100 dark:bg-slate-900/50 border border-gray-300 dark:border-slate-600 rounded-lg p-4 text-gray-800 dark:text-slate-200">{{ $exampleMarkdown }}</pre>
+                            </figure>
+                            <figure class="min-w-0">
+                                <figcaption class="text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-slate-300 mb-2">{{ __('messages.home.spip_label') }}</figcaption>
+                                <pre class="font-mono text-sm whitespace-pre-wrap bg-gray-100 dark:bg-slate-900/50 border border-gray-300 dark:border-slate-600 rounded-lg p-4 text-emerald-700 dark:text-emerald-400">{{ MarkdownToSpipConverter::convert($exampleMarkdown) }}</pre>
+                            </figure>
+                        </div>
+                    </section>
+
                     <section id="syntax" class="{{ $section }}">
                         <h2 class="{{ $h2 }}">{{ __('messages.guide.syntax_heading') }}</h2>
                         <div class="overflow-x-auto rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500" tabindex="0" role="region" aria-label="{{ __('messages.guide.syntax_caption') }}">
@@ -98,18 +113,6 @@
                                 </tbody>
                             </table>
                         </div>
-
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mt-10 mb-4">{{ __('messages.guide.example_heading') }}</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <figure class="min-w-0">
-                                <figcaption class="text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-slate-300 mb-2">{{ __('messages.home.markdown_label') }}</figcaption>
-                                <pre class="font-mono text-sm whitespace-pre-wrap bg-gray-100 dark:bg-slate-900/50 border border-gray-300 dark:border-slate-600 rounded-lg p-4 text-gray-800 dark:text-slate-200">{{ $exampleMarkdown }}</pre>
-                            </figure>
-                            <figure class="min-w-0">
-                                <figcaption class="text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-slate-300 mb-2">{{ __('messages.home.spip_label') }}</figcaption>
-                                <pre class="font-mono text-sm whitespace-pre-wrap bg-gray-100 dark:bg-slate-900/50 border border-gray-300 dark:border-slate-600 rounded-lg p-4 text-emerald-700 dark:text-emerald-400">{{ MarkdownToSpipConverter::convert($exampleMarkdown) }}</pre>
-                            </figure>
-                        </div>
                     </section>
 
                     <section id="limits" class="{{ $section }}">
@@ -130,18 +133,6 @@
                         </p>
                     </section>
 
-                    <section id="api" class="{{ $section }}">
-                        <h2 class="{{ $h2 }}">{{ __('messages.guide.api_heading') }}</h2>
-                        <p class="{{ $text }}">{{ __('messages.guide.api_intro') }}</p>
-                        <pre class="font-mono text-sm whitespace-pre-wrap break-all bg-gray-100 dark:bg-slate-900/50 border border-gray-300 dark:border-slate-600 rounded-lg p-4 my-4 text-gray-800 dark:text-slate-200">curl --data-binary @article.md {{ url('/api/convert') }}</pre>
-                        <p class="{{ $text }}">{{ __('messages.guide.api_limits', ['max' => (string) Number::format(MarkdownToSpipPage::MAX_LENGTH), 'attempts' => ConvertController::MAX_ATTEMPTS]) }}</p>
-                        <p class="{{ $text }} mt-4">
-                            {{ __('messages.guide.api_docs') }}
-                            <a href="/openapi.json" class="{{ $link }}">openapi.json</a>,
-                            <a href="/llms.txt" class="{{ $link }}">llms.txt</a>.
-                        </p>
-                    </section>
-
                     <section id="faq" class="{{ $section }}">
                         <h2 class="{{ $h2 }}">{{ __('messages.guide.faq_heading') }}</h2>
                         <div class="divide-y divide-gray-200 dark:divide-slate-700">
@@ -159,6 +150,18 @@
                                 </div>
                             @endforeach
                         </div>
+                    </section>
+
+                    <section id="api" class="{{ $section }}">
+                        <h2 class="{{ $h2 }}">{{ __('messages.guide.api_heading') }}</h2>
+                        <p class="{{ $text }}">{{ __('messages.guide.api_intro') }}</p>
+                        <pre class="font-mono text-sm whitespace-pre-wrap break-all bg-gray-100 dark:bg-slate-900/50 border border-gray-300 dark:border-slate-600 rounded-lg p-4 my-4 text-gray-800 dark:text-slate-200">curl --data-binary @article.md {{ url('/api/convert') }}</pre>
+                        <p class="{{ $text }}">{{ __('messages.guide.api_limits', ['max' => (string) Number::format(MarkdownToSpipPage::MAX_LENGTH), 'attempts' => ConvertController::MAX_ATTEMPTS]) }}</p>
+                        <p class="{{ $text }} mt-4">
+                            {{ __('messages.guide.api_docs') }}
+                            <a href="/openapi.json" class="{{ $link }}">openapi.json</a>,
+                            <a href="/llms.txt" class="{{ $link }}">llms.txt</a>.
+                        </p>
                     </section>
 
                     <section id="project" class="{{ $section }}">
