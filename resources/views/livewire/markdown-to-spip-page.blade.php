@@ -134,7 +134,7 @@
                 </div>
             </div>
             <textarea
-                wire:model.live.debounce.300ms="markdown"
+                wire:model.live.debounce.100ms="markdown"
                 class="flex-1 w-full bg-white dark:bg-slate-900 text-gray-900 dark:text-slate-100 p-4 font-mono text-sm resize-none focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-500 placeholder-gray-400 dark:placeholder-slate-600 transition-colors"
                 placeholder="{{ __('messages.home.placeholder') }}"
                 spellcheck="false"
