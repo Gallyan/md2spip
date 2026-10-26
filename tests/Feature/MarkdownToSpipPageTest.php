@@ -172,14 +172,13 @@ class MarkdownToSpipPageTest extends TestCase
      */
     public function test_rate_limiter_blocks_excessive_requests(): void
     {
-        $component = Livewire::test(MarkdownToSpipPage::class);
-
-        // Send 301 requests to exceed the limit
-        for ($i = 0; $i < 301; $i++) {
-            $component->set('markdown', "Test $i");
+        for ($i = 0; $i < MarkdownToSpipPage::MAX_ATTEMPTS; $i++) {
+            RateLimiter::hit('markdown-convert:127.0.0.1', 60);
         }
 
-        $component->assertSee('Trop de requêtes');
+        Livewire::test(MarkdownToSpipPage::class)
+            ->set('markdown', 'Test')
+            ->assertSee('Trop de requêtes');
     }
 
     /**
