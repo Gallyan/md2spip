@@ -34,10 +34,17 @@ class MarkdownToSpipPage extends Component
 
     /**
      * Triggered automatically on every Markdown text change.
-     *
-     * Checks text size and rate limit before performing the conversion.
      */
     public function updatedMarkdown(): void
+    {
+        $this->convert();
+    }
+
+    /**
+     * Checks text size and rate limit before performing the conversion.
+     * Also called by the browser once a rate-limit window is over.
+     */
+    public function convert(): void
     {
         // Size validation
         if (mb_strlen($this->markdown) > self::MAX_LENGTH) {
@@ -50,6 +57,10 @@ class MarkdownToSpipPage extends Component
 
         if (! $this->allow('markdown-convert', self::MAX_ATTEMPTS)) {
             $this->spip = __('messages.errors.rate_limit', ['max' => self::MAX_ATTEMPTS]);
+            $this->dispatch(
+                'rate-limited',
+                retryIn: RateLimiter::availableIn($this->limiterKey('markdown-convert')),
+            );
 
             return;
         }
@@ -137,7 +148,7 @@ class MarkdownToSpipPage extends Component
      */
     private function allow(string $action, int $maxAttempts): bool
     {
-        $key = $action.':'.request()->ip();
+        $key = $this->limiterKey($action);
 
         if (RateLimiter::tooManyAttempts($key, $maxAttempts)) {
             return false;
@@ -146,6 +157,11 @@ class MarkdownToSpipPage extends Component
         RateLimiter::hit($key, 60);
 
         return true;
+    }
+
+    private function limiterKey(string $action): string
+    {
+        return $action.':'.request()->ip();
     }
 
     /**

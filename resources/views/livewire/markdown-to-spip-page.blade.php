@@ -4,6 +4,7 @@
 @endphp
 <div class="flex flex-col h-screen"
     x-data="{
+        retryTimer: null,
         init() {
             const saved = localStorage.getItem('md2spip-markdown');
             const savedAt = Number(localStorage.getItem('md2spip-saved-at'));
@@ -20,6 +21,10 @@
             }
         }
     }"
+    x-on:rate-limited.window="
+        clearTimeout(retryTimer);
+        retryTimer = setTimeout(() => $wire.convert(), ($event.detail.retryIn + 1) * 1000);
+    "
     x-effect="
         if (localStorage.getItem('md2spip-markdown') !== ($wire.markdown || '')) {
             localStorage.setItem('md2spip-markdown', $wire.markdown || '');

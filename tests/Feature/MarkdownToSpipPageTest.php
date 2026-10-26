@@ -182,6 +182,30 @@ class MarkdownToSpipPageTest extends TestCase
     }
 
     /**
+     * Verifies that a blocked conversion tells the browser when to retry,
+     * and that the retry converts the text once the window is over.
+     */
+    public function test_rate_limited_conversion_is_retried_once_the_window_is_over(): void
+    {
+        for ($i = 0; $i < MarkdownToSpipPage::MAX_ATTEMPTS; $i++) {
+            RateLimiter::hit('markdown-convert:127.0.0.1', 60);
+        }
+
+        $component = Livewire::test(MarkdownToSpipPage::class);
+
+        $component->set('markdown', '**gras**')
+            ->assertDispatched(
+                'rate-limited',
+                fn (string $name, array $params) => $params['retryIn'] > 0 && $params['retryIn'] <= 60,
+            );
+
+        RateLimiter::clear('markdown-convert:127.0.0.1');
+
+        $component->call('convert')
+            ->assertSet('spip', '{{gras}}');
+    }
+
+    /**
      * Verifies inline code conversion (`code` → <code>code</code>).
      */
     public function test_converts_inline_code(): void
