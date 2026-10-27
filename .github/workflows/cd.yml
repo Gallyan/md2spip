@@ -35,7 +35,7 @@ permissions:
 jobs:
   build:
     name: Build assets
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     # Only a push that landed on this repository's main may deploy: a fork pull
     # request can also produce a successful CI run on a branch named main.
     if: >
@@ -67,7 +67,7 @@ jobs:
 
   deploy:
     name: Deploy to Production
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     needs: build
     environment: production
 
