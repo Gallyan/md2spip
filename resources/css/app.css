@@ -6,6 +6,18 @@
 @source '../**/*.js';
 
 @layer base {
+    :root {
+        color-scheme: light;
+    }
+
+    .dark {
+        color-scheme: dark;
+    }
+
+    ::selection {
+        background-color: rgb(16 185 129 / 0.3);
+    }
+
     /* Firefox : pas de support ::-webkit-scrollbar */
     @supports not selector(::-webkit-scrollbar) {
         * {

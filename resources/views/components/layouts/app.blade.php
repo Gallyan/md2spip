@@ -10,20 +10,21 @@
 <!DOCTYPE html>
 <html lang="{{ $locale }}" class="dark">
 <head>
+    <meta charset="UTF-8">
+    <meta name="theme-color" content="#1e293b">
     <script>
         (function () {
             const t = localStorage.getItem('md2spip-theme') || 'system';
             const dark = t === 'dark' || (t === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
             document.documentElement.classList.toggle('dark', dark);
+            document.querySelector('meta[name=theme-color]').content = dark ? '#1e293b' : '#f3f4f6';
         })();
     </script>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? __('messages.meta.title') }}</title>
     <meta name="robots" content="{{ $robots }}">
     <link rel="icon" href="/favicon.ico" sizes="32x32">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <meta name="theme-color" content="#1e293b">
 
     @if ($isIndexed)
         <x-seo.meta :title="$title" :description="$description" />
@@ -56,6 +57,7 @@
             const dark = this.theme === 'dark'
                 || (this.theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
             document.documentElement.classList.toggle('dark', dark);
+            document.querySelector('meta[name=theme-color]').content = dark ? '#1e293b' : '#f3f4f6';
         }
     }">
     {{ $slot }}
