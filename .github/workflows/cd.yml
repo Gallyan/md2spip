@@ -141,7 +141,7 @@ jobs:
           mv public/build.new public/build
 
           git checkout -- .
-          git pull --ff-only origin main
+          timeout 60 git pull --ff-only origin main
 
           printf '%s\n%s\n' "$(git rev-parse --short HEAD)" "$(git log -1 --format=%cI)" > VERSION
 
